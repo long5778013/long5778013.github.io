@@ -1,0 +1,21 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>CPU - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/cpu/</link>
+        <description>CPU - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 18 Jan 2021 11:03:50 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/cpu/" rel="self" type="application/rss+xml" /><item>
+    <title>什么是NUMA架构？</title>
+    <link>https://dragonsong.tech/posts/english/translation_what_is_numa/</link>
+    <pubDate>Mon, 18 Jan 2021 11:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_what_is_numa/</guid>
+    <description><![CDATA[Linux内核文档：What is NUMA?。 关于NUMA架构是什么的问题，可以同时从硬件、软件的不同角度进行解释。 硬件角度从硬件来看，NUMA]]></description>
+</item><item>
+    <title>简析Linux IO多路复用模型</title>
+    <link>https://dragonsong.tech/posts/english/translation_linux_io/</link>
+    <pubDate>Mon, 18 Jan 2021 11:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_linux_io/</guid>
+    <description><![CDATA[原文：LINUX – IO MULTIPLEXING – SELECT VS POLL VS EPOLL。 对于Unix（Linux）系统我们有一个基本的设定：系统中的任何对象都是个文件everythin]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>DPDK - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/dpdk/</link>
+        <description>DPDK - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 28 Jan 2021 13:03:50 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/dpdk/" rel="self" type="application/rss+xml" /><item>
+    <title>用户态网络协议栈之DPDK</title>
+    <link>https://dragonsong.tech/posts/english/translation_dpdk/</link>
+    <pubDate>Thu, 28 Jan 2021 13:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_dpdk/</guid>
+    <description><![CDATA[了解下DPDK技术基本原理]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noodp"/><title>Python学习手记 | </title><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:title" content="Python学习手记"/>
+<meta name="twitter:description" content="Python学习手记"/><meta name="twitter:creator" content="@DragonSong1024"/><meta name="Description" content="Python学习手记"><meta property="og:title" content="Python学习手记" />
+<meta property="og:description" content="Python学习手记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dragonsong.tech/posts/rd/python_note/" />
+<meta property="article:published_time" content="2018-07-19T10:30:25+08:00" />
+<meta property="article:modified_time" content="2018-07-19T10:30:25+08:00" />
+<meta name="application-name" content="宋惠龙的大操场">
+<meta name="apple-mobile-web-app-title" content="宋惠龙的大操场"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://dragonsong.tech/posts/rd/python_note/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/lib/prismjs/prism.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Python学习手记",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/dragonsong.tech\/posts\/rd\/python_note\/"
+        },"genre": "posts","keywords": "Python","wordCount":  1373 ,
+        "url": "https:\/\/dragonsong.tech\/posts\/rd\/python_note\/","datePublished": "2018-07-19T10:30:25+08:00","dateModified": "2018-07-19T10:30:25+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","description": "Python学习手记"
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https:\/\/dragonsong.tech\/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "RD",
+            "item": "https://dragonsong.tech/categories/rd/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Python学习手记"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header>
+    <div class="desktop header" id="header-desktop">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="宋惠龙的大操场" class="header-logo logo-svg">宋惠龙的大操场</a>
+            </div>
+            <div class="menu">
+                <nav>
+                    <ul class="menu-inner"><li>
+                            <a class="menu-item" href="/posts/"> Posts </a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/"> Tags </a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/"> Categories </a>
+                        </li><li>
+                            <a class="menu-item" href="/about/"> About </a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a>
+                        </li></ul>
+                </nav><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <span class="svg-icon icon-search"></span>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <span class="svg-icon icon-cancel"></span>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <span class="svg-icon icon-loading"></span>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <span class="svg-icon icon-moon"></span>
+                </a>
+            </div>
+        </div>
+    </div><div class="mobile header" id="header-mobile">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="header-title">
+                    <a href="/" title="宋惠龙的大操场" class="header-logo">宋惠龙的大操场</a>
+                </div>
+                <div class="menu-toggle" id="menu-toggle-mobile">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                        <div class="search mobile" id="search-mobile">
+                            <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                                <span class="svg-icon icon-search"></span>
+                            </a>
+                            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                                <span class="svg-icon icon-cancel"></span>
+                            </a>
+                            <span class="search-button search-loading" id="search-loading-mobile">
+                                <span class="svg-icon icon-loading"></span>
+                            </span>
+                        </div>
+                        <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                            Cancel
+                        </a>
+                    </div><nav>
+                    <ul><li>
+                            <a class="menu-item" href="/posts/" title="">Posts</a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/" title="">Tags</a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/" title="">Categories</a>
+                        </li><li>
+                            <a class="menu-item" href="/about/" title="">About</a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a>
+                        </li></ul>
+                </nav>
+                <a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <span class="svg-icon icon-moon"></span>
+                </a></div>
+        </div>
+    </div><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div></header><main class="main">
+<div class="container content-article page-toc theme-classic"><div class="toc" id="toc-auto">
+            <div class="toc-title">Contents</div>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div>
+
+    
+    
+    <article>
+    
+
+        <header class="header-post">
+
+            
+
+            
+            <div class="post-title">
+
+                    <div class="post-all-meta">
+                        <nav class="breadcrumbs">
+    <ol>
+        <li><a href="/">Home </a></li><li><a href="/categories/rd/">RD </a></li><li>Python学习手记</li>
+    </ol>
+</nav>
+                        <h1 class="single-title flipInX">Python学习手记</h1><div class="post-meta summary-post-meta"><span class="post-category meta-item">
+                                <a href="/categories/rd/"><span class="svg-icon icon-folder"></span>RD</a>
+                            </span><span class="post-meta-date meta-item">
+                                <span class="svg-icon icon-clock"></span><time class="timeago" datetime="2018-07-19">2018-07-19</time>
+                            </span><span class="post-meta-words meta-item">
+                                <span class="svg-icon icon-pencil"></span>1373 words
+                            </span>
+                            <span class="post-meta-reading meta-item">
+                                <span class="svg-icon icon-stopwatch"></span>3 minutes
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </header>
+
+        <div class="article-post toc-start">
+
+            <div class="content-block content-block-first content-block-position">
+
+                <div class="post single"><div class="details toc" id="toc-static"  data-kept="">
+                        <div class="details-summary toc-title">
+                            <span>Contents</span>
+                        </div>
+                        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#语言特性">语言特性</a>
+      <ul>
+        <li><a href="#参数解包">参数解包</a></li>
+        <li><a href="#运算符">运算符</a></li>
+        <li><a href="#字符串前使用urb标记">字符串前使用u,r,b标记</a></li>
+        <li><a href="#三元运算符">三元运算符</a></li>
+        <li><a href="#列表生成式">列表生成式</a></li>
+        <li><a href="#lambda函数">lambda函数</a></li>
+      </ul>
+    </li>
+    <li><a href="#包">包</a>
+      <ul>
+        <li><a href="#simplehttpserver">SimpleHTTPServer</a></li>
+      </ul>
+    </li>
+    <li><a href="#完">完</a></li>
+  </ul>
+</nav></div>
+                    </div><p>Python笔记。</p>
+<h2 id="语言特性" class="headerLink"><a href="#%e8%af%ad%e8%a8%80%e7%89%b9%e6%80%a7" class="header-mark"></a>语言特性</h2><h3 id="参数解包" class="headerLink"><a href="#%e5%8f%82%e6%95%b0%e8%a7%a3%e5%8c%85" class="header-mark"></a>参数解包</h3><p><a href="https://www.python.org/dev/peps/pep-0448/" target="_blank" rel="noopener noreffer">PEP 448 &ndash; Additional Unpacking Generalizations</a>：将参数从集合中拿出来参与计算。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(<span style="color:#f92672">*</span>[<span style="color:#ae81ff">1</span>], <span style="color:#f92672">*</span>[<span style="color:#ae81ff">2</span>], <span style="color:#ae81ff">3</span>)
+<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> dict(<span style="color:#f92672">**</span>{<span style="color:#e6db74">&#39;x&#39;</span>: <span style="color:#ae81ff">1</span>}, y<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, <span style="color:#f92672">**</span>{<span style="color:#e6db74">&#39;z&#39;</span>: <span style="color:#ae81ff">3</span>})
+{<span style="color:#e6db74">&#39;x&#39;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;y&#39;</span>: <span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#39;z&#39;</span>: <span style="color:#ae81ff">3</span>}
+<span style="color:#f92672">&gt;&gt;&gt;</span> {<span style="color:#e6db74">&#39;x&#39;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#f92672">**</span>{<span style="color:#e6db74">&#39;x&#39;</span>: <span style="color:#ae81ff">2</span>}}
+{<span style="color:#e6db74">&#39;x&#39;</span>: <span style="color:#ae81ff">2</span>}
+<span style="color:#f92672">&gt;&gt;&gt;</span> {<span style="color:#f92672">**</span>{<span style="color:#e6db74">&#39;x&#39;</span>: <span style="color:#ae81ff">2</span>}, <span style="color:#e6db74">&#39;x&#39;</span>: <span style="color:#ae81ff">1</span>}
+{<span style="color:#e6db74">&#39;x&#39;</span>: <span style="color:#ae81ff">1</span>}
+</code></pre></div><h3 id="运算符" class="headerLink"><a href="#%e8%bf%90%e7%ae%97%e7%ac%a6" class="header-mark"></a>运算符</h3><h4 id="算术" class="headerLink"><a href="#%e7%ae%97%e6%9c%af" class="header-mark"></a>算术</h4><ul>
+<li><code>**</code>	幂 - 返回x的y次幂	a**b 为10的20次方， 输出结果 100000000000000000000</li>
+<li><code>//</code>	取整除 - 返回商的整数部分（向下取整）	9//2 输出结果 4 , 9.0//2.0 输出结果 4.0</li>
+</ul>
+<h4 id="比较" class="headerLink"><a href="#%e6%af%94%e8%be%83" class="header-mark"></a>比较</h4><ul>
+<li><code>!=</code>	不等于 - 比较两个对象是否不相等	(a != b) 返回 true.</li>
+<li><code>&lt;&gt;</code>	不等于 - 比较两个对象是否不相等	(a &lt;&gt; b) 返回 true。这个运算符类似 != 。</li>
+</ul>
+<h4 id="逻辑" class="headerLink"><a href="#%e9%80%bb%e8%be%91" class="header-mark"></a>逻辑</h4><ul>
+<li><code>and</code>	x and y	布尔&quot;与&quot; - 如果 x 为 False，x and y 返回 False，否则它返回 y 的计算值。	(a and b) 返回 20。</li>
+<li><code>or</code>	x or y	布尔&quot;或&quot;	- 如果 x 是非 0，它返回 x 的值，否则它返回 y 的计算值。	(a or b) 返回 10。</li>
+<li><code>not</code>	not x	布尔&quot;非&quot; - 如果 x 为 True，返回 False 。如果 x 为 False，它返回 True。	not(a and b) 返回 False</li>
+</ul>
+<h4 id="成员" class="headerLink"><a href="#%e6%88%90%e5%91%98" class="header-mark"></a>成员</h4><ul>
+<li><code>in</code>	如果在指定的序列中找到值返回 True，否则返回 False。	x 在 y 序列中 , 如果 x 在 y 序列中返回 True。</li>
+<li><code>not in</code>	如果在指定的序列中没有找到值返回 True，否则返回 False。	x 不在 y 序列中 , 如果 x 不在 y 序列中返回 True。</li>
+</ul>
+<h4 id="身份" class="headerLink"><a href="#%e8%ba%ab%e4%bb%bd" class="header-mark"></a>身份</h4><ul>
+<li><code>is</code>	is 是判断两个标识符是不是引用自一个对象	x is y, 类似 id(x) == id(y) , 如果引用的是同一个对象则返回 True，否则返回 False</li>
+<li><code>is not</code>	is not 是判断两个标识符是不是引用自不同对象	x is not y ， 类似 id(a) != id(b)。如果引用的不是同一个对象则返回结果 True，否则返回 False。</li>
+</ul>
+<h3 id="字符串前使用urb标记" class="headerLink"><a href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%89%8d%e4%bd%bf%e7%94%a8urb%e6%a0%87%e8%ae%b0" class="header-mark"></a>字符串前使用u,r,b标记</h3><ul>
+<li>u/U:表示unicode字符串</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;你好&#39;</span>)
+<span style="color:#960050;background-color:#1e0010">你好</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">u</span><span style="color:#e6db74">&#39;你好&#39;</span>)
+<span style="color:#960050;background-color:#1e0010">你好</span>
+</code></pre></div><ul>
+<li>r/R:正则表达式，使用原始字符串，不转义</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> </span><span style="color:#ae81ff">\t</span><span style="color:#e6db74"> sss&#39;</span>)
+
+ 	 sss
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\n \t sss&#39;</span>)
+\n \t sss
+</code></pre></div><ul>
+<li>b:bytes，表示该字符串为字节，即每个字符占用一个字节
+比如IO接收到的内容就是字节流，此时的内容就应当是经过编码后的字节：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#e6db74">&#39;内容&#39;</span><span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xe5\x86\x85\xe5\xae\xb9</span><span style="color:#e6db74">&#39;</span>
+</code></pre></div><h3 id="三元运算符" class="headerLink"><a href="#%e4%b8%89%e5%85%83%e8%bf%90%e7%ae%97%e7%ac%a6" class="header-mark"></a>三元运算符</h3><p>条件表达式。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#f92672">&gt;&gt;&gt;</span> word<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;before&#39;</span> <span style="color:#66d9ef">if</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span><span style="color:#ae81ff">2</span> <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#39;after&#39;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(word)
+after
+</code></pre></div><h3 id="列表生成式" class="headerLink"><a href="#%e5%88%97%e8%a1%a8%e7%94%9f%e6%88%90%e5%bc%8f" class="header-mark"></a>列表生成式</h3><p>列表解析式。比如现在有一个需求，对（1,11）的列表每个元素进行<code>-1</code>操作。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#75715e"># 首先生成一个列表</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> container<span style="color:#f92672">=</span>list(range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">11</span>))
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(container)
+[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>]
+<span style="color:#75715e"># 传统思路是对列表进行循环</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> empty<span style="color:#f92672">=</span>[]
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> container:
+<span style="color:#f92672">...</span>     empty<span style="color:#f92672">.</span>append(x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+<span style="color:#f92672">...</span>     
+<span style="color:#f92672">&gt;&gt;&gt;</span> empty
+[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>]
+
+<span style="color:#75715e"># 使用列表生成式，对每个元素直接处理</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> [x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> container]
+<span style="color:#f92672">&gt;&gt;&gt;</span> [x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">11</span>)]
+[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>]
+<span style="color:#75715e"># 后面还可以对元素进行条件判断，比如3的倍数才进行处理</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> [x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> container <span style="color:#66d9ef">if</span> x<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span><span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>]
+[<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">8</span>]
+<span style="color:#75715e"># 还可以对多个`iterable`进行操作，如下可以生成两个集合的笛卡尔积</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> [x<span style="color:#f92672">+</span>y <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> <span style="color:#e6db74">&#39;123&#39;</span> <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> <span style="color:#e6db74">&#39;abc&#39;</span>]
+[<span style="color:#e6db74">&#39;1a&#39;</span>, <span style="color:#e6db74">&#39;1b&#39;</span>, <span style="color:#e6db74">&#39;1c&#39;</span>, <span style="color:#e6db74">&#39;2a&#39;</span>, <span style="color:#e6db74">&#39;2b&#39;</span>, <span style="color:#e6db74">&#39;2c&#39;</span>, <span style="color:#e6db74">&#39;3a&#39;</span>, <span style="color:#e6db74">&#39;3b&#39;</span>, <span style="color:#e6db74">&#39;3c&#39;</span>]
+<span style="color:#75715e"># 同理可以将`dict`一次转为`list`</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> dictVar<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;1&#39;</span>:<span style="color:#e6db74">&#39;a&#39;</span>,<span style="color:#e6db74">&#39;2&#39;</span>:<span style="color:#e6db74">&#39;b&#39;</span>}
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(dictVar)
+{<span style="color:#e6db74">&#39;1&#39;</span>: <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>: <span style="color:#e6db74">&#39;b&#39;</span>}
+<span style="color:#f92672">&gt;&gt;&gt;</span> listVar<span style="color:#f92672">=</span>[k<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;-&gt;&#39;</span><span style="color:#f92672">+</span>v <span style="color:#66d9ef">for</span> k,v <span style="color:#f92672">in</span> dictVar<span style="color:#f92672">.</span>items()]
+<span style="color:#f92672">&gt;&gt;&gt;</span> listVar
+[<span style="color:#e6db74">&#39;1-&gt;a&#39;</span>, <span style="color:#e6db74">&#39;2-&gt;b&#39;</span>]
+</code></pre></div><h3 id="lambda函数" class="headerLink"><a href="#lambda%e5%87%bd%e6%95%b0" class="header-mark"></a>lambda函数</h3><p>匿名函数。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#75715e"># 还是以上述列表生成式中的需求为例，借助`map`处理每个元素</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> list(map(<span style="color:#66d9ef">lambda</span> x:x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, container))
+[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>]
+<span style="color:#75715e"># 等同于</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> list(x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> container)
+[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> [x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> container]
+[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>]
+</code></pre></div><h2 id="包" class="headerLink"><a href="#%e5%8c%85" class="header-mark"></a>包</h2><h3 id="simplehttpserver" class="headerLink"><a href="#simplehttpserver" class="header-mark"></a>SimpleHTTPServer</h3><p>Python自带的一个简易版web-server。</p>
+<p><a href="https://docs.python.org/2/library/simplehttpserver.html" target="_blank" rel="noopener noreffer">官方文档</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#f92672">import</span> SimpleHTTPServer
+<span style="color:#f92672">import</span> SocketServer
+
+PORT <span style="color:#f92672">=</span> <span style="color:#ae81ff">8000</span>
+
+Handler <span style="color:#f92672">=</span> SimpleHTTPServer<span style="color:#f92672">.</span>SimpleHTTPRequestHandler
+
+httpd <span style="color:#f92672">=</span> SocketServer<span style="color:#f92672">.</span>TCPServer((<span style="color:#e6db74">&#34;&#34;</span>, PORT), Handler)
+
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;serving at port&#34;</span>, PORT
+httpd<span style="color:#f92672">.</span>serve_forever()
+</code></pre></div><p>不推荐在生产环境使用，只适用于小型或者基本服务的搭建试用，所以可以直接用<code>-m</code>命令启动：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">python <span style="color:#f92672">-</span>m SimpleHTTPServer <span style="color:#ae81ff">8000</span>
+<span style="color:#75715e"># python3</span>
+python3 <span style="color:#f92672">-</span>m http<span style="color:#f92672">.</span>server <span style="color:#ae81ff">8000</span>
+</code></pre></div><p>之后即可直接访问：<code>http://IP:端口号/</code>，web根路径就是执行命令的那个目录。</p>
+<h2 id="完" class="headerLink"><a href="#%e5%ae%8c" class="header-mark"></a>完</h2></div><footer>
+                        <div class="post">
+
+
+<div class="post-share"><div class="share-link">
+        <a class="share-icon share-twitter" href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://dragonsong.tech/posts/rd/python_note/" data-title="Python学习手记" data-via="DragonSong1024" data-hashtags="Python"><span class="svg-social-icon icon-twitter"></span></a>
+    </div><div class="share-link">
+        <a class="share-icon share-weibo" href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://dragonsong.tech/posts/rd/python_note/" data-title="Python学习手记"><span class="svg-social-icon icon-weibo"></span></a>
+    </div></div>
+
+
+
+
+
+
+<div class="post-tags"><a href="/tags/python/" class="tag">Python</a></div></div>
+                </footer></div>
+
+        <div id="toc-final"></div>
+        </div>
+
+    
+    </article>
+    <section class="page single comments content-block-position"><div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></section></div>
+
+</main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://dragonsong.tech/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target="_blank" title="uBlogger 2.0.1">uBlogger</a>
+                </div><div class="footer-line"><i class="svg-icon icon-copyright"></i><span>2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">粤ICP备2021020197号</span></div>
+        </div>
+    </footer></div>
+
+        <aside id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="svg-icon icon-arrow-up"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="svg-icon icon-comments-fixed"></i>
+            </a>
+        </aside><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/prismjs/prism.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"gitalk":{"admin":["long5778013"],"clientID":"bc5a91c74dda1fd92a10","clientSecret":"99a821a1c27e5dc85ea3105bf9bba089d1b580ea","id":"2018-07-19T10:30:25+08:00","owner":"long5778013","repo":"blog-comment","title":"Python学习手记"}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noodp"/><title>快速上手Elasticsearch | </title><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:title" content="快速上手Elasticsearch"/>
+<meta name="twitter:description" content="快速上手Elasticsearch"/><meta name="twitter:creator" content="@DragonSong1024"/><meta name="Description" content="快速上手Elasticsearch"><meta property="og:title" content="快速上手Elasticsearch" />
+<meta property="og:description" content="快速上手Elasticsearch" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dragonsong.tech/posts/rd/es_fast_try/" />
+<meta property="article:published_time" content="2018-06-19T10:30:25+08:00" />
+<meta property="article:modified_time" content="2018-06-19T10:30:25+08:00" />
+<meta name="application-name" content="宋惠龙的大操场">
+<meta name="apple-mobile-web-app-title" content="宋惠龙的大操场"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://dragonsong.tech/posts/rd/es_fast_try/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/lib/prismjs/prism.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "快速上手Elasticsearch",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/dragonsong.tech\/posts\/rd\/es_fast_try\/"
+        },"genre": "posts","keywords": "Elasticsearch","wordCount":  5131 ,
+        "url": "https:\/\/dragonsong.tech\/posts\/rd\/es_fast_try\/","datePublished": "2018-06-19T10:30:25+08:00","dateModified": "2018-06-19T10:30:25+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","description": "快速上手Elasticsearch"
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https:\/\/dragonsong.tech\/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "RD",
+            "item": "https://dragonsong.tech/categories/rd/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "快速上手Elasticsearch"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header>
+    <div class="desktop header" id="header-desktop">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="宋惠龙的大操场" class="header-logo logo-svg">宋惠龙的大操场</a>
+            </div>
+            <div class="menu">
+                <nav>
+                    <ul class="menu-inner"><li>
+                            <a class="menu-item" href="/posts/"> Posts </a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/"> Tags </a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/"> Categories </a>
+                        </li><li>
+                            <a class="menu-item" href="/about/"> About </a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a>
+                        </li></ul>
+                </nav><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <span class="svg-icon icon-search"></span>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <span class="svg-icon icon-cancel"></span>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <span class="svg-icon icon-loading"></span>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <span class="svg-icon icon-moon"></span>
+                </a>
+            </div>
+        </div>
+    </div><div class="mobile header" id="header-mobile">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="header-title">
+                    <a href="/" title="宋惠龙的大操场" class="header-logo">宋惠龙的大操场</a>
+                </div>
+                <div class="menu-toggle" id="menu-toggle-mobile">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                        <div class="search mobile" id="search-mobile">
+                            <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                                <span class="svg-icon icon-search"></span>
+                            </a>
+                            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                                <span class="svg-icon icon-cancel"></span>
+                            </a>
+                            <span class="search-button search-loading" id="search-loading-mobile">
+                                <span class="svg-icon icon-loading"></span>
+                            </span>
+                        </div>
+                        <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                            Cancel
+                        </a>
+                    </div><nav>
+                    <ul><li>
+                            <a class="menu-item" href="/posts/" title="">Posts</a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/" title="">Tags</a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/" title="">Categories</a>
+                        </li><li>
+                            <a class="menu-item" href="/about/" title="">About</a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a>
+                        </li></ul>
+                </nav>
+                <a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <span class="svg-icon icon-moon"></span>
+                </a></div>
+        </div>
+    </div><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div></header><main class="main">
+<div class="container content-article page-toc theme-classic"><div class="toc" id="toc-auto">
+            <div class="toc-title">Contents</div>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div>
+
+    
+    
+    <article>
+    
+
+        <header class="header-post">
+
+            
+
+            
+            <div class="post-title">
+
+                    <div class="post-all-meta">
+                        <nav class="breadcrumbs">
+    <ol>
+        <li><a href="/">Home </a></li><li><a href="/categories/rd/">RD </a></li><li>快速上手Elasticsearch</li>
+    </ol>
+</nav>
+                        <h1 class="single-title flipInX">快速上手Elasticsearch</h1><div class="post-meta summary-post-meta"><span class="post-category meta-item">
+                                <a href="/categories/rd/"><span class="svg-icon icon-folder"></span>RD</a>
+                            </span><span class="post-meta-date meta-item">
+                                <span class="svg-icon icon-clock"></span><time class="timeago" datetime="2018-06-19">2018-06-19</time>
+                            </span><span class="post-meta-words meta-item">
+                                <span class="svg-icon icon-pencil"></span>5131 words
+                            </span>
+                            <span class="post-meta-reading meta-item">
+                                <span class="svg-icon icon-stopwatch"></span>11 minutes
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </header>
+
+        <div class="article-post toc-start">
+
+            <div class="content-block content-block-first content-block-position">
+
+                <div class="post single"><div class="details toc" id="toc-static"  data-kept="">
+                        <div class="details-summary toc-title">
+                            <span>Contents</span>
+                        </div>
+                        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础">基础</a></li>
+    <li><a href="#应用安装">应用安装</a>
+      <ul>
+        <li><a href="#单实例">单实例</a></li>
+        <li><a href="#插件">插件</a></li>
+        <li><a href="#多节点">多节点</a></li>
+        <li><a href="#elasticsearch">Elasticsearch</a></li>
+        <li><a href="#kibana">Kibana</a></li>
+      </ul>
+    </li>
+    <li><a href="#用户手册">用户手册</a>
+      <ul>
+        <li><a href="#基本概念">基本概念</a></li>
+        <li><a href="#索引创建">索引创建</a></li>
+        <li><a href="#使用别名">使用别名</a></li>
+        <li><a href="#数据插入">数据插入</a></li>
+        <li><a href="#数据修改">数据修改</a></li>
+        <li><a href="#数据删除">数据删除</a></li>
+        <li><a href="#数据查询">数据查询</a></li>
+        <li><a href="#高级查询">高级查询</a></li>
+        <li><a href="#聚合">聚合</a></li>
+      </ul>
+    </li>
+    <li><a href="#api">API</a></li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav></div>
+                    </div><p>短时间上手，ES实战。新手接触新东西，最重要的是理清学习路径，这里的目录，就是我个人的简化路径。深入还需要再多投入时间精力，慢慢研究才能做到深钻，本文目标是「快速上手」。</p>
+<p>喜欢通过视频学习的同学可以看慕课：<a href="https://www.imooc.com/learn/889" target="_blank" rel="noopener noreffer">ElasticSearch入门</a>。</p>
+<p><strong>推荐：</strong></p>
+<ul>
+<li><a href="https://88250.b3log.org/full-text-search-elasticsearch" target="_blank" rel="noopener noreffer">全文搜索之 Elasticsearch</a></li>
+<li><a href="https://es.xiaoleilu.com/index.html" target="_blank" rel="noopener noreffer">Elasticsearch 权威指南（中文版）</a></li>
+<li><a href="https://elastic-search-in-action.medcl.com" target="_blank" rel="noopener noreffer">Elasticsearch实战</a></li>
+</ul>
+<h2 id="基础" class="headerLink"><a href="#%e5%9f%ba%e7%a1%80" class="header-mark"></a>基础</h2><ul>
+<li>Elasticsearch 是一个分布式、可扩展、实时的搜索与数据分析引擎。 它能从项目一开始就赋予你的数据以搜索、分析和探索的能力，这是通常没有预料到的。 它存在还因为原始数据如果只是躺在磁盘里面根本就毫无用处。基于Apache Lucene构建的开源搜索引擎。</li>
+<li>Kibana 是一款开源的数据分析和可视化平台，它是 Elastic Stack 成员之一，设计用于和 Elasticsearch 协作。您可以使用 Kibana 对 Elasticsearch 索引中的数据进行搜索、查看、交互操作。</li>
+</ul>
+<p>简单讲，ES是一款数据库(server)，Kibana是可视化客户端(client)。相比Lucene，ES易于使用、应用。应用优势：易于横向拓展，可支持PB级别的结构化与非结构化的数据处理。</p>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>海量数据分析</li>
+<li>站内搜索引擎</li>
+<li>数据库</li>
+</ul>
+<h2 id="应用安装" class="headerLink"><a href="#%e5%ba%94%e7%94%a8%e5%ae%89%e8%a3%85" class="header-mark"></a>应用安装</h2><p>首先安装Elasticsearch，<a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.6/_installation.html" target="_blank" rel="noopener noreffer">Installation</a>。</p>
+<p>然后安装Kibana，<a href="https://www.elastic.co/guide/cn/kibana/current/install.html" target="_blank" rel="noopener noreffer">安装 Kibana</a>。</p>
+<p>推荐<a href="https://www.elastic.co/guide/en/elastic-stack-overview/current/get-started-elastic-stack.html#install-kibana" target="_blank" rel="noopener noreffer">英文文档</a>。</p>
+<h3 id="单实例" class="headerLink"><a href="#%e5%8d%95%e5%ae%9e%e4%be%8b" class="header-mark"></a>单实例</h3><ul>
+<li>官网复制<code>tar</code>下载链接：https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.2.tar.gz</li>
+<li>进入本地安装目录，wget下载</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cd /Users/DragonSong/es_learn
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.2.tar.gz
+<span style="color:#75715e"># 解压tar包</span>
+tar -zxvf elasticsearch-6.3.2.tar.gz
+</code></pre></div><h3 id="插件" class="headerLink"><a href="#%e6%8f%92%e4%bb%b6" class="header-mark"></a>插件</h3><p>Head提供了友好的操作界面，可以辅助开发者操作ES。</p>
+<ul>
+<li>进入GitHub搜索elasticsearch-head，获取zip下载链接，wget下载：https://github.com/mobz/elasticsearch-head/archive/master.zip</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cd /Users/DragonSong/es_learn
+wget https://github.com/mobz/elasticsearch-head/archive/master.zip
+<span style="color:#75715e"># 解压zip包</span>
+unzip master.zip
+<span style="color:#75715e"># 进入master目录，检查node版本</span>
+cd elasticsearch-head-master/
+node -v
+<span style="color:#75715e"># npm装载环境</span>
+npm install
+<span style="color:#75715e"># 启动node服务</span>
+npm run start
+<span style="color:#75715e"># 浏览器查看界面</span>
+http://localhost:9100
+<span style="color:#75715e"># 修改es配置，解决跨域问题</span>
+cd ../elasticsearch-6.3.2
+vi config/elasticsearch.yml
+<span style="color:#75715e"># shift+g跳到末行，添加内容：</span>
+http.cors.enabled: true
+http.cors.allow-origin: <span style="color:#e6db74">&#34;*&#34;</span>
+<span style="color:#75715e"># 保存退出</span>
+</code></pre></div><ul>
+<li>此时启动ES，开启Head node服务，进入<code>localhost:9100</code>即可看到工具已连接到ES</li>
+</ul>
+<h3 id="多节点" class="headerLink"><a href="#%e5%a4%9a%e8%8a%82%e7%82%b9" class="header-mark"></a>多节点</h3><p>分布式环境安装。</p>
+<ul>
+<li>修改<code>elasticsearch.yml</code>，将当前节点设置为<code>master</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vi config/elasticsearch.yml
+<span style="color:#75715e"># 末尾增加配置：</span>
+cluster.name: dragon
+node.name: master
+node.master: true
+<span style="color:#75715e"># 绑定ip</span>
+network.host: 127.0.0.1
+</code></pre></div><ul>
+<li>重启服务（作为master）</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 找到原后台服务，并kill</span>
+ps -ef | grep <span style="color:#e6db74">`</span>pwd<span style="color:#e6db74">`</span>
+kill <span style="color:#ae81ff">20660</span>
+<span style="color:#75715e"># 重启</span>
+./bin/elasticsearch -d
+</code></pre></div><ul>
+<li>外部新建目录，存放<code>slave</code>节点服务</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir es_slave
+<span style="color:#75715e"># 复制tar包</span>
+cp elasticsearch-6.3.2.tar.gz es_slave
+cd es_slave
+<span style="color:#75715e"># 解压</span>
+tar -zxvf elasticsearch-6.3.2.tar.gz
+<span style="color:#75715e"># 复制两个节点内容</span>
+cp -r elasticsearch-6.3.2 es_slave1
+cp -r elasticsearch-6.3.2 es_slave2
+<span style="color:#75715e"># 进入slave1，修改配置</span>
+cd es_slave1
+vi config/elasticsearch.yml
+<span style="color:#75715e"># 配置内容：</span>
+cluster.name: dragon
+node.name: slave1
+
+network.host: 127.0.0.1
+<span style="color:#75715e"># 端口需区分于master</span>
+http.port: <span style="color:#ae81ff">8200</span> 
+
+discovery.zen.ping.unicast.hosts: <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;127.0.0.1&#34;</span><span style="color:#f92672">]</span>
+<span style="color:#75715e"># 上述过程重复与slave2即可</span>
+<span style="color:#75715e"># 配置内容：</span>
+cluster.name: dragon
+node.name: slave2
+
+network.host: 127.0.0.1
+<span style="color:#75715e"># 端口需区分于master</span>
+http.port: <span style="color:#ae81ff">8100</span> 
+
+discovery.zen.ping.unicast.hosts: <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;127.0.0.1&#34;</span><span style="color:#f92672">]</span>
+</code></pre></div><p>扩充服务节点方式就是重复上述过程，易于操作。</p>
+<h3 id="elasticsearch" class="headerLink"><a href="#elasticsearch" class="header-mark"></a>Elasticsearch</h3><ul>
+<li><code>./bin/elasticsearch</code>启动</li>
+<li><code>./bin/elasticsearch -d</code>后台启动</li>
+<li><code>Ctrl+C</code>停止</li>
+<li><code>curl 'http://localhost:9200/?pretty'</code>测试连接</li>
+</ul>
+<h3 id="kibana" class="headerLink"><a href="#kibana" class="header-mark"></a>Kibana</h3><ul>
+<li>Kibana默认配置放在<code>config/kibana.yml</code></li>
+<li><code>./bin/kibana</code>启动</li>
+<li><code>localhost:5601 或者 http://YOURDOMAIN.com:5601</code>访问</li>
+</ul>
+<p>装好跑起来，加载示例数据，使用Kibana操作下常规动作，了解下能做什么(what)，想一下如何做到(how)，以及结合应用的业务场景何时使用(when)。</p>
+<h2 id="用户手册" class="headerLink"><a href="#%e7%94%a8%e6%88%b7%e6%89%8b%e5%86%8c" class="header-mark"></a>用户手册</h2><p>对安装好的应用进行功能操作。</p>
+<p>这里重点看<a href="https://www.elastic.co/guide/cn/kibana/current/index.html" target="_blank" rel="noopener noreffer">Kibana 用户手册</a>，从基础入门到可视化进行初步了解即可。</p>
+<p>以及<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/index.html" target="_blank" rel="noopener noreffer">Elasticsearch: 权威指南</a>，从基础入门，到聚合，参考自己要真实编码应用的方面，选择章节花费两个小时研究一下即可。</p>
+<h3 id="基本概念" class="headerLink"><a href="#%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5" class="header-mark"></a>基本概念</h3><ul>
+<li>集群中包含了多个节点，服务启动后，head可以很方便地查看集群状态</li>
+<li>索引：含有相同属性的文档集合</li>
+<li>类型：索引可以定义多个类型，文档必属于一个类型</li>
+<li>文档：可被索引的基本数据单位</li>
+<li>分片：每个分片是一个Lucene索引，每个索引有多个分片，只能在创建索引时指定</li>
+<li>备份：拷贝一份分片，就完成了分片备份，后期也可以自由修改</li>
+</ul>
+<h3 id="索引创建" class="headerLink"><a href="#%e7%b4%a2%e5%bc%95%e5%88%9b%e5%bb%ba" class="header-mark"></a>索引创建</h3><p>ES通过RESTFul API调用服务：</p>
+<ul>
+<li>API基本格式：
+<code>http://&lt;ip&gt;:&lt;port&gt;/&lt;index&gt;/&lt;type&gt;/&lt;doc_id&gt;</code></li>
+<li>常见HTTP动词：
+GET/PUT/POST/DELETE</li>
+</ul>
+<h4 id="非结构化的索引" class="headerLink"><a href="#%e9%9d%9e%e7%bb%93%e6%9e%84%e5%8c%96%e7%9a%84%e7%b4%a2%e5%bc%95" class="header-mark"></a>非结构化的索引</h4><p>可以通过head插件界面创建索引。成功后返回：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+	<span style="color:#f92672">&#34;acknowledged&#34;</span>: <span style="color:#66d9ef">true</span>,
+	<span style="color:#f92672">&#34;shards_acknowledged&#34;</span>: <span style="color:#66d9ef">true</span>,
+	<span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;index_first&#34;</span>
+}
+</code></pre></div><p>创建index成功后，head首页即可看到不同节点存储的分片。（粗线表示主分片，细线表示备份）</p>
+<p>索引信息中的<code>mappings</code>为空时，即为<strong>非结构化的索引</strong>。</p>
+<h4 id="结构化的索引" class="headerLink"><a href="#%e7%bb%93%e6%9e%84%e5%8c%96%e7%9a%84%e7%b4%a2%e5%bc%95" class="header-mark"></a>结构化的索引</h4><p>在head插件，复合查询tab中，输入：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">http://localhost:</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/</span>
+<span style="color:#960050;background-color:#1e0010">languages/java/mappings</span>
+<span style="color:#960050;background-color:#1e0010">POST</span>
+{
+  <span style="color:#f92672">&#34;type_first&#34;</span>: {
+    <span style="color:#f92672">&#34;properties&#34;</span>: {
+      <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;text&#34;</span>
+    }
+  }
+}
+</code></pre></div><p>提交这个POST请求，右侧返回如下信息，说明对应的mappings规则已成功建立：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;languages&#34;</span>,
+    <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+    <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;mappings&#34;</span>,
+    <span style="color:#f92672">&#34;_version&#34;</span>: <span style="color:#ae81ff">1</span>,
+    <span style="color:#f92672">&#34;result&#34;</span>: <span style="color:#e6db74">&#34;created&#34;</span>,
+    <span style="color:#f92672">&#34;_shards&#34;</span>: {
+    <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">2</span>,
+    <span style="color:#f92672">&#34;successful&#34;</span>: <span style="color:#ae81ff">1</span>,
+    <span style="color:#f92672">&#34;failed&#34;</span>: <span style="color:#ae81ff">0</span>
+    },
+    <span style="color:#f92672">&#34;_seq_no&#34;</span>: <span style="color:#ae81ff">0</span>,
+    <span style="color:#f92672">&#34;_primary_term&#34;</span>: <span style="color:#ae81ff">1</span>
+}
+</code></pre></div><p>也可以到概览tab页查看索引信息，发现<code>languages</code>这个index中已经保存了对应的mappings结构化信息。这一步可以使用更加易用的Postman进行操作，发送一个PUT将数据（index）写到es中，在body中选择raw-&gt;json，可以更好地定义json数据：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;settings&#34;</span>:{
+        <span style="color:#f92672">&#34;number_of_shards&#34;</span>:<span style="color:#ae81ff">3</span>,
+        <span style="color:#f92672">&#34;number_of_replicas&#34;</span>:<span style="color:#ae81ff">1</span>
+    },
+    <span style="color:#f92672">&#34;mappings&#34;</span>:{
+        <span style="color:#f92672">&#34;java&#34;</span>:{
+            <span style="color:#f92672">&#34;properties&#34;</span>:{
+                <span style="color:#f92672">&#34;name&#34;</span>:{
+                    <span style="color:#f92672">&#34;type&#34;</span>:<span style="color:#e6db74">&#34;text&#34;</span>
+                },
+                <span style="color:#f92672">&#34;ranking&#34;</span>:{
+                    <span style="color:#f92672">&#34;type&#34;</span>:<span style="color:#e6db74">&#34;keyword&#34;</span>
+                },
+                <span style="color:#f92672">&#34;age&#34;</span>:{
+                    <span style="color:#f92672">&#34;type&#34;</span>:<span style="color:#e6db74">&#34;integer&#34;</span>
+                },
+                <span style="color:#f92672">&#34;date&#34;</span>:{
+                    <span style="color:#f92672">&#34;type&#34;</span>:<span style="color:#e6db74">&#34;date&#34;</span>,
+                    <span style="color:#f92672">&#34;format&#34;</span>:<span style="color:#e6db74">&#34;yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis&#34;</span>
+                }
+            }
+        }
+    }
+}
+<span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#960050;background-color:#1e0010">kibana操作：</span>
+<span style="color:#960050;background-color:#1e0010">PUT</span> <span style="color:#960050;background-color:#1e0010">index-name/type-name/_mapping</span>
+{
+  <span style="color:#f92672">&#34;type-name&#34;</span>: {
+    <span style="color:#f92672">&#34;properties&#34;</span>: {
+         <span style="color:#f92672">&#34;field-name&#34;</span>: {
+            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;integer&#34;</span>
+        }
+    }
+  }
+}
+</code></pre></div><p>发送PUT后返回：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;acknowledged&#34;</span>: <span style="color:#66d9ef">true</span>,
+    <span style="color:#f92672">&#34;shards_acknowledged&#34;</span>: <span style="color:#66d9ef">true</span>,
+    <span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>
+}
+</code></pre></div><p>kibana查询mapping：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">GET</span> <span style="color:#960050;background-color:#1e0010">index-name/type-name/_mapping</span>
+</code></pre></div><p>此时在head插件的概览查看索引信息，可以看到mappings就是完全按照我们的json格式来定义的，这一步本质上，与rdbms中建表是同理的。</p>
+<h3 id="使用别名" class="headerLink"><a href="#%e4%bd%bf%e7%94%a8%e5%88%ab%e5%90%8d" class="header-mark"></a>使用别名</h3><p>首先了解：<a href="https://blog.csdn.net/u010454030/article/details/79719019?utm_source=blogxgwz0" target="_blank" rel="noopener noreffer">如何在Elasticsearch里面使用索引别名</a>。</p>
+<p>代码使用别名操作实际数据，可以做到几个好处：</p>
+<ul>
+<li>一个入口，可以无缝切换多个索引，不影响前端</li>
+<li>分组多个索引，对数据进行自由分组，同一个别名可以同时整合多个索引中的数据</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">POST</span> <span style="color:#960050;background-color:#1e0010">/_aliases</span>
+{
+  <span style="color:#f92672">&#34;actions&#34;</span>: [
+    {
+      <span style="color:#f92672">&#34;add&#34;</span>: {
+        <span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;index_new_name&#34;</span>,
+        <span style="color:#f92672">&#34;alias&#34;</span>: <span style="color:#e6db74">&#34;alias_name&#34;</span>
+      }
+    },
+    {
+      <span style="color:#f92672">&#34;remove&#34;</span>: {
+        <span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;index_old_name&#34;</span>,
+        <span style="color:#f92672">&#34;alias&#34;</span>: <span style="color:#e6db74">&#34;alias_name&#34;</span>
+      }
+    }
+  ]
+}
+</code></pre></div><h3 id="数据插入" class="headerLink"><a href="#%e6%95%b0%e6%8d%ae%e6%8f%92%e5%85%a5" class="header-mark"></a>数据插入</h3><p>doc的插入分两种类型：</p>
+<ul>
+<li>指定文档id插入</li>
+<li>自动产生文档id插入</li>
+</ul>
+<p>结合rdbms使用经验，与我们插入数据id自增与自定义是类似的。</p>
+<p>这里我们继续使用上面创建的<code>newlanguages</code>index，向其中<code>java</code>中插一条id=1的数据：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">localhost:</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/newlanguages/java/</span><span style="color:#ae81ff">1</span>
+{
+    <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;java&#34;</span>,
+    <span style="color:#f92672">&#34;ranking&#34;</span>:<span style="color:#e6db74">&#34;001&#34;</span>,
+    <span style="color:#f92672">&#34;age&#34;</span>:<span style="color:#ae81ff">30</span>,
+    <span style="color:#f92672">&#34;date&#34;</span>:<span style="color:#e6db74">&#34;1979-01-01&#34;</span>
+}
+</code></pre></div><p>返回说明生效：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+    <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+    <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+    <span style="color:#f92672">&#34;_version&#34;</span>: <span style="color:#ae81ff">1</span>,
+    <span style="color:#f92672">&#34;result&#34;</span>: <span style="color:#e6db74">&#34;created&#34;</span>,
+    <span style="color:#f92672">&#34;_shards&#34;</span>: {
+        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;successful&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;failed&#34;</span>: <span style="color:#ae81ff">0</span>
+    },
+    <span style="color:#f92672">&#34;_seq_no&#34;</span>: <span style="color:#ae81ff">0</span>,
+    <span style="color:#f92672">&#34;_primary_term&#34;</span>: <span style="color:#ae81ff">1</span>
+}
+</code></pre></div><p>改用POST，并去掉手动指定的id，让es自动帮助我们生成id：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">localhost:</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/newlanguages/java/</span>
+{
+    <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;java_02&#34;</span>,
+    <span style="color:#f92672">&#34;ranking&#34;</span>:<span style="color:#e6db74">&#34;002&#34;</span>,
+    <span style="color:#f92672">&#34;age&#34;</span>:<span style="color:#ae81ff">31</span>,
+    <span style="color:#f92672">&#34;date&#34;</span>:<span style="color:#e6db74">&#34;1989-01-01&#34;</span>
+}
+</code></pre></div><p>返回如下信息说明生效：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+    <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+    <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;aMzB22QBUDCHWKlAjWAs&#34;</span>,
+    <span style="color:#f92672">&#34;_version&#34;</span>: <span style="color:#ae81ff">1</span>,
+    <span style="color:#f92672">&#34;result&#34;</span>: <span style="color:#e6db74">&#34;created&#34;</span>,
+    <span style="color:#f92672">&#34;_shards&#34;</span>: {
+        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;successful&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;failed&#34;</span>: <span style="color:#ae81ff">0</span>
+    },
+    <span style="color:#f92672">&#34;_seq_no&#34;</span>: <span style="color:#ae81ff">1</span>,
+    <span style="color:#f92672">&#34;_primary_term&#34;</span>: <span style="color:#ae81ff">1</span>
+}
+</code></pre></div><p>可以看到id与之前的1是不同的，说明是不同的数据。head中的数据概览也能清晰地看到这条数据。</p>
+<h3 id="数据修改" class="headerLink"><a href="#%e6%95%b0%e6%8d%ae%e4%bf%ae%e6%94%b9" class="header-mark"></a>数据修改</h3><ul>
+<li>直接修改文档</li>
+<li>脚本修改文档</li>
+</ul>
+<p>同样使用Postman发送一个POST，指定文档id，url后紧跟一个<code>_update</code>关键词：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">localhost:/</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/newlanguages/java/</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">/_update</span>
+{
+    <span style="color:#f92672">&#34;doc&#34;</span>:{
+        <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;更新后的名字：java01&#34;</span>
+    }
+}
+</code></pre></div><p>提交后显示为<code>udpated</code>，说明数据已经更新完毕：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+    <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+    <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+    <span style="color:#f92672">&#34;_version&#34;</span>: <span style="color:#ae81ff">2</span>,
+    <span style="color:#f92672">&#34;result&#34;</span>: <span style="color:#e6db74">&#34;updated&#34;</span>,
+    <span style="color:#f92672">&#34;_shards&#34;</span>: {
+        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;successful&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;failed&#34;</span>: <span style="color:#ae81ff">0</span>
+    },
+    <span style="color:#f92672">&#34;_seq_no&#34;</span>: <span style="color:#ae81ff">2</span>,
+    <span style="color:#f92672">&#34;_primary_term&#34;</span>: <span style="color:#ae81ff">1</span>
+}
+</code></pre></div><p>脚本的修改方式，区别于上方的参数部分，url格式一致，并且es支持了多种脚本语言，这里使用内置的<code>painless</code>，<code>inline</code>中指定脚本的逻辑，<code>ctx</code>表示es上下文，<code>_source</code>则表示本次操作的文档，比如对其<code>age</code>属性进行操作：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">localhost:/</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/newlanguages/java/</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">/_update</span>
+{
+    <span style="color:#f92672">&#34;script&#34;</span>:{
+        <span style="color:#f92672">&#34;lang&#34;</span>:<span style="color:#e6db74">&#34;painless&#34;</span>,
+        <span style="color:#f92672">&#34;inline&#34;</span>:<span style="color:#e6db74">&#34;ctx._source.age += 2&#34;</span>
+    }
+}
+</code></pre></div><p>可以看到：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+    <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+    <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+    <span style="color:#f92672">&#34;_version&#34;</span>: <span style="color:#ae81ff">3</span>,
+    <span style="color:#f92672">&#34;result&#34;</span>: <span style="color:#e6db74">&#34;updated&#34;</span>,
+    <span style="color:#f92672">&#34;_shards&#34;</span>: {
+        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;successful&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;failed&#34;</span>: <span style="color:#ae81ff">0</span>
+    },
+    <span style="color:#f92672">&#34;_seq_no&#34;</span>: <span style="color:#ae81ff">3</span>,
+    <span style="color:#f92672">&#34;_primary_term&#34;</span>: <span style="color:#ae81ff">1</span>
+}
+</code></pre></div><p>结果为updated，而version也变为了3。同样在head的界面中可以查看这条数据实时的情况。age由原先的30变为了32，我们的脚本成功执行。</p>
+<p>另一种写法是将参数值另外放到外层结构：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;script&#34;</span>:{
+        <span style="color:#f92672">&#34;lang&#34;</span>:<span style="color:#e6db74">&#34;painless&#34;</span>,
+        <span style="color:#f92672">&#34;inline&#34;</span>:<span style="color:#e6db74">&#34;ctx._source.age = params.age&#34;</span>,
+        <span style="color:#f92672">&#34;params&#34;</span>:{
+            <span style="color:#f92672">&#34;age&#34;</span>:<span style="color:#ae81ff">38</span>
+        }
+    }
+}
+</code></pre></div><p>请求后数据version又迭代了一次：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+    <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+    <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+    <span style="color:#f92672">&#34;_version&#34;</span>: <span style="color:#ae81ff">4</span>,
+    <span style="color:#f92672">&#34;result&#34;</span>: <span style="color:#e6db74">&#34;updated&#34;</span>,
+    <span style="color:#f92672">&#34;_shards&#34;</span>: {
+        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;successful&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;failed&#34;</span>: <span style="color:#ae81ff">0</span>
+    },
+    <span style="color:#f92672">&#34;_seq_no&#34;</span>: <span style="color:#ae81ff">4</span>,
+    <span style="color:#f92672">&#34;_primary_term&#34;</span>: <span style="color:#ae81ff">1</span>
+}
+</code></pre></div><h3 id="数据删除" class="headerLink"><a href="#%e6%95%b0%e6%8d%ae%e5%88%a0%e9%99%a4" class="header-mark"></a>数据删除</h3><p>删除分两个层级：</p>
+<ul>
+<li>删除文档</li>
+<li>删除索引</li>
+</ul>
+<p>删除一个文档，只需要指定文档id，并发送一个DELETE请求即可：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">localhost:/</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/newlanguages/java/</span><span style="color:#ae81ff">1</span>
+<span style="color:#960050;background-color:#1e0010">DELETE</span>
+</code></pre></div><p>结果状态变更为deleted:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+    <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+    <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+    <span style="color:#f92672">&#34;_version&#34;</span>: <span style="color:#ae81ff">5</span>,
+    <span style="color:#f92672">&#34;result&#34;</span>: <span style="color:#e6db74">&#34;deleted&#34;</span>,
+    <span style="color:#f92672">&#34;_shards&#34;</span>: {
+        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;successful&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;failed&#34;</span>: <span style="color:#ae81ff">0</span>
+    },
+    <span style="color:#f92672">&#34;_seq_no&#34;</span>: <span style="color:#ae81ff">5</span>,
+    <span style="color:#f92672">&#34;_primary_term&#34;</span>: <span style="color:#ae81ff">1</span>
+}
+</code></pre></div><p>而删除一个index可以在head插件界面直接操作，选定某个索引的动作，点击删除，输入确认的删除操作，此时该索引关联的数据都会被清空。同样也可以发送DELETE请求，url为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">localhost:/</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/indexname</span>
+<span style="color:#960050;background-color:#1e0010">DELETE</span> <span style="color:#960050;background-color:#1e0010">index-name</span>
+</code></pre></div><h3 id="数据查询" class="headerLink"><a href="#%e6%95%b0%e6%8d%ae%e6%9f%a5%e8%af%a2" class="header-mark"></a>数据查询</h3><p>分三种类型：</p>
+<ul>
+<li>简单查询</li>
+<li>条件查询</li>
+<li>聚合查询</li>
+</ul>
+<p>使用<code>index/type/doc_id</code>即可简单直接地定位到一条数据，我们发送一个GET请求：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">localhost:</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/newlanguages/java/</span><span style="color:#ae81ff">5</span>
+</code></pre></div><p>即可得到响应：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+    <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+    <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;5&#34;</span>,
+    <span style="color:#f92672">&#34;_version&#34;</span>: <span style="color:#ae81ff">1</span>,
+    <span style="color:#f92672">&#34;found&#34;</span>: <span style="color:#66d9ef">true</span>,
+    <span style="color:#f92672">&#34;_source&#34;</span>: {
+        <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;java5&#34;</span>,
+        <span style="color:#f92672">&#34;ranking&#34;</span>: <span style="color:#e6db74">&#34;005&#34;</span>,
+        <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">51</span>,
+        <span style="color:#f92672">&#34;date&#34;</span>: <span style="color:#e6db74">&#34;1959-01-01&#34;</span>
+    }
+}
+</code></pre></div><p>而条件查询则需要指定一些条件，请求改为POST，关键字改为<code>_search</code>，body中详细描述查询条件，比如查某index下所有数据：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">localhost:</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/newlanguages/_search</span>
+{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+    	<span style="color:#f92672">&#34;match_all&#34;</span>:{}
+    }
+}
+</code></pre></div><p>会获取到所有数据：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;took&#34;</span>: <span style="color:#ae81ff">2</span>,
+    <span style="color:#f92672">&#34;timed_out&#34;</span>: <span style="color:#66d9ef">false</span>,
+    <span style="color:#f92672">&#34;_shards&#34;</span>: {
+        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">3</span>,
+        <span style="color:#f92672">&#34;successful&#34;</span>: <span style="color:#ae81ff">3</span>,
+        <span style="color:#f92672">&#34;skipped&#34;</span>: <span style="color:#ae81ff">0</span>,
+        <span style="color:#f92672">&#34;failed&#34;</span>: <span style="color:#ae81ff">0</span>
+    },
+    <span style="color:#f92672">&#34;hits&#34;</span>: {
+        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">6</span>,
+        <span style="color:#f92672">&#34;max_score&#34;</span>: <span style="color:#ae81ff">1</span>,
+        <span style="color:#f92672">&#34;hits&#34;</span>: [
+            {
+                <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+                <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+                <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;2&#34;</span>,
+                <span style="color:#f92672">&#34;_score&#34;</span>: <span style="color:#ae81ff">1</span>,
+                <span style="color:#f92672">&#34;_source&#34;</span>: {
+                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;java2&#34;</span>,
+                    <span style="color:#f92672">&#34;ranking&#34;</span>: <span style="color:#e6db74">&#34;002&#34;</span>,
+                    <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">30</span>,
+                    <span style="color:#f92672">&#34;date&#34;</span>: <span style="color:#e6db74">&#34;1929-01-01&#34;</span>
+                }
+            },
+            {
+                <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+                <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+                <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;4&#34;</span>,
+                <span style="color:#f92672">&#34;_score&#34;</span>: <span style="color:#ae81ff">1</span>,
+                <span style="color:#f92672">&#34;_source&#34;</span>: {
+                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;java4&#34;</span>,
+                    <span style="color:#f92672">&#34;ranking&#34;</span>: <span style="color:#e6db74">&#34;004&#34;</span>,
+                    <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">41</span>,
+                    <span style="color:#f92672">&#34;date&#34;</span>: <span style="color:#e6db74">&#34;1909-01-01&#34;</span>
+                }
+            },
+            {
+                <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+                <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+                <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;5&#34;</span>,
+                <span style="color:#f92672">&#34;_score&#34;</span>: <span style="color:#ae81ff">1</span>,
+                <span style="color:#f92672">&#34;_source&#34;</span>: {
+                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;java5&#34;</span>,
+                    <span style="color:#f92672">&#34;ranking&#34;</span>: <span style="color:#e6db74">&#34;005&#34;</span>,
+                    <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">51</span>,
+                    <span style="color:#f92672">&#34;date&#34;</span>: <span style="color:#e6db74">&#34;1959-01-01&#34;</span>
+                }
+            },
+            {
+                <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+                <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+                <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;aMzB22QBUDCHWKlAjWAs&#34;</span>,
+                <span style="color:#f92672">&#34;_score&#34;</span>: <span style="color:#ae81ff">1</span>,
+                <span style="color:#f92672">&#34;_source&#34;</span>: {
+                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;java_02&#34;</span>,
+                    <span style="color:#f92672">&#34;ranking&#34;</span>: <span style="color:#e6db74">&#34;002&#34;</span>,
+                    <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">31</span>,
+                    <span style="color:#f92672">&#34;date&#34;</span>: <span style="color:#e6db74">&#34;1989-01-01&#34;</span>
+                }
+            },
+            {
+                <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+                <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+                <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+                <span style="color:#f92672">&#34;_score&#34;</span>: <span style="color:#ae81ff">1</span>,
+                <span style="color:#f92672">&#34;_source&#34;</span>: {
+                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+                    <span style="color:#f92672">&#34;ranking&#34;</span>: <span style="color:#e6db74">&#34;001&#34;</span>,
+                    <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">30</span>,
+                    <span style="color:#f92672">&#34;date&#34;</span>: <span style="color:#e6db74">&#34;1979-01-01&#34;</span>
+                }
+            },
+            {
+                <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+                <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+                <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;3&#34;</span>,
+                <span style="color:#f92672">&#34;_score&#34;</span>: <span style="color:#ae81ff">1</span>,
+                <span style="color:#f92672">&#34;_source&#34;</span>: {
+                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;java3&#34;</span>,
+                    <span style="color:#f92672">&#34;ranking&#34;</span>: <span style="color:#e6db74">&#34;003&#34;</span>,
+                    <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">31</span>,
+                    <span style="color:#f92672">&#34;date&#34;</span>: <span style="color:#e6db74">&#34;1949-01-01&#34;</span>
+                }
+            }
+        ]
+    }
+}
+</code></pre></div><p>指定返回第一条数据：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">localhost:</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/newlanguages/_search</span>
+{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+    	<span style="color:#f92672">&#34;match_all&#34;</span>:{}
+    },
+    <span style="color:#f92672">&#34;from&#34;</span>:<span style="color:#ae81ff">1</span>,
+    <span style="color:#f92672">&#34;size&#34;</span>:<span style="color:#ae81ff">1</span>
+}
+</code></pre></div><p>指定关键词查询：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">localhost:</span><span style="color:#ae81ff">9200</span><span style="color:#960050;background-color:#1e0010">/newlanguages/_search</span>
+{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+    	<span style="color:#f92672">&#34;match&#34;</span>:{
+            <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;java3&#34;</span>
+        }
+    }
+}
+</code></pre></div><p>可以对多条结果指定排序规则：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+    	<span style="color:#f92672">&#34;match&#34;</span>:{
+            <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;java&#34;</span>
+        }
+    },
+    <span style="color:#f92672">&#34;sort&#34;</span>:[
+        {
+            <span style="color:#f92672">&#34;date&#34;</span>:{
+                <span style="color:#f92672">&#34;order&#34;</span>:<span style="color:#e6db74">&#34;desc&#34;</span>
+            }
+        }
+    ]
+}
+</code></pre></div><p>而聚合查询使用<code>aggs</code>作为关键词，比如这里对数据以age字段进行分组：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;aggs&#34;</span>:{
+        <span style="color:#f92672">&#34;group_by_age&#34;</span>:{
+            <span style="color:#f92672">&#34;terms&#34;</span>:{
+                <span style="color:#f92672">&#34;field&#34;</span>:<span style="color:#e6db74">&#34;age&#34;</span>
+            }
+        }
+    }
+}
+</code></pre></div><p>可以看到在聚合结果中，age为30、31的数据有两条：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;aggregations&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+        <span style="color:#f92672">&#34;group_by_age&#34;</span>: {
+            <span style="color:#f92672">&#34;doc_count_error_upper_bound&#34;</span>: <span style="color:#ae81ff">0</span>,
+            <span style="color:#f92672">&#34;sum_other_doc_count&#34;</span>: <span style="color:#ae81ff">0</span>,
+            <span style="color:#f92672">&#34;buckets&#34;</span>: [
+                {
+                    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#ae81ff">30</span>,
+                    <span style="color:#f92672">&#34;doc_count&#34;</span>: <span style="color:#ae81ff">2</span>
+                },
+                {
+                    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#ae81ff">31</span>,
+                    <span style="color:#f92672">&#34;doc_count&#34;</span>: <span style="color:#ae81ff">2</span>
+                },
+                {
+                    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#ae81ff">41</span>,
+                    <span style="color:#f92672">&#34;doc_count&#34;</span>: <span style="color:#ae81ff">1</span>
+                },
+                {
+                    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#ae81ff">51</span>,
+                    <span style="color:#f92672">&#34;doc_count&#34;</span>: <span style="color:#ae81ff">1</span>
+                }
+            ]
+        }
+    }
+</code></pre></div><p>当然可以对多个字段同时进行聚合：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;aggs&#34;</span>:{
+        <span style="color:#f92672">&#34;group_by_age&#34;</span>:{
+            <span style="color:#f92672">&#34;terms&#34;</span>:{
+                <span style="color:#f92672">&#34;field&#34;</span>:<span style="color:#e6db74">&#34;age&#34;</span>
+            }
+        },
+        <span style="color:#f92672">&#34;group_by_date&#34;</span>:{
+            <span style="color:#f92672">&#34;terms&#34;</span>:{
+                <span style="color:#f92672">&#34;field&#34;</span>:<span style="color:#e6db74">&#34;date&#34;</span>
+            }
+        }
+    }
+}
+</code></pre></div><p>利用<code>stats</code>函数可以对某个字段进行统计计算：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;aggs&#34;</span>:{
+        <span style="color:#f92672">&#34;stats_by_age&#34;</span>:{
+            <span style="color:#f92672">&#34;stats&#34;</span>:{
+                <span style="color:#f92672">&#34;field&#34;</span>:<span style="color:#e6db74">&#34;age&#34;</span>
+            }
+        }
+    }
+}
+</code></pre></div><p>聚合结果中对age维度的数量、最大、最小、均值、和进行了展示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;aggregations&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+        <span style="color:#f92672">&#34;stats_by_age&#34;</span>: {
+            <span style="color:#f92672">&#34;count&#34;</span>: <span style="color:#ae81ff">6</span>,
+            <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#ae81ff">30</span>,
+            <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#ae81ff">51</span>,
+            <span style="color:#f92672">&#34;avg&#34;</span>: <span style="color:#ae81ff">35.666666666666664</span>,
+            <span style="color:#f92672">&#34;sum&#34;</span>: <span style="color:#ae81ff">214</span>
+        }
+    }
+</code></pre></div><h3 id="高级查询" class="headerLink"><a href="#%e9%ab%98%e7%ba%a7%e6%9f%a5%e8%af%a2" class="header-mark"></a>高级查询</h3><p>分类：</p>
+<ul>
+<li>子条件查询：特定字段查询所指特定值
+<ul>
+<li>Query context
+在查询中，es首先判断文档是否满足条件，其次计算<code>_score</code>值，标识匹配程度（01是否匹配到02匹配得有多好）
+常用查询：
+<ul>
+<li>全文本查询
+针对文本类型数据
+<ul>
+<li>模糊匹配</li>
+<li>习语匹配</li>
+<li>多字段的匹配查询</li>
+</ul>
+</li>
+<li>字段级别查询
+针对结构化数据，如数字、日期</li>
+</ul>
+</li>
+<li>Filter context
+在查询中只判断文档是否满足条件，只有yes或no</li>
+</ul>
+</li>
+<li>复合条件查询：以一定逻辑组合子条件查询
+<ul>
+<li>固定分数查询</li>
+<li>布尔查询</li>
+<li>其他</li>
+</ul>
+</li>
+</ul>
+<p>例程：</p>
+<ul>
+<li>模糊匹配</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;match&#34;</span>:{
+            <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;java&#34;</span>
+        }
+    }
+}
+</code></pre></div><ul>
+<li>习语匹配</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;match_phrase&#34;</span>:{
+            <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;java&#34;</span>
+        }
+    }
+}
+</code></pre></div><p>与模糊匹配的区别是，习语匹配不会将词分为多个，严格分词<code>&quot;name&quot;:&quot;java&quot;</code>。</p>
+<ul>
+<li>多字段匹配</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;multi_match&#34;</span>:{
+            <span style="color:#f92672">&#34;query&#34;</span>:<span style="color:#e6db74">&#34;java&#34;</span>,
+            <span style="color:#f92672">&#34;fields&#34;</span>:[
+                <span style="color:#e6db74">&#34;name&#34;</span>,<span style="color:#e6db74">&#34;alias&#34;</span>
+            ]
+        }
+    }
+}
+</code></pre></div><ul>
+<li>语法查询</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;query_string&#34;</span>:{
+            <span style="color:#f92672">&#34;query&#34;</span>:<span style="color:#e6db74">&#34;java and python&#34;</span>
+        }
+    }
+}
+</code></pre></div><p>会同时返回带有java与python名字的数据：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;took&#34;</span>: <span style="color:#ae81ff">4</span>,
+    <span style="color:#f92672">&#34;timed_out&#34;</span>: <span style="color:#66d9ef">false</span>,
+    <span style="color:#f92672">&#34;_shards&#34;</span>: {
+        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">3</span>,
+        <span style="color:#f92672">&#34;successful&#34;</span>: <span style="color:#ae81ff">3</span>,
+        <span style="color:#f92672">&#34;skipped&#34;</span>: <span style="color:#ae81ff">0</span>,
+        <span style="color:#f92672">&#34;failed&#34;</span>: <span style="color:#ae81ff">0</span>
+    },
+    <span style="color:#f92672">&#34;hits&#34;</span>: {
+        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;max_score&#34;</span>: <span style="color:#ae81ff">1.2039728</span>,
+        <span style="color:#f92672">&#34;hits&#34;</span>: [
+            {
+                <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+                <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+                <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;7&#34;</span>,
+                <span style="color:#f92672">&#34;_score&#34;</span>: <span style="color:#ae81ff">1.2039728</span>,
+                <span style="color:#f92672">&#34;_source&#34;</span>: {
+                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;python&#34;</span>,
+                    <span style="color:#f92672">&#34;ranking&#34;</span>: <span style="color:#e6db74">&#34;007&#34;</span>,
+                    <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">77</span>,
+                    <span style="color:#f92672">&#34;date&#34;</span>: <span style="color:#e6db74">&#34;1999-01-01&#34;</span>,
+                    <span style="color:#f92672">&#34;alias&#34;</span>: <span style="color:#e6db74">&#34;pyp&#34;</span>
+                }
+            },
+            {
+                <span style="color:#f92672">&#34;_index&#34;</span>: <span style="color:#e6db74">&#34;newlanguages&#34;</span>,
+                <span style="color:#f92672">&#34;_type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+                <span style="color:#f92672">&#34;_id&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+                <span style="color:#f92672">&#34;_score&#34;</span>: <span style="color:#ae81ff">0.9808292</span>,
+                <span style="color:#f92672">&#34;_source&#34;</span>: {
+                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+                    <span style="color:#f92672">&#34;ranking&#34;</span>: <span style="color:#e6db74">&#34;001&#34;</span>,
+                    <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">30</span>,
+                    <span style="color:#f92672">&#34;date&#34;</span>: <span style="color:#e6db74">&#34;1979-01-01&#34;</span>
+                }
+            }
+        ]
+    }
+}
+</code></pre></div><p>类似的也可以进行其他逻辑组合，如<code>or</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+	<span style="color:#f92672">&#34;query&#34;</span>:{
+		<span style="color:#f92672">&#34;query_string&#34;</span>:{
+            <span style="color:#f92672">&#34;query&#34;</span>:<span style="color:#e6db74">&#34;(java and python) or js&#34;</span>,
+            <span style="color:#f92672">&#34;fields&#34;</span>:[<span style="color:#e6db74">&#34;name&#34;</span>,<span style="color:#e6db74">&#34;alias&#34;</span>]
+		}
+	}
+}
+</code></pre></div><ul>
+<li>字段级别的查询</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;term&#34;</span>:{
+            <span style="color:#f92672">&#34;age&#34;</span>:<span style="color:#ae81ff">31</span>
+        }
+    }
+}
+<span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#960050;background-color:#1e0010">范围</span>
+{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;range&#34;</span>:{
+            <span style="color:#f92672">&#34;age&#34;</span>:{
+                <span style="color:#f92672">&#34;gte&#34;</span>:<span style="color:#ae81ff">20</span>,
+                <span style="color:#f92672">&#34;lte&#34;</span>:<span style="color:#ae81ff">32</span>
+            }
+        }
+    }
+}
+<span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#960050;background-color:#1e0010">日期范围</span>
+{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;range&#34;</span>:{
+            <span style="color:#f92672">&#34;date&#34;</span>:{
+                <span style="color:#f92672">&#34;gte&#34;</span>:<span style="color:#e6db74">&#34;2000-01-01&#34;</span>,
+                <span style="color:#f92672">&#34;lte&#34;</span>:<span style="color:#e6db74">&#34;2010-01-01&#34;</span>
+            }
+        }
+    }
+}
+</code></pre></div><ul>
+<li>filter
+使用<code>bool</code>关键字标识：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;bool&#34;</span>:{
+            <span style="color:#f92672">&#34;filter&#34;</span>:{
+                <span style="color:#f92672">&#34;term&#34;</span>:{
+                    <span style="color:#f92672">&#34;age&#34;</span>:<span style="color:#ae81ff">30</span>
+                }
+            }
+        }
+    }
+}
+</code></pre></div><p>es用filter专门用来做数据过滤，对数据也会进行缓存，所以速度也会更快一些（相比query）。</p>
+<ul>
+<li>固定分数查询
+es针对每条数据进行<code>_score</code>评分，我们可以指定某一评分的数据（<code>boost</code>）：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;constant_score&#34;</span>:{
+            <span style="color:#f92672">&#34;filter&#34;</span>:{
+                <span style="color:#f92672">&#34;match&#34;</span>:{
+                    <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;java&#34;</span>
+                }
+            },
+            <span style="color:#f92672">&#34;boost&#34;</span>:<span style="color:#ae81ff">0.87546873</span>
+        }
+    }
+}
+</code></pre></div><ul>
+<li>布尔查询
+<code>should</code>代表或，<code>must</code>代表且，<code>must_not</code>代表非。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;bool&#34;</span>:{
+            <span style="color:#f92672">&#34;should&#34;</span>:[
+                {
+                    <span style="color:#f92672">&#34;match&#34;</span>:{
+                        <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;python&#34;</span>
+                    }
+                },
+                {
+                    <span style="color:#f92672">&#34;match&#34;</span>:{
+                        <span style="color:#f92672">&#34;age&#34;</span>:<span style="color:#ae81ff">31</span>
+                    }
+                }
+            ]
+        }
+    }
+}
+{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;bool&#34;</span>:{
+            <span style="color:#f92672">&#34;must&#34;</span>:[
+                {
+                    <span style="color:#f92672">&#34;match&#34;</span>:{
+                        <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;python&#34;</span>
+                    }
+                },
+                {
+                    <span style="color:#f92672">&#34;match&#34;</span>:{
+                        <span style="color:#f92672">&#34;age&#34;</span>:<span style="color:#ae81ff">77</span>
+                    }
+                }
+            ]
+        }
+    }
+}
+</code></pre></div><p>在此基础上，我们还可以通过<code>filter</code>进行单字段条件的组合：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;bool&#34;</span>:{
+            <span style="color:#f92672">&#34;should&#34;</span>:[
+                {
+                    <span style="color:#f92672">&#34;match&#34;</span>:{
+                        <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;python&#34;</span>
+                    }
+                },
+                {
+                    <span style="color:#f92672">&#34;match&#34;</span>:{
+                        <span style="color:#f92672">&#34;age&#34;</span>:<span style="color:#ae81ff">31</span>
+                    }
+                }
+            ],
+            <span style="color:#f92672">&#34;filter&#34;</span>:[
+                {
+                    <span style="color:#f92672">&#34;term&#34;</span>:{
+                        <span style="color:#f92672">&#34;alias&#34;</span>:<span style="color:#e6db74">&#34;pyp&#34;</span>
+                    }
+                }
+            ]
+        }
+    }
+}
+</code></pre></div><p>条件非：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;query&#34;</span>:{
+        <span style="color:#f92672">&#34;bool&#34;</span>:{
+            <span style="color:#f92672">&#34;must_not&#34;</span>:{
+                <span style="color:#f92672">&#34;term&#34;</span>:{
+                    <span style="color:#f92672">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;python&#34;</span>
+                }
+            }
+        }
+    }
+}
+</code></pre></div><h3 id="聚合" class="headerLink"><a href="#%e8%81%9a%e5%90%88" class="header-mark"></a>聚合</h3><p><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/aggregations.html" target="_blank" rel="noopener noreffer">aggregations</a>是我目前首先要搞清楚的操作（前人使用了该操作）。</p>
+<p>首先理解：类似于复杂SQL所能做到的一样，聚合之后的数据可以给到我们比较形象的分析结果，在API使用上，ES对聚合引入了两个抽象层：</p>
+<ul>
+<li>桶（Buckets）
+满足特定条件的文档的集合</li>
+<li>指标（Metrics）
+对桶内的文档进行统计计算</li>
+</ul>
+<p>本质上是对文档（ES将数据以文档为单位进行组织，类似于RDBMS中的表，doc&lt;-&gt;table）数据进行范围缩小、有用的数据计算。</p>
+<p>对概念简单理解后，使用API多次，基本没应用问题了。</p>
+<h2 id="api" class="headerLink"><a href="#api" class="header-mark"></a>API</h2><p>俗话说，文档在手，天下我有。到最后落实到编码环节上，参考API文档必不可少。</p>
+<p>参考<a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index.html" target="_blank" rel="noopener noreffer">Java API</a>，根据自身使用的语言查看对应的API即可。</p>
+<p>这里创建一个springboot工程进行基本的es操作：<a href="https://github.com/long5778013/esExercise" target="_blank" rel="noopener noreffer">esExercise</a>。</p>
+<h2 id="小结" class="headerLink"><a href="#%e5%b0%8f%e7%bb%93" class="header-mark"></a>小结</h2><p>每一步都可以深入，细化成多篇文档，但要记住这里的重点是快速上手，所以只要前面这几步走过一遍，目标就达成了：</p>
+<ul>
+<li>对ES基本作用的了解</li>
+<li>应用安装</li>
+<li>用户手册</li>
+<li>API</li>
+</ul>
+</div><footer>
+                        <div class="post">
+
+
+<div class="post-share"><div class="share-link">
+        <a class="share-icon share-twitter" href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://dragonsong.tech/posts/rd/es_fast_try/" data-title="快速上手Elasticsearch" data-via="DragonSong1024" data-hashtags="Elasticsearch"><span class="svg-social-icon icon-twitter"></span></a>
+    </div><div class="share-link">
+        <a class="share-icon share-weibo" href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://dragonsong.tech/posts/rd/es_fast_try/" data-title="快速上手Elasticsearch"><span class="svg-social-icon icon-weibo"></span></a>
+    </div></div>
+
+
+
+
+
+
+<div class="post-tags"><a href="/tags/elasticsearch/" class="tag">Elasticsearch</a></div></div>
+                </footer></div>
+
+        <div id="toc-final"></div>
+        </div>
+
+    
+    </article>
+    <section class="page single comments content-block-position"><div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></section></div>
+
+</main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://dragonsong.tech/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target="_blank" title="uBlogger 2.0.1">uBlogger</a>
+                </div><div class="footer-line"><i class="svg-icon icon-copyright"></i><span>2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">粤ICP备2021020197号</span></div>
+        </div>
+    </footer></div>
+
+        <aside id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="svg-icon icon-arrow-up"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="svg-icon icon-comments-fixed"></i>
+            </a>
+        </aside><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/prismjs/prism.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"gitalk":{"admin":["long5778013"],"clientID":"bc5a91c74dda1fd92a10","clientSecret":"99a821a1c27e5dc85ea3105bf9bba089d1b580ea","id":"2018-06-19T10:30:25+08:00","owner":"long5778013","repo":"blog-comment","title":"快速上手Elasticsearch"}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Reflections - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/reflections/</link>
+        <description>Reflections - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 18 Jun 2021 15:13:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/reflections/" rel="self" type="application/rss+xml" /><item>
+    <title>Reflections中反映的Guava版本不兼容问题一例</title>
+    <link>https://dragonsong.tech/posts/rd/troubleshoot/reflections/guava_version_incompatible/</link>
+    <pubDate>Fri, 18 Jun 2021 15:13:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/troubleshoot/reflections/guava_version_incompatible/</guid>
+    <description><![CDATA[踩坑reflections反射库突然无法通过反射正常加载类，原因竟是Guava未做新老版本兼容]]></description>
+</item></channel>
+</rss>

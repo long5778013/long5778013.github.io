@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>入门 - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/%E5%85%A5%E9%97%A8/</link>
+        <description>入门 - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 19 Jul 2021 09:51:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/%E5%85%A5%E9%97%A8/" rel="self" type="application/rss+xml" /><item>
+    <title>小白学SQL</title>
+    <link>https://dragonsong.tech/posts/rd/sql/learn_from_scratch/</link>
+    <pubDate>Mon, 19 Jul 2021 09:51:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/sql/learn_from_scratch/</guid>
+    <description><![CDATA[写给非CS/CE背景的同学（数据分析、运营、商分）的SQL入门教程]]></description>
+</item></channel>
+</rss>

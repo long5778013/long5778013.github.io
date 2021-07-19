@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>架构 - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/%E6%9E%B6%E6%9E%84/</link>
+        <description>架构 - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 18 Apr 2018 16:54:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/%E6%9E%B6%E6%9E%84/" rel="self" type="application/rss+xml" /><item>
+    <title>software_architecture_patterns</title>
+    <link>https://dragonsong.tech/posts/reading/software_architecture_patterns/</link>
+    <pubDate>Wed, 18 Apr 2018 16:54:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/reading/software_architecture_patterns/</guid>
+    <description><![CDATA[译作。 oreilly官网对software-architecture-patterns开放下载。 软件架构模式理解常用的架构模式，掌握适用的场]]></description>
+</item></channel>
+</rss>

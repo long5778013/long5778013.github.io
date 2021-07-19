@@ -1,0 +1,21 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Elasticsearch - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/elasticsearch/</link>
+        <description>Elasticsearch - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 09 Feb 2021 09:14:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/elasticsearch/" rel="self" type="application/rss+xml" /><item>
+    <title>简析ES/Lucene索引的基本设计原理</title>
+    <link>https://dragonsong.tech/posts/rd/es/index_structure/</link>
+    <pubDate>Tue, 09 Feb 2021 09:14:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/es/index_structure/</guid>
+    <description><![CDATA[为什么Elasticsearch/Lucene全文查询这么快？]]></description>
+</item><item>
+    <title>快速上手Elasticsearch</title>
+    <link>https://dragonsong.tech/posts/rd/es_fast_try/</link>
+    <pubDate>Tue, 19 Jun 2018 10:30:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/es_fast_try/</guid>
+    <description><![CDATA[短时间上手，ES实战。新手接触新东西，最重要的是理清学习路径，这里的目录，就是我个人的简化路径。深入还需要再多投入时间精力，慢慢研究才能做到]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noodp"/><title>简析ES/Lucene索引的基本设计原理 | </title><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:title" content="简析ES/Lucene索引的基本设计原理"/>
+<meta name="twitter:description" content="为什么Elasticsearch/Lucene全文查询这么快？"/><meta name="twitter:creator" content="@DragonSong1024"/><meta name="Description" content="为什么Elasticsearch/Lucene全文查询这么快？"><meta property="og:title" content="简析ES/Lucene索引的基本设计原理" />
+<meta property="og:description" content="为什么Elasticsearch/Lucene全文查询这么快？" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dragonsong.tech/posts/rd/es/index_structure/" />
+<meta property="article:published_time" content="2021-02-09T09:14:25+08:00" />
+<meta property="article:modified_time" content="2021-02-09T09:35:25+08:00" />
+<meta name="application-name" content="宋惠龙的大操场">
+<meta name="apple-mobile-web-app-title" content="宋惠龙的大操场"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://dragonsong.tech/posts/rd/es/index_structure/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/lib/prismjs/prism.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "简析ES/Lucene索引的基本设计原理",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/dragonsong.tech\/posts\/rd\/es\/index_structure\/"
+        },"genre": "posts","keywords": "Elasticsearch, 索引, 跳表, 特里树, FST, 倒排索引, 数据压缩, FOR, Roaring bitmap","wordCount":  3323 ,
+        "url": "https:\/\/dragonsong.tech\/posts\/rd\/es\/index_structure\/","datePublished": "2021-02-09T09:14:25+08:00","dateModified": "2021-02-09T09:35:25+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","description": "为什么Elasticsearch/Lucene全文查询这么快？"
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https:\/\/dragonsong.tech\/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "RD",
+            "item": "https://dragonsong.tech/categories/rd/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "简析ES\/Lucene索引的基本设计原理"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header>
+    <div class="desktop header" id="header-desktop">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="宋惠龙的大操场" class="header-logo logo-svg">宋惠龙的大操场</a>
+            </div>
+            <div class="menu">
+                <nav>
+                    <ul class="menu-inner"><li>
+                            <a class="menu-item" href="/posts/"> Posts </a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/"> Tags </a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/"> Categories </a>
+                        </li><li>
+                            <a class="menu-item" href="/about/"> About </a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a>
+                        </li></ul>
+                </nav><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <span class="svg-icon icon-search"></span>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <span class="svg-icon icon-cancel"></span>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <span class="svg-icon icon-loading"></span>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <span class="svg-icon icon-moon"></span>
+                </a>
+            </div>
+        </div>
+    </div><div class="mobile header" id="header-mobile">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="header-title">
+                    <a href="/" title="宋惠龙的大操场" class="header-logo">宋惠龙的大操场</a>
+                </div>
+                <div class="menu-toggle" id="menu-toggle-mobile">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                        <div class="search mobile" id="search-mobile">
+                            <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                                <span class="svg-icon icon-search"></span>
+                            </a>
+                            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                                <span class="svg-icon icon-cancel"></span>
+                            </a>
+                            <span class="search-button search-loading" id="search-loading-mobile">
+                                <span class="svg-icon icon-loading"></span>
+                            </span>
+                        </div>
+                        <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                            Cancel
+                        </a>
+                    </div><nav>
+                    <ul><li>
+                            <a class="menu-item" href="/posts/" title="">Posts</a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/" title="">Tags</a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/" title="">Categories</a>
+                        </li><li>
+                            <a class="menu-item" href="/about/" title="">About</a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a>
+                        </li></ul>
+                </nav>
+                <a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <span class="svg-icon icon-moon"></span>
+                </a></div>
+        </div>
+    </div><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div></header><main class="main">
+<div class="container content-article page-toc theme-classic"><div class="toc" id="toc-auto">
+            <div class="toc-title">Contents</div>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div>
+
+    
+    
+    <article>
+    
+
+        <header class="header-post">
+
+            
+
+            
+            <div class="post-title">
+
+                    <div class="post-all-meta">
+                        <nav class="breadcrumbs">
+    <ol>
+        <li><a href="/">Home </a></li><li><a href="/categories/rd/">RD </a></li><li>简析ES/Lucene索引的基本设计原理</li>
+    </ol>
+</nav>
+                        <h1 class="single-title flipInX">简析ES/Lucene索引的基本设计原理</h1><div class="post-meta summary-post-meta"><span class="post-category meta-item">
+                                <a href="/categories/rd/"><span class="svg-icon icon-folder"></span>RD</a>
+                            </span><span class="post-meta-date meta-item">
+                                <span class="svg-icon icon-clock"></span><time class="timeago" datetime="2021-02-09">2021-02-09</time>
+                            </span><span class="post-meta-words meta-item">
+                                <span class="svg-icon icon-pencil"></span>3323 words
+                            </span>
+                            <span class="post-meta-reading meta-item">
+                                <span class="svg-icon icon-stopwatch"></span>7 minutes
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </header>
+
+        <div class="article-post toc-start">
+
+            <div class="content-block content-block-first content-block-position">
+
+                <div class="post single"><div class="details toc" id="toc-static"  data-kept="">
+                        <div class="details-summary toc-title">
+                            <span>Contents</span>
+                        </div>
+                        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#es的nrt写入过程">ES的NRT写入过程</a></li>
+    <li><a href="#索引设计">索引设计</a>
+      <ul>
+        <li><a href="#posting-list">Posting list</a></li>
+        <li><a href="#term-dictionary">Term dictionary</a></li>
+        <li><a href="#term-index">Term index</a></li>
+      </ul>
+    </li>
+    <li><a href="#存储压缩">存储压缩</a>
+      <ul>
+        <li><a href="#for">FOR</a></li>
+        <li><a href="#roaring-bitmaps">Roaring bitmaps</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#ref">Ref</a></li>
+  </ul>
+</nav></div>
+                    </div><p>本文要研究的问题：ES/Lucene的索引为什么这么快？</p>
+<p>Elasticsearch本质上是基于Lucene增加了分布式高可用管理功能：</p>
+<ul>
+<li>副本</li>
+<li>分片</li>
+<li>集群</li>
+</ul>
+<p>而我们今天要研究的，一段数据查的快不快，指的是数据结构以及索引模块的设计。本文暂不探讨es分布式相关的设计。涉及到的数据结构细节描述会使用其他文章进行分析，本文不做数据结构内部实现、过程的分析。</p>
+<h2 id="es的nrt写入过程" class="headerLink"><a href="#es%e7%9a%84nrt%e5%86%99%e5%85%a5%e8%bf%87%e7%a8%8b" class="header-mark"></a>ES的NRT写入过程</h2><p>首先我们需要了解es提供的<code>near-real-time</code>近实时查询的写入机制。</p>
+<p>在es单点中，一条数据写入遵循以下流程：</p>
+<ol>
+<li>内存
+<ol>
+<li>第一步写入两个位置
+<ol>
+<li>写入<code>in-memory-buffer</code>，此时通过<code>get</code>接口可实时拿到单条数据</li>
+<li>同时写入<code>translog</code>，这是es中提供的<code>wal</code>事务日志，保证数据的持久性</li>
+</ol>
+</li>
+<li>稍后调用<code>refresh</code>接口写入段文件</li>
+</ol>
+</li>
+<li>磁盘文件
+<ol>
+<li>调用<code>flush</code>将<code>translog</code>落盘</li>
+<li>调用<code>flush</code>将<code>segment</code>落盘</li>
+</ol>
+</li>
+</ol>
+<div id="id-1"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/es/es_put_process.jpg"
+         alt="es单点写入过程"
+         title="es_put_process.jpg"
+    /></div>
+<p>我们今天要研究的索引数据结构，就是为了定位上述的<code>segment</code>。</p>
+<p>段<code>segment</code>一旦写入就具备不可变性。<code>immutable</code>的优势在于并发操作的时候无需加锁，并且可以常驻内存，但是内存占用过大的时候这里会是一个优化点。数据新增时创建新的段文件，删除时标记状态，延迟实际的删除动作。</p>
+<h2 id="索引设计" class="headerLink"><a href="#%e7%b4%a2%e5%bc%95%e8%ae%be%e8%ae%a1" class="header-mark"></a>索引设计</h2><p>全文索引对字段首先要经过分词的处理，也就是把一个字段按照分词的规则拆分成多个词条，前端查询的时候这么多词条都可以命中最原始的写入字段。</p>
+<p>我们先写入几条数据：</p>
+<ul>
+<li>id:1 name:a1 age:11 desc:&lsquo;1这个人住在广州市琶洲村&rsquo;</li>
+<li>id:2 name:a2 age:22 desc:&lsquo;2住在北京回龙观&rsquo;</li>
+<li>id:3 name:a3 age:33 desc:&lsquo;3住在上海静安寺&rsquo;</li>
+</ul>
+<p>这个结构天然就是一个<code>forward index</code>正排索引，即id直接指向数据行。</p>
+<p>一般<code>RDBMS</code>中的索引分两类：</p>
+<ul>
+<li>聚簇索引
+id指向具体行数据</li>
+<li>非聚簇索引
+索引关键词指向id</li>
+</ul>
+<p><code>RDBMS</code>的索引只保留原始的字段值，比如（<code>1</code>、<code>a1</code>、<code>11</code>、<code>1这个人住在广州市琶洲村</code>）。</p>
+<p>根据不同的场景，我们可以使用<code>hash-table</code>、有序数组（二分、跳表）、平衡树来完成底层数据结构的设计。</p>
+<p><code>ES</code>索引经过分词，就会在词条<code>term</code>的维度来创建查询key，比如（<code>1</code>、<code>a1</code>、<code>11</code>、<code>广州市</code>、<code>琶洲村</code>、<code>1这个人住在广州市琶洲村</code>）。</p>
+<p><code>ES</code>索引我们叫它<code>inverted index</code>倒排索引，一个<code>segment</code>就是一个完整的索引，包含三个模块：</p>
+<ul>
+<li>Term index</li>
+<li>Term dictionary</li>
+<li>Posting list</li>
+</ul>
+<p>按照上述对<code>RDBMS</code>索引的数据结构设计我们同样可以在<code>ES</code>中实现<code>term</code>-&gt;数据的查询结构。但是为什么<code>ES</code>使用了目前的设计呢？我们来分析一下：</p>
+<h3 id="posting-list" class="headerLink"><a href="#posting-list" class="header-mark"></a>Posting list</h3><p>首先<code>Posting list</code>存储了数据的id，拿到id（在这里还有多个词条命中合并的过程）后我们就回到了传统存储系统中查数据的过程。</p>
+<p>这里内部使用了跳表结构，支持快速查询（时间复杂度低），并且可以支持多个列表间做交集操作。</p>
+<h3 id="term-dictionary" class="headerLink"><a href="#term-dictionary" class="header-mark"></a>Term dictionary</h3><p><code>ES</code>中就维护了<code>term</code>词条到<code>Posting list</code>的映射关系，这个结构就叫<code>Term dictionary</code>。</p>
+<p>大体上我们可以考虑使用以下数据结构实现<code>Term dictionary</code>：</p>
+<ol>
+<li>map
+数据不需要有序写入。但是不支持范围查询。</li>
+<li>有序数组二分
+支持范围查询，数据需要有序写入</li>
+<li>跳表
+支持范围查询，数据同样需要有序，相比数组更吃内存，查询效率高</li>
+<li>B+树
+MySQL索引选用的结构</li>
+</ol>
+<p><code>ES</code>分词后的查询key可想而知量是很多的，按照上述的几种结构的设计，我们无法直接把<code>Term dictionary</code>常驻于内存。如果落盘，我们倾向于这几个设计原则：</p>
+<ol>
+<li>减少查询磁盘IO</li>
+<li>尽量顺序写</li>
+<li>遵循数据局部性原理</li>
+</ol>
+<p>B+树中通过扩充单个节点上数据的量（n叉）来降低树高度，以此达到了上述1+3点的设计原则。单节点存储更多相邻数据遵循了局部性原理，而控制树高度则有效减少了磁盘寻道次数。</p>
+<p>通过选用适当的数据结构，我们可以降低这里查询的时间复杂度，并且可以减少磁盘寻道次数。</p>
+<p><code>Term dictionary</code>实际存储为以block为单位的<code>.tim</code>文件。</p>
+<h3 id="term-index" class="headerLink"><a href="#term-index" class="header-mark"></a>Term index</h3><p>ES在上面思路基础之上做了加速的设计，即：<code>Term index</code>，也就是为查询哪个（哪些）词条所做的索引。</p>
+<p><code>Term dictionary</code>加速了查哪些数据id的过程，<code>Term index</code>加速了查哪些词条<code>term</code>的过程。</p>
+<p>与B+树降低树高度来减少磁盘随机IO的策略类似，ES底层使用了一种特殊的特里树<code>trie</code>来进行<code>term</code>的压缩存储，我们叫他<code>FST Finite Status Transducer</code>。</p>
+<p>我们首先简单看看特里树的特征：</p>
+<ol>
+<li>公用前缀
+符合ES多词条多重合的场景</li>
+<li>查询时间复杂度O(n)，n表示查询key的字符串长度
+时间复杂度很低，查询快</li>
+<li>问题：实现消耗内存</li>
+</ol>
+<p>而Lucene底层使用的<code>FST</code>本质上是一个图结构，相比<code>trie</code>树，增加了公用后缀的特性，同时，使用压缩技术解决了消耗内存的问题。关于<code>FST</code>的设计解析查看这里：<a href="http://www.shenyanchao.cn/blog/2018/12/04/lucene-fst/" target="_blank" rel="noopener noreffer">关于Lucene的词典FST深入剖析</a>。</p>
+<p>读者可使用这个工具创建已知词条集合组成的有限状态机树：<a href="http://examples.mikemccandless.com/fst.py?terms=mop%2F0%0D%0Amoth%2F1%0D%0Apop%2F2%0D%0Astar%2F3%0D%0Astop%2F4%0D%0Atop%2F5%0D%0Axyz%2F6%0D%0A&amp;cmd=Build&#43;it%21" target="_blank" rel="noopener noreffer">Build your own FST</a>。</p>
+<p>实际上<code>Term index</code>只会存储<code>term</code>的前缀（再进一步是上述<code>Term dictionary</code>存储block的前缀），效果类似于<code>以xxx开头的数据</code>，一定程度上减少了这部分数据占用的空间，配合<code>FST</code>的压缩设计，使得<code>Term index</code>可以常驻内存。因此内存中直接可以定位<code>Term dictionary</code>的大概位置（<code>.tim</code>文件上的block指针），以此减少磁盘寻道次数。</p>
+<p>综上，从<code>Term index</code>通过<code>FST</code>结构，实现了加速定位<code>Term dictionary</code>的位置（反过来也支持<code>fail fast</code>）。从<code>Term dictionary</code>又是一层索引结构，加速了定位<code>Posting list</code>数据id的过程。</p>
+<h2 id="存储压缩" class="headerLink"><a href="#%e5%ad%98%e5%82%a8%e5%8e%8b%e7%bc%a9" class="header-mark"></a>存储压缩</h2><p>数据查询过程快是索引设计的一大目标，而另一个目标则是过程中使用的存储结构占用的内存需要尽可能小。需要在内存占用、IO次数、CPU占用之间做权衡。<code>Lucene</code>中关于数据压缩有以下设计实践。</p>
+<h3 id="for" class="headerLink"><a href="#for" class="header-mark"></a>FOR</h3><p>关于<code>Posting list</code>中id集合的存储，Lucene从4.1版本开始通过增量编码的方式进行了压缩，术语叫做Frame Of Reference(FOR)。这里我们直接通过图示进行说明：</p>
+<div id="id-2"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/es/frame_of_reference.jpg"
+         alt="Frame Of Reference压缩的基本过程"
+         title="frame_of_reference.jpg"
+    /></div>
+<p>数据经过增量拆解、分块（分组block），然后根据最后分好的组内最大值<strong>计算二进制最大所需位数</strong>，比如图中的227对应二进制11100011则使用8位空间，图中的30对应二进制11110则使用5位空间。因此增量、分块、按需分配内存可有效做到无损压缩、节约内存。</p>
+<h3 id="roaring-bitmaps" class="headerLink"><a href="#roaring-bitmaps" class="header-mark"></a>Roaring bitmaps</h3><p>对于有序整数id集合（比如filter对应缓存，记录了查询条件到命中docId的映射），Lucene使用咆哮位图<code>Roaring bitmaps</code>进行压缩。</p>
+<p><code>Posting list</code>存储于磁盘，而这里的缓存则直接常驻内存，所以对应的压缩策略也有所不同。由于是对查询过滤缓存所做的压缩，那么编码解码的速度一定不能慢于多执行一次查询的速度，所以这里的编解码一定要足够简单（因为ES很吃CPU，可能没有太多的CPU分配给编解码的任务，复杂任务就会导致编解码过慢）。</p>
+<p>Lucene从5版本开始，最终的方案是结合了short数组+位图：</p>
+<ul>
+<li>数据量少于4096时，使用short（-32768~32767）数组进行存储，此时内存占用比位图更少，遍历使用也很直接</li>
+<li>数据量多于4096时，使用bitmap存储，位操作是效率最高的指令（编解码效率最高），存储100M文档数据仅需12.5MB内存，相比int数组使用的400MB缩小到了3.125%的大小</li>
+</ul>
+<p>这个方案下，无论是查询匹配的docId还是针对多个查询条件匹配id交集，存储与计算效率都很高。</p>
+<p>这里画个图来更直观地说明过程：
+<div id="id-3"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/es/roaring_bitmap.jpg"
+         alt="roaring bitmaps压缩的基本规则"
+         title="roaring_bitmap.jpg"
+    /></div></p>
+<h2 id="小结" class="headerLink"><a href="#%e5%b0%8f%e7%bb%93" class="header-mark"></a>小结</h2><p>综上，我们了解到es的写入存在近实时的过程，底层文件存储、数据结构使用了Lucene的实现。</p>
+<p>数据查询快，主要是有<code>Term index``Term dictionary``Posting list</code>几个索引模块的加持。而<code>Term index</code>这种常驻内存的结构使用了<code>FOR``roaring bitmap</code>等压缩技术。结果就是省内存、查询数据快。</p>
+<h2 id="ref" class="headerLink"><a href="#ref" class="header-mark"></a>Ref</h2><ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/merge-process.html" target="_blank" rel="noopener noreffer">Elasticsearch: 权威指南 » 基础入门 » 分片内部原理 » 段合并</a></li>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/indexing-performance.html#segments-and-merging" target="_blank" rel="noopener noreffer">Elasticsearch: 权威指南 » 管理、监控和部署 » 部署后 » 索引性能技巧</a></li>
+<li><a href="https://www.codedump.info/post/20200609-btree-1/" target="_blank" rel="noopener noreffer">B树、B+树索引算法原理（上）</a></li>
+<li><a href="https://www.6aiq.com/article/1564413040138" target="_blank" rel="noopener noreffer">Lucene 倒排索引原理探秘 (1)</a></li>
+<li><a href="https://lucene.apache.org/core/3_6_2/fileformats.html#Inverted%20Indexing" target="_blank" rel="noopener noreffer">Apache Lucene - Index File Formats</a></li>
+<li><a href="https://www.elastic.co/cn/blog/frame-of-reference-and-roaring-bitmaps" target="_blank" rel="noopener noreffer">Frame of Reference and Roaring Bitmaps</a></li>
+</ul></div><footer>
+                        <div class="post">
+
+
+<div class="post-share"><div class="share-link">
+        <a class="share-icon share-twitter" href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://dragonsong.tech/posts/rd/es/index_structure/" data-title="简析ES/Lucene索引的基本设计原理" data-via="DragonSong1024" data-hashtags="Elasticsearch,索引,跳表,特里树,FST,倒排索引,数据压缩,FOR,Roaring bitmap"><span class="svg-social-icon icon-twitter"></span></a>
+    </div><div class="share-link">
+        <a class="share-icon share-weibo" href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://dragonsong.tech/posts/rd/es/index_structure/" data-title="简析ES/Lucene索引的基本设计原理"><span class="svg-social-icon icon-weibo"></span></a>
+    </div></div>
+
+
+
+
+
+
+<div class="post-tags"><a href="/tags/elasticsearch/" class="tag">Elasticsearch</a><a href="/tags/%E7%B4%A2%E5%BC%95/" class="tag">索引</a><a href="/tags/%E8%B7%B3%E8%A1%A8/" class="tag">跳表</a><a href="/tags/%E7%89%B9%E9%87%8C%E6%A0%91/" class="tag">特里树</a><a href="/tags/fst/" class="tag">FST</a><a href="/tags/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/" class="tag">倒排索引</a><a href="/tags/%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9/" class="tag">数据压缩</a><a href="/tags/for/" class="tag">FOR</a><a href="/tags/roaring-bitmap/" class="tag">Roaring bitmap</a></div></div>
+                </footer></div>
+
+        <div id="toc-final"></div>
+        </div>
+
+    
+    </article>
+    <section class="page single comments content-block-position"><div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></section></div>
+
+</main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://dragonsong.tech/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target="_blank" title="uBlogger 2.0.1">uBlogger</a>
+                </div><div class="footer-line"><i class="svg-icon icon-copyright"></i><span>2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">粤ICP备2021020197号</span></div>
+        </div>
+    </footer></div>
+
+        <aside id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="svg-icon icon-arrow-up"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="svg-icon icon-comments-fixed"></i>
+            </a>
+        </aside><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/css/7f6f8c.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/prismjs/prism.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"gitalk":{"admin":["long5778013"],"clientID":"bc5a91c74dda1fd92a10","clientSecret":"99a821a1c27e5dc85ea3105bf9bba089d1b580ea","id":"2021-02-09T09:14:25+08:00","owner":"long5778013","repo":"blog-comment","title":"简析ES/Lucene索引的基本设计原理"}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script src="/js/theme.min.js"></script></body>
+</html>

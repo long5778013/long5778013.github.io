@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Redis - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/redis/</link>
+        <description>Redis - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 15 Jan 2021 13:18:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/redis/" rel="self" type="application/rss+xml" /><item>
+    <title>译---在Redis中存储亿万级的简单KV数据</title>
+    <link>https://dragonsong.tech/posts/english/translation_storing_hundreds_of_millions_of_simple_key_value_pairs_in_redis/</link>
+    <pubDate>Fri, 15 Jan 2021 13:18:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_storing_hundreds_of_millions_of_simple_key_value_pairs_in_redis/</guid>
+    <description><![CDATA[原文：Storing hundreds of millions of simple key-value pairs in Redis 。 背景：本文讲的是Instagram团队2011年时碰到的一个技术场景。新旧系统迁移，需要做一些脚手架]]></description>
+</item></channel>
+</rss>

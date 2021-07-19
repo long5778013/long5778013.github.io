@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>About - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/about/</link>
+        <description>About - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 01 Apr 2018 22:09:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/about/" rel="self" type="application/rss+xml" /><item>
+    <title>关于我</title>
+    <link>https://dragonsong.tech/about/</link>
+    <pubDate>Sun, 01 Apr 2018 22:09:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/about/</guid>
+    <description><![CDATA[你好，我是宋惠龙。网络idDragonSong，我的GithubId由于历史原因使用了long5778013。 目前我在西二旗工地搬砖，负责服]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noodp"/><title>buffer跟cache的区别是什么？ | </title><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:title" content="buffer跟cache的区别是什么？"/>
+<meta name="twitter:description" content="解答组内技术分享时抛出的一个疑问：buffer跟cache的区别是什么？"/><meta name="twitter:creator" content="@DragonSong1024"/><meta name="Description" content="解答组内技术分享时抛出的一个疑问：buffer跟cache的区别是什么？"><meta property="og:title" content="buffer跟cache的区别是什么？" />
+<meta property="og:description" content="解答组内技术分享时抛出的一个疑问：buffer跟cache的区别是什么？" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dragonsong.tech/posts/rd/qa/difference_buffer_cache/" />
+<meta property="article:published_time" content="2021-04-10T10:59:25+08:00" />
+<meta property="article:modified_time" content="2021-04-10T10:59:25+08:00" />
+<meta name="application-name" content="宋惠龙的大操场">
+<meta name="apple-mobile-web-app-title" content="宋惠龙的大操场"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://dragonsong.tech/posts/rd/qa/difference_buffer_cache/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/lib/prismjs/prism.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "buffer跟cache的区别是什么？",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/dragonsong.tech\/posts\/rd\/qa\/difference_buffer_cache\/"
+        },"genre": "posts","keywords": "buffer, cache, page, swap","wordCount":  1520 ,
+        "url": "https:\/\/dragonsong.tech\/posts\/rd\/qa\/difference_buffer_cache\/","datePublished": "2021-04-10T10:59:25+08:00","dateModified": "2021-04-10T10:59:25+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","description": "解答组内技术分享时抛出的一个疑问：buffer跟cache的区别是什么？"
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https:\/\/dragonsong.tech\/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "RD",
+            "item": "https://dragonsong.tech/categories/rd/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "buffer跟cache的区别是什么？"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header>
+    <div class="desktop header" id="header-desktop">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="宋惠龙的大操场" class="header-logo logo-svg">宋惠龙的大操场</a>
+            </div>
+            <div class="menu">
+                <nav>
+                    <ul class="menu-inner"><li>
+                            <a class="menu-item" href="/posts/"> Posts </a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/"> Tags </a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/"> Categories </a>
+                        </li><li>
+                            <a class="menu-item" href="/about/"> About </a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a>
+                        </li></ul>
+                </nav><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <span class="svg-icon icon-search"></span>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <span class="svg-icon icon-cancel"></span>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <span class="svg-icon icon-loading"></span>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <span class="svg-icon icon-moon"></span>
+                </a>
+            </div>
+        </div>
+    </div><div class="mobile header" id="header-mobile">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="header-title">
+                    <a href="/" title="宋惠龙的大操场" class="header-logo">宋惠龙的大操场</a>
+                </div>
+                <div class="menu-toggle" id="menu-toggle-mobile">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                        <div class="search mobile" id="search-mobile">
+                            <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                                <span class="svg-icon icon-search"></span>
+                            </a>
+                            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                                <span class="svg-icon icon-cancel"></span>
+                            </a>
+                            <span class="search-button search-loading" id="search-loading-mobile">
+                                <span class="svg-icon icon-loading"></span>
+                            </span>
+                        </div>
+                        <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                            Cancel
+                        </a>
+                    </div><nav>
+                    <ul><li>
+                            <a class="menu-item" href="/posts/" title="">Posts</a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/" title="">Tags</a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/" title="">Categories</a>
+                        </li><li>
+                            <a class="menu-item" href="/about/" title="">About</a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a>
+                        </li></ul>
+                </nav>
+                <a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <span class="svg-icon icon-moon"></span>
+                </a></div>
+        </div>
+    </div><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div></header><main class="main">
+<div class="container content-article page-toc theme-classic"><div class="toc" id="toc-auto">
+            <div class="toc-title">Contents</div>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div>
+
+    
+    
+    <article>
+    
+
+        <header class="header-post">
+
+            
+
+            
+            <div class="post-title">
+
+                    <div class="post-all-meta">
+                        <nav class="breadcrumbs">
+    <ol>
+        <li><a href="/">Home </a></li><li><a href="/categories/rd/">RD </a></li><li>buffer跟cache的区别是什么？</li>
+    </ol>
+</nav>
+                        <h1 class="single-title flipInX">buffer跟cache的区别是什么？</h1><div class="post-meta summary-post-meta"><span class="post-category meta-item">
+                                <a href="/categories/rd/"><span class="svg-icon icon-folder"></span>RD</a>
+                            </span><span class="post-meta-date meta-item">
+                                <span class="svg-icon icon-clock"></span><time class="timeago" datetime="2021-04-10">2021-04-10</time>
+                            </span><span class="post-meta-words meta-item">
+                                <span class="svg-icon icon-pencil"></span>1520 words
+                            </span>
+                            <span class="post-meta-reading meta-item">
+                                <span class="svg-icon icon-stopwatch"></span>4 minutes
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </header>
+
+        <div class="article-post toc-start">
+
+            <div class="content-block content-block-first content-block-position">
+
+                <div class="post single"><div class="details toc" id="toc-static"  data-kept="">
+                        <div class="details-summary toc-title">
+                            <span>Contents</span>
+                        </div>
+                        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#组内解答">组内解答</a></li>
+    <li><a href="#自己的理解">自己的理解</a>
+      <ul>
+        <li><a href="#buffer">buffer</a></li>
+        <li><a href="#cache">cache</a></li>
+        <li><a href="#类比">类比</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav></div>
+                    </div><h2 id="背景" class="headerLink"><a href="#%e8%83%8c%e6%99%af" class="header-mark"></a>背景</h2><p>目前的团队开完周会后会有一个简单的技术分享环节，本周的话题中主要是同事聊了下<code>Java</code>中的<code>IO</code>流，其中就涉及到了<code>BufferedInputStream</code>、<code>BufferedOutputStream</code>、<code>BufferedReader</code>、<code>BufferedWriter</code>这几个基于<code>buffer</code>数组的实现类。</p>
+<p>其中的成员大概长这样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// inputstream与outputstream负责字节类io的处理
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">byte</span> buf<span style="color:#f92672">[];</span>
+<span style="color:#75715e">// write与reader负责字符类io的处理，此处应该是charBuffer的缩写
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">char</span> cb<span style="color:#f92672">[];</span>
+</code></pre></div><p>那个时候我脑子里突然蹦出了之前与网友们探讨过的一个问题：<strong>buffer跟cache的区别是什么？</strong></p>
+<p>这几个实现类里面的成员名字叫<code>buffer</code>，那么为什么叫<code>buffer</code>呢？跟我们应用里面使用比较多的<code>cache</code>即缓存有什么区别跟联系呢？</p>
+<h2 id="组内解答" class="headerLink"><a href="#%e7%bb%84%e5%86%85%e8%a7%a3%e7%ad%94" class="header-mark"></a>组内解答</h2><p>大家各抒己见，领导也说了点他的理解：</p>
+<ul>
+<li>存储结构不同</li>
+<li>设计意图不同
+<ul>
+<li><code>cache</code>是提前把需要频繁使用的数据都读出来</li>
+<li>而<code>buffer</code>则是把数据分段分批读写到一个结构中，供之后的计算使用</li>
+</ul>
+</li>
+</ul>
+<h2 id="自己的理解" class="headerLink"><a href="#%e8%87%aa%e5%b7%b1%e7%9a%84%e7%90%86%e8%a7%a3" class="header-mark"></a>自己的理解</h2><h3 id="buffer" class="headerLink"><a href="#buffer" class="header-mark"></a>buffer</h3><p><code>buffer</code>中文为缓存区，缓冲存储区，缓冲存储器。</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title" style="display: none">
+            <i class="icon admonition-icon icon-note"></i>Note<i class="details-icon admonition-icon admonition-icon-arrow-right"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">an area in a computer&rsquo;s memory where data can be stored for a short time</div>
+        </div>
+    </div>
+<p>一般是将一些需要使用（读+写）的数据放到内存的一块区域，作为读写动作的中间层，不直接与底层存储交互，以批量、分页的形式将数据归到一个逻辑单位内，减少数据与磁盘、网络等设备的频繁IO次数。是一种<strong>延迟写</strong>思路的实现，这里的写泛指读写动作。</p>
+<p>结合生活中的例子，比如工位离垃圾桶很远，那么我们可以放一个小一点的垃圾桶，等小的垃圾桶满了之后统一扔到的大的垃圾桶内，这样就减少了我们直接去大垃圾桶的次数，提高了扔垃圾的效率。这里的小垃圾桶就是一个<code>buffer</code>的实现。</p>
+<h3 id="cache" class="headerLink"><a href="#cache" class="header-mark"></a>cache</h3><p><code>cache</code>中文为缓存，高速缓冲存储器。</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title" style="display: none">
+            <i class="icon admonition-icon icon-note"></i>Note<i class="details-icon admonition-icon admonition-icon-arrow-right"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">a part of a computer&rsquo;s memory that stores copies of data that is often needed while a program is running. This data can be accessed very quickly.</div>
+        </div>
+    </div>
+<p>一般将频繁读的数据放到读取效率更高的存储中，比如内存相比磁盘读取效率更高，比如<code>CPU</code>对应的L1、L2多级缓存之间也有读取速度差异，以此提高读性能，是一种<strong>提前读</strong>思想的实现，以此提高系统性能。</p>
+<p>结合生活中的例子，比如开发与产品同学的工位离得比较远，而做同一个项目时交流过于密切次数过于多，那么我们可以把工位拉近，背靠背工作，这样就减少了大家面对面沟通的成本，提高了沟通协作效率。这里的工位背靠背就是一个<code>cache</code>的实现。</p>
+<div id="id-1"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/q&amp;a/buffer_vs_cache.jpg"
+         alt="buffer与cache的简单对比图"
+         title="buffer_vs_cache.jpg"
+    /></div>
+<h3 id="类比" class="headerLink"><a href="#%e7%b1%bb%e6%af%94" class="header-mark"></a>类比</h3><p>除了<code>buffer</code>与<code>cache</code>，我们以同样的思路可以对比下<code>Linux</code>中的<code>page</code>与<code>swap</code>设计。</p>
+<h4 id="page" class="headerLink"><a href="#page" class="header-mark"></a>page</h4><p>比如<code>page</code>主要提供了数据读写逻辑单位的机制，比如<code>Linux</code>默认一个页是4KB，当然这个是可配置的，核心解决的问题是：内存有限的情况下，无需加载所有数据到内存中，而是按页逐页加载。</p>
+<p><strong>用多少加载多少</strong>，并且按页读取也是一种<strong>局部性</strong>（挨着近使用上应该也是相近的）的设计。</p>
+<h4 id="swap" class="headerLink"><a href="#swap" class="header-mark"></a>swap</h4><p>又比如<code>swap</code>区主要是提供了一种磁盘物理中间区域，解决的核心问题是：内存有限的情况下，OS依然可以运行多进程，只不过有些后台进程的数据被切到了<code>swap</code>中，程序读写内存通过<code>swap</code>作为中间层转换。</p>
+<p>比如生活中几个人合租房子，合租可以租一个卧室，也可以租两个卧室，按照你的量来进行选择，这就是一个屋子一个<code>page</code>，而整租对于少的人来说就是浪费。而AB两个人同住一个卧室，其中A白天睡，B晚上睡，就是一种<code>swap</code>的设计，谁需要睡觉就把谁的被子拿进来住。</p>
+<h2 id="小结" class="headerLink"><a href="#%e5%b0%8f%e7%bb%93" class="header-mark"></a>小结</h2><p>以上我们针对<code>buffer</code>、<code>cache</code>、<code>page</code>、<code>swap</code>几个<code>IO</code>相关的概念做了介绍以及类比。</p>
+<p>其中<code>buffer</code>、<code>cache</code>都是缓冲，前者主要是延迟写的思路，而后者主要是提前读的思路。</p>
+<p><code>page</code>、<code>swap</code>，前者解决数据按需读取的问题，后者解决内存有限时运行多进程的问题。</p></div><footer>
+                        <div class="post">
+
+
+<div class="post-share"><div class="share-link">
+        <a class="share-icon share-twitter" href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://dragonsong.tech/posts/rd/qa/difference_buffer_cache/" data-title="buffer跟cache的区别是什么？" data-via="DragonSong1024" data-hashtags="buffer,cache,page,swap"><span class="svg-social-icon icon-twitter"></span></a>
+    </div><div class="share-link">
+        <a class="share-icon share-weibo" href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://dragonsong.tech/posts/rd/qa/difference_buffer_cache/" data-title="buffer跟cache的区别是什么？"><span class="svg-social-icon icon-weibo"></span></a>
+    </div></div>
+
+
+
+
+
+
+<div class="post-tags"><a href="/tags/buffer/" class="tag">buffer</a><a href="/tags/cache/" class="tag">cache</a><a href="/tags/page/" class="tag">page</a><a href="/tags/swap/" class="tag">swap</a></div></div>
+                </footer></div>
+
+        <div id="toc-final"></div>
+        </div>
+
+    
+    </article>
+    <section class="page single comments content-block-position"><div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></section></div>
+
+</main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://dragonsong.tech/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target="_blank" title="uBlogger 2.0.1">uBlogger</a>
+                </div><div class="footer-line"><i class="svg-icon icon-copyright"></i><span>2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">粤ICP备2021020197号</span></div>
+        </div>
+    </footer></div>
+
+        <aside id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="svg-icon icon-arrow-up"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="svg-icon icon-comments-fixed"></i>
+            </a>
+        </aside><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/css/c65bcc.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/prismjs/prism.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"gitalk":{"admin":["long5778013"],"clientID":"bc5a91c74dda1fd92a10","clientSecret":"99a821a1c27e5dc85ea3105bf9bba089d1b580ea","id":"2021-04-10T10:59:25+08:00","owner":"long5778013","repo":"blog-comment","title":"buffer跟cache的区别是什么？"}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script src="/js/theme.min.js"></script></body>
+</html>

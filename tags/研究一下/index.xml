@@ -1,0 +1,21 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>研究一下 - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/%E7%A0%94%E7%A9%B6%E4%B8%80%E4%B8%8B/</link>
+        <description>研究一下 - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 02 Feb 2021 14:14:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/%E7%A0%94%E7%A9%B6%E4%B8%80%E4%B8%8B/" rel="self" type="application/rss+xml" /><item>
+    <title>研究一下fork函数</title>
+    <link>https://dragonsong.tech/posts/rd/linux/fork/</link>
+    <pubDate>Tue, 02 Feb 2021 14:14:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/linux/fork/</guid>
+    <description><![CDATA[了解Unix、Linux系统下的进程控制fork函数]]></description>
+</item><item>
+    <title>研究一下fsync函数</title>
+    <link>https://dragonsong.tech/posts/rd/linux/fsync_durability/</link>
+    <pubDate>Fri, 29 Jan 2021 11:30:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/linux/fsync_durability/</guid>
+    <description><![CDATA[讨论fsync函数细节]]></description>
+</item></channel>
+</rss>

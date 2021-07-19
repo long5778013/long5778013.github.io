@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noodp"/><title>什么是NUMA架构？ | </title><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:title" content="什么是NUMA架构？"/>
+<meta name="twitter:description" content="解析非统一内存访问架构（Non-Uniform Memory Access，NUMA 架构）"/><meta name="twitter:creator" content="@DragonSong1024"/><meta name="Description" content="解析非统一内存访问架构（Non-Uniform Memory Access，NUMA 架构）"><meta property="og:title" content="什么是NUMA架构？" />
+<meta property="og:description" content="解析非统一内存访问架构（Non-Uniform Memory Access，NUMA 架构）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dragonsong.tech/posts/english/translation_what_is_numa/" />
+<meta property="article:published_time" content="2021-01-18T11:03:50+08:00" />
+<meta property="article:modified_time" content="2021-01-18T11:03:50+08:00" />
+<meta name="application-name" content="宋惠龙的大操场">
+<meta name="apple-mobile-web-app-title" content="宋惠龙的大操场"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://dragonsong.tech/posts/english/translation_what_is_numa/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/lib/prismjs/prism.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "什么是NUMA架构？",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/dragonsong.tech\/posts\/english\/translation_what_is_numa\/"
+        },"genre": "posts","keywords": "English, CPU, NUMA","wordCount":  2398 ,
+        "url": "https:\/\/dragonsong.tech\/posts\/english\/translation_what_is_numa\/","datePublished": "2021-01-18T11:03:50+08:00","dateModified": "2021-01-18T11:03:50+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","description": "解析非统一内存访问架构（Non-Uniform Memory Access，NUMA 架构）"
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https:\/\/dragonsong.tech\/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "English",
+            "item": "https://dragonsong.tech/categories/english/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "什么是NUMA架构？"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header>
+    <div class="desktop header" id="header-desktop">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="宋惠龙的大操场" class="header-logo logo-svg">宋惠龙的大操场</a>
+            </div>
+            <div class="menu">
+                <nav>
+                    <ul class="menu-inner"><li>
+                            <a class="menu-item" href="/posts/"> Posts </a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/"> Tags </a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/"> Categories </a>
+                        </li><li>
+                            <a class="menu-item" href="/about/"> About </a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a>
+                        </li></ul>
+                </nav><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <span class="svg-icon icon-search"></span>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <span class="svg-icon icon-cancel"></span>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <span class="svg-icon icon-loading"></span>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <span class="svg-icon icon-moon"></span>
+                </a>
+            </div>
+        </div>
+    </div><div class="mobile header" id="header-mobile">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="header-title">
+                    <a href="/" title="宋惠龙的大操场" class="header-logo">宋惠龙的大操场</a>
+                </div>
+                <div class="menu-toggle" id="menu-toggle-mobile">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                        <div class="search mobile" id="search-mobile">
+                            <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                                <span class="svg-icon icon-search"></span>
+                            </a>
+                            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                                <span class="svg-icon icon-cancel"></span>
+                            </a>
+                            <span class="search-button search-loading" id="search-loading-mobile">
+                                <span class="svg-icon icon-loading"></span>
+                            </span>
+                        </div>
+                        <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                            Cancel
+                        </a>
+                    </div><nav>
+                    <ul><li>
+                            <a class="menu-item" href="/posts/" title="">Posts</a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/" title="">Tags</a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/" title="">Categories</a>
+                        </li><li>
+                            <a class="menu-item" href="/about/" title="">About</a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a>
+                        </li></ul>
+                </nav>
+                <a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <span class="svg-icon icon-moon"></span>
+                </a></div>
+        </div>
+    </div><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div></header><main class="main">
+<div class="container content-article page-toc theme-classic"><div class="toc" id="toc-auto">
+            <div class="toc-title">Contents</div>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div>
+
+    
+    
+    <article>
+    
+
+        <header class="header-post">
+
+            
+
+            
+            <div class="post-title">
+
+                    <div class="post-all-meta">
+                        <nav class="breadcrumbs">
+    <ol>
+        <li><a href="/">Home </a></li><li><a href="/categories/english/">English </a></li><li>什么是NUMA架构？</li>
+    </ol>
+</nav>
+                        <h1 class="single-title flipInX">什么是NUMA架构？</h1><div class="post-meta summary-post-meta"><span class="post-category meta-item">
+                                <a href="/categories/english/"><span class="svg-icon icon-folder"></span>English</a>&nbsp;<a href="/categories/rd/"><span class="svg-icon icon-folder"></span>RD</a>&nbsp;<a href="/categories/linux/"><span class="svg-icon icon-folder"></span>Linux</a>
+                            </span><span class="post-meta-date meta-item">
+                                <span class="svg-icon icon-clock"></span><time class="timeago" datetime="2021-01-18">2021-01-18</time>
+                            </span><span class="post-meta-words meta-item">
+                                <span class="svg-icon icon-pencil"></span>2398 words
+                            </span>
+                            <span class="post-meta-reading meta-item">
+                                <span class="svg-icon icon-stopwatch"></span>5 minutes
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </header>
+
+        <div class="article-post toc-start">
+
+            <div class="content-block content-block-first content-block-position">
+
+                <div class="post single"><div class="details toc" id="toc-static"  data-kept="">
+                        <div class="details-summary toc-title">
+                            <span>Contents</span>
+                        </div>
+                        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#硬件角度">硬件角度</a></li>
+        <li><a href="#软件角度">软件角度</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                    </div><p>Linux内核文档：<a href="https://www.kernel.org/doc/html/v4.18/vm/numa.html" target="_blank" rel="noopener noreffer">What is NUMA?</a>。</p>
+<p>关于NUMA架构是什么的问题，可以同时从硬件、软件的不同角度进行解释。</p>
+<h3 id="硬件角度" class="headerLink"><a href="#%e7%a1%ac%e4%bb%b6%e8%a7%92%e5%ba%a6" class="header-mark"></a>硬件角度</h3><p>从硬件来看，NUMA系统是一个组合了多个<code>内部包含多核CPU、本地内存、以及IO总线</code>组件的计算机平台。为了简短表达以及防止歧义，我们在文档中称这些组件为<code>cells</code>。</p>
+<p>每一个<code>cells</code>都可以看做是NUMA系统下的一个SMP（对称多处理器）子集，同时要注意，有些独立的SMP系统并不位于任何cell上。NUMA系统下的cell通过连接组件连接彼此，比如交叉开关或者点对点连接。这些类型的连接组件都可以进行组合用于创建与其他cell的连接。</p>
+<p>在Linux系统上，NUMA主要是指Cache Coherent NUMA 缓存一致NUMA，简称<code>ccNUMA</code>。在系统内部，只要CPU与cell连接，所有内存都是可见并且可访问的。同时，缓存一致性问题会被缓存处理器以及各个连接组件处理。</p>
+<p>内存访问时长与有效带宽因CPU访问的不同cell间的距离不同而不同。比如访问同个cell下的内存会明显快于离得远的不同的cell间的内存。NUMA平台架构允许多种距离组合的cells。</p>
+<p>硬件平台厂商不直接实现NUMA架构，让软件实现的部分更加有意思了。准确来说，NUMA架构是为了提供一种可拓展的内存带宽。为了达到这个目标，操作系统以及软件就必须要让大部分内存引用都位于本地cell的部分（local memory），或者说，越近越好。</p>
+<h3 id="软件角度" class="headerLink"><a href="#%e8%bd%af%e4%bb%b6%e8%a7%92%e5%ba%a6" class="header-mark"></a>软件角度</h3><p>上面的描述正好引入了软件部分的视角：</p>
+<p>Linux把系统硬件资源都抽象为了软件中的<code>nodes</code>，硬件物理核（physical cells）与nodes间形成mapping映射，这层抽象屏蔽了一些架构上的细节。软件中的nodes（可对应到物理核）这时候就能对应到0-多个CPU、内存、IO设备上。并且，访问离得近的nodes（其实是映射到离得近的cells（物理核））就会比访问远程cells更快（时长更短、带宽更有效）。</p>
+<p>比如在X86架构上，Linux会把一些没有内存分配的node（映射到物理核cell上）给隐藏起来，同时会二次分配，把CPU分配到有内存资源的node上。因此，在这种架构下，我们可以看到，分配到某个node上的不同CPU，有可能有着不同的本地内存访问时间与带宽效率。</p>
+<p>除此之外，还是以X86为例，Linux支持附加nodes的模拟。Linux会划分已有的nodes（或者是非NUMA系统的内存）到更多的nodes上。每个模拟出来的node都管理者底层cells物业内存的部分。当测试非NUMA架构上的NUMA内核与软件特性时，这个模拟非常实用。并且跟cpusets一起使用时，这是一种内存资源管理机制。</p>
+<p>针对每个带内存的node，Linux有一套独立的内存管理子系统，里面包含了<code>free page lists, in-use page lists, usage statistics and locks to mediate access</code>。另外，Linux把每个内存区域（<code>DMA, DMA32, NORMAL, HIGH_MEMORY, MOVABLE</code>）都放到一个叫<code>zonelist</code>的结构里。一个<code>zonelist</code>定义了当选中的zone、node不满足分配请求时可二次访问的zones或者nodes资源。这种情况，我们称之为溢出或者退路。</p>
+<p>因为有的nodes中包含了多种内存资源的zones，所以Linux需要决策：不同node但是相同zone类型碰到退路分支时（或者同个node上要分配不同的zone类型），是否要对zonelist进行排序。对于<code>DMA``DMA32</code>这类稀缺资源来说，这是很重要的策略。Linux默认给定一个有序的zonelist。在连接到远程node之前，系统会自动帮你找同个node上的不同zone，以NUMA中的距离排序，先找近的再找远的。</p>
+<p>这个内存分配查找的过程大概是这样：</p>
+<p>Linux默认先找执行本次请求的CPU资源。</p>
+<p>先本地分配：先尝试分配请求源zonelist中的第一个node资源。</p>
+<p>如果本地分配不成功，内核会按照顺序（NUMA距离排序）找list中最近满足要求的node。</p>
+<p>本地分配倾向于使得后续请求都访问本地的物理资源，并且倾向于远离系统连接组件（这一步需要保证分配的内存后续没有发生migrate动作）。Linux的调度器这里使用NUMA拓扑图策略，可访问[see Documentation/scheduler/sched-domains.txt]，调度器的目标是尽可能减少远程调度（task migration）。但是，调度器不能直接拿到一个任务的NUMA细节数据。因此，在足够多的不平衡发生时，多个任务会在nodes间、从原始node到远程node进行migrate。</p>
+<p>系统管理员可以限制上述这个migration的发生，以此来提升NUMA架构下的本地效率。比如可使用CPU affinity cli：</p>
+<ul>
+<li>taskset(1)</li>
+<li>numactl(1)</li>
+</ul>
+<p>也可以使用程序接口：</p>
+<ul>
+<li>sched_setaffinity(2)</li>
+</ul>
+<p>当然也可以修改内核默认分配策略的配置，可参考： [see Documentation/admin-guide/mm/numa_memory_policy.rst.]</p>
+<p>我们也可以通过使用control groups以及cpusets来限制非特权用户所使用的CPU以及nodes内存。参考：[see Documentation/cgroup-v1/cpusets.txt]</p>
+<p>在不隐藏无内存node的架构上，Linux在zonelist中只保留有内存的zone（node）资源。这也就意味着在一个CPU对应的zonelist中，本地内存第一个node节点将不是它本身，而是创建zonelist时内核选中的有内存的最近的node。因此默认逻辑是，本地分配的结果是分配一个最近可用的内存块。发生退路、溢出等异常情况时，选择逻辑依旧是选当前离得最近的node。</p>
+<p>部分内核分配的情况不适用这种退路逻辑（比如当子系统在每个CPU内分配内存资源）。相反，他们想要确定：</p>
+<ul>
+<li>当前分配发生在特定node上</li>
+<li>同时可以拿到分配失败的结果（分配的node没有内存了）</li>
+</ul>
+<p>一个例子：</p>
+<ul>
+<li>通过<code>numa_node_id() CPU_to_node()</code>获取当前CPU关联的nodeId</li>
+<li>接着通过上述nodeId获取对应内存</li>
+</ul>
+<p>当上面这种分配失败的时候，可以退到自定义的逻辑内。</p>
+</div><footer>
+                        <div class="post">
+
+
+<div class="post-share"><div class="share-link">
+        <a class="share-icon share-twitter" href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://dragonsong.tech/posts/english/translation_what_is_numa/" data-title="什么是NUMA架构？" data-via="DragonSong1024" data-hashtags="English,CPU,NUMA"><span class="svg-social-icon icon-twitter"></span></a>
+    </div><div class="share-link">
+        <a class="share-icon share-weibo" href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://dragonsong.tech/posts/english/translation_what_is_numa/" data-title="什么是NUMA架构？"><span class="svg-social-icon icon-weibo"></span></a>
+    </div></div>
+
+
+
+
+
+
+<div class="post-tags"><a href="/tags/english/" class="tag">English</a><a href="/tags/cpu/" class="tag">CPU</a><a href="/tags/numa/" class="tag">NUMA</a></div></div>
+                </footer></div>
+
+        <div id="toc-final"></div>
+        </div>
+
+    
+    </article>
+    <section class="page single comments content-block-position"><div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></section></div>
+
+</main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://dragonsong.tech/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target="_blank" title="uBlogger 2.0.1">uBlogger</a>
+                </div><div class="footer-line"><i class="svg-icon icon-copyright"></i><span>2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">粤ICP备2021020197号</span></div>
+        </div>
+    </footer></div>
+
+        <aside id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="svg-icon icon-arrow-up"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="svg-icon icon-comments-fixed"></i>
+            </a>
+        </aside><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/prismjs/prism.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"gitalk":{"admin":["long5778013"],"clientID":"bc5a91c74dda1fd92a10","clientSecret":"99a821a1c27e5dc85ea3105bf9bba089d1b580ea","id":"2021-01-18T11:03:50+08:00","owner":"long5778013","repo":"blog-comment","title":"什么是NUMA架构？"}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script src="/js/theme.min.js"></script></body>
+</html>

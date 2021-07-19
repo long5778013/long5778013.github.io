@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>PropertySources - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/propertysources/</link>
+        <description>PropertySources - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 26 Nov 2020 12:09:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/propertysources/" rel="self" type="application/rss+xml" /><item>
+    <title>Apollo命名空间加载优先级</title>
+    <link>https://dragonsong.tech/posts/rd/troubleshoot/apollo_namespace_priority/</link>
+    <pubDate>Thu, 26 Nov 2020 12:09:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/troubleshoot/apollo_namespace_priority/</guid>
+    <description><![CDATA[踩坑Apollo配置namespace加载顺序优先级问题，更具体点应该表述为【踩坑Spring框架中针对多配置属性源取值的逻辑】]]></description>
+</item></channel>
+</rss>

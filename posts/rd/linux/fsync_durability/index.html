@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noodp"/><title>研究一下fsync函数 | </title><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:title" content="研究一下fsync函数"/>
+<meta name="twitter:description" content="讨论fsync函数细节"/><meta name="twitter:creator" content="@DragonSong1024"/><meta name="Description" content="讨论fsync函数细节"><meta property="og:title" content="研究一下fsync函数" />
+<meta property="og:description" content="讨论fsync函数细节" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dragonsong.tech/posts/rd/linux/fsync_durability/" />
+<meta property="article:published_time" content="2021-01-29T11:30:25+08:00" />
+<meta property="article:modified_time" content="2021-01-29T11:30:25+08:00" />
+<meta name="application-name" content="宋惠龙的大操场">
+<meta name="apple-mobile-web-app-title" content="宋惠龙的大操场"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://dragonsong.tech/posts/rd/linux/fsync_durability/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/lib/prismjs/prism.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "研究一下fsync函数",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/dragonsong.tech\/posts\/rd\/linux\/fsync_durability\/"
+        },"genre": "posts","keywords": "Linux, fsync, 落盘, 持久性, 研究一下","wordCount":  739 ,
+        "url": "https:\/\/dragonsong.tech\/posts\/rd\/linux\/fsync_durability\/","datePublished": "2021-01-29T11:30:25+08:00","dateModified": "2021-01-29T11:30:25+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","description": "讨论fsync函数细节"
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https:\/\/dragonsong.tech\/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "RD",
+            "item": "https://dragonsong.tech/categories/rd/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "研究一下fsync函数"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header>
+    <div class="desktop header" id="header-desktop">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="宋惠龙的大操场" class="header-logo logo-svg">宋惠龙的大操场</a>
+            </div>
+            <div class="menu">
+                <nav>
+                    <ul class="menu-inner"><li>
+                            <a class="menu-item" href="/posts/"> Posts </a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/"> Tags </a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/"> Categories </a>
+                        </li><li>
+                            <a class="menu-item" href="/about/"> About </a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a>
+                        </li></ul>
+                </nav><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <span class="svg-icon icon-search"></span>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <span class="svg-icon icon-cancel"></span>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <span class="svg-icon icon-loading"></span>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <span class="svg-icon icon-moon"></span>
+                </a>
+            </div>
+        </div>
+    </div><div class="mobile header" id="header-mobile">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="header-title">
+                    <a href="/" title="宋惠龙的大操场" class="header-logo">宋惠龙的大操场</a>
+                </div>
+                <div class="menu-toggle" id="menu-toggle-mobile">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                        <div class="search mobile" id="search-mobile">
+                            <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                                <span class="svg-icon icon-search"></span>
+                            </a>
+                            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                                <span class="svg-icon icon-cancel"></span>
+                            </a>
+                            <span class="search-button search-loading" id="search-loading-mobile">
+                                <span class="svg-icon icon-loading"></span>
+                            </span>
+                        </div>
+                        <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                            Cancel
+                        </a>
+                    </div><nav>
+                    <ul><li>
+                            <a class="menu-item" href="/posts/" title="">Posts</a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/" title="">Tags</a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/" title="">Categories</a>
+                        </li><li>
+                            <a class="menu-item" href="/about/" title="">About</a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a>
+                        </li></ul>
+                </nav>
+                <a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <span class="svg-icon icon-moon"></span>
+                </a></div>
+        </div>
+    </div><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div></header><main class="main">
+<div class="container content-article page-toc theme-classic"><div class="toc" id="toc-auto">
+            <div class="toc-title">Contents</div>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div>
+
+    
+    
+    <article>
+    
+
+        <header class="header-post">
+
+            
+
+            
+            <div class="post-title">
+
+                    <div class="post-all-meta">
+                        <nav class="breadcrumbs">
+    <ol>
+        <li><a href="/">Home </a></li><li><a href="/categories/rd/">RD </a></li><li>研究一下fsync函数</li>
+    </ol>
+</nav>
+                        <h1 class="single-title flipInX">研究一下fsync函数</h1><div class="post-meta summary-post-meta"><span class="post-category meta-item">
+                                <a href="/categories/rd/"><span class="svg-icon icon-folder"></span>RD</a>
+                            </span><span class="post-meta-date meta-item">
+                                <span class="svg-icon icon-clock"></span><time class="timeago" datetime="2021-01-29">2021-01-29</time>
+                            </span><span class="post-meta-words meta-item">
+                                <span class="svg-icon icon-pencil"></span>739 words
+                            </span>
+                            <span class="post-meta-reading meta-item">
+                                <span class="svg-icon icon-stopwatch"></span>2 minutes
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </header>
+
+        <div class="article-post toc-start">
+
+            <div class="content-block content-block-first content-block-position">
+
+                <div class="post single"><div class="details toc" id="toc-static"  data-kept="">
+                        <div class="details-summary toc-title">
+                            <span>Contents</span>
+                        </div>
+                        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#疑问">疑问</a></li>
+    <li><a href="#函数定义">函数定义</a></li>
+    <li><a href="#再进一步">再进一步</a></li>
+    <li><a href="#结论">结论</a></li>
+  </ul>
+</nav></div>
+                    </div><div class="details admonition note open">
+        <div class="details-summary admonition-title" style="display: none">
+            <i class="icon admonition-icon icon-note"></i>Note<i class="details-icon admonition-icon admonition-icon-arrow-right"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">工作中经常会碰到需要<strong>研究一下</strong>的问题，而这些问题恰好暴露出自己基础知识的不完备，因此博客中对需要「研究」的知识归类成文。</div>
+        </div>
+    </div>
+<h2 id="背景" class="headerLink"><a href="#%e8%83%8c%e6%99%af" class="header-mark"></a>背景</h2><p>在MySQL5.6-8.0版本中，<code>InnoDB RedoLog</code>数据落盘默认使用<code>fsync</code>。<a href="https://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html#sysvar_innodb_flush_method" target="_blank" rel="noopener noreffer">MySQL落盘方式调参</a>。</p>
+<p>在Redis的<code>AOF</code>中，也使用<code>fsync</code>进行日志文件落盘。<a href="https://redis.io/topics/persistence" target="_blank" rel="noopener noreffer">Redis持久化文档</a>。</p>
+<p>在Elasticsearch中使用<code>Translog</code>保证数据的持久性，而<code>Translog</code>默认持久化选项<code>index.translog.durability</code>为<code>request</code>，其语义中也包含了<code>fsync</code>调用。<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules-translog.html" target="_blank" rel="noopener noreffer">关于ES的Translog模块说明</a>。</p>
+<h2 id="疑问" class="headerLink"><a href="#%e7%96%91%e9%97%ae" class="header-mark"></a>疑问</h2><p>那么我有一个疑问：Linux提供的<code>fsync</code>会保证数据一定落盘吗？</p>
+<h2 id="函数定义" class="headerLink"><a href="#%e5%87%bd%e6%95%b0%e5%ae%9a%e4%b9%89" class="header-mark"></a>函数定义</h2><p>首先我们先看看<code>fsync</code>的语义。</p>
+<p>根据<a href="https://pubs.opengroup.org/onlinepubs/009695399/functions/fsync.html" target="_blank" rel="noopener noreffer">POSIX中对fsync的定义</a>，在上面这些需要持久化的场景下，调用<code>fsync</code>是为了保证数据在当前处理过程完成前写入到文件中，<strong>动机与用法是正确的。</strong></p>
+<p>但在下方rationale原理解释的部分文档也有说明：必要的情况下，具体实现可以有所不同，比如不是NVM（非易失存储）的情况下，<code>fsync</code>无需保证数据一定写入到文件系统中。</p>
+<p>因而到这一步，我们得知，<code>fsync</code>不一定保证数据落盘。</p>
+<h2 id="再进一步" class="headerLink"><a href="#%e5%86%8d%e8%bf%9b%e4%b8%80%e6%ad%a5" class="header-mark"></a>再进一步</h2><p>其实在<code>fsync</code>背后有一个<code>write barrier</code>写屏障机制，通过这个机制，我们可以明确<code>fsync</code>落盘的策略，保证将硬件存储的缓存落盘<code>issues a storage cache flush</code>。</p>
+<p><code>write barrier</code>可以保证文件系统元数据正确、有序写入（包括断电的时候）。当然在某些系统的实现上，开启此功能会对性能有所影响。</p>
+<h2 id="结论" class="headerLink"><a href="#%e7%bb%93%e8%ae%ba" class="header-mark"></a>结论</h2><p>通过<code>df -T</code>可查看文件系统格式，而在Linux/ext4文件系统实现上，默认开启了写屏障。所以在此类的服务端上，<code>fsync</code>会保证数据一定落盘。</p></div><footer>
+                        <div class="post">
+
+
+<div class="post-share"><div class="share-link">
+        <a class="share-icon share-twitter" href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://dragonsong.tech/posts/rd/linux/fsync_durability/" data-title="研究一下fsync函数" data-via="DragonSong1024" data-hashtags="Linux,fsync,落盘,持久性,研究一下"><span class="svg-social-icon icon-twitter"></span></a>
+    </div><div class="share-link">
+        <a class="share-icon share-weibo" href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://dragonsong.tech/posts/rd/linux/fsync_durability/" data-title="研究一下fsync函数"><span class="svg-social-icon icon-weibo"></span></a>
+    </div></div>
+
+
+
+
+
+
+<div class="post-tags"><a href="/tags/linux/" class="tag">Linux</a><a href="/tags/fsync/" class="tag">fsync</a><a href="/tags/%E8%90%BD%E7%9B%98/" class="tag">落盘</a><a href="/tags/%E6%8C%81%E4%B9%85%E6%80%A7/" class="tag">持久性</a><a href="/tags/%E7%A0%94%E7%A9%B6%E4%B8%80%E4%B8%8B/" class="tag">研究一下</a></div></div>
+                </footer></div>
+
+        <div id="toc-final"></div>
+        </div>
+
+    
+    </article>
+    <section class="page single comments content-block-position"><div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></section></div>
+
+</main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://dragonsong.tech/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target="_blank" title="uBlogger 2.0.1">uBlogger</a>
+                </div><div class="footer-line"><i class="svg-icon icon-copyright"></i><span>2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">粤ICP备2021020197号</span></div>
+        </div>
+    </footer></div>
+
+        <aside id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="svg-icon icon-arrow-up"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="svg-icon icon-comments-fixed"></i>
+            </a>
+        </aside><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/prismjs/prism.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"gitalk":{"admin":["long5778013"],"clientID":"bc5a91c74dda1fd92a10","clientSecret":"99a821a1c27e5dc85ea3105bf9bba089d1b580ea","id":"2021-01-29T11:30:25+08:00","owner":"long5778013","repo":"blog-comment","title":"研究一下fsync函数"}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script src="/js/theme.min.js"></script></body>
+</html>

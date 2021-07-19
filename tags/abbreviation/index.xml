@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Abbreviation - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/abbreviation/</link>
+        <description>Abbreviation - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 04 Jan 2018 21:18:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/abbreviation/" rel="self" type="application/rss+xml" /><item>
+    <title>通用常见缩写</title>
+    <link>https://dragonsong.tech/posts/rd/abbr_common/</link>
+    <pubDate>Thu, 04 Jan 2018 21:18:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/abbr_common/</guid>
+    <description><![CDATA[Business PO:Purchase Order SO:Shipping Order HRBP:HR BUSINESS PARTNER OKR:Objectives and Key Results SMART:Specific Measurable Assignable Realistic Time-related STAR:Situation Task Action Result CAPA: ST:Sell Through 通常指厂商销售给一级二级代理商 SO:Sell Out 指直接销售给用户 LTV:Lifetime Value CS computer science CQRS:Command and Query Responsibility Segregation TLAB:Thread Local Allocation Buffer MMU:Memory Management Unit NPC N：N]]></description>
+</item></channel>
+</rss>

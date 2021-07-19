@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noodp"/><title>用户态网络协议栈之DPDK | </title><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:title" content="用户态网络协议栈之DPDK"/>
+<meta name="twitter:description" content="了解下DPDK技术基本原理"/><meta name="twitter:creator" content="@DragonSong1024"/><meta name="Description" content="了解下DPDK技术基本原理"><meta property="og:title" content="用户态网络协议栈之DPDK" />
+<meta property="og:description" content="了解下DPDK技术基本原理" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dragonsong.tech/posts/english/translation_dpdk/" />
+<meta property="article:published_time" content="2021-01-28T13:03:50+08:00" />
+<meta property="article:modified_time" content="2021-01-28T13:03:50+08:00" />
+<meta name="application-name" content="宋惠龙的大操场">
+<meta name="apple-mobile-web-app-title" content="宋惠龙的大操场"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://dragonsong.tech/posts/english/translation_dpdk/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/lib/prismjs/prism.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "用户态网络协议栈之DPDK",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/dragonsong.tech\/posts\/english\/translation_dpdk\/"
+        },"genre": "posts","keywords": "English, DPDK","wordCount":  1839 ,
+        "url": "https:\/\/dragonsong.tech\/posts\/english\/translation_dpdk\/","datePublished": "2021-01-28T13:03:50+08:00","dateModified": "2021-01-28T13:03:50+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","description": "了解下DPDK技术基本原理"
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https:\/\/dragonsong.tech\/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "English",
+            "item": "https://dragonsong.tech/categories/english/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "用户态网络协议栈之DPDK"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header>
+    <div class="desktop header" id="header-desktop">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="宋惠龙的大操场" class="header-logo logo-svg">宋惠龙的大操场</a>
+            </div>
+            <div class="menu">
+                <nav>
+                    <ul class="menu-inner"><li>
+                            <a class="menu-item" href="/posts/"> Posts </a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/"> Tags </a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/"> Categories </a>
+                        </li><li>
+                            <a class="menu-item" href="/about/"> About </a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a>
+                        </li></ul>
+                </nav><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <span class="svg-icon icon-search"></span>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <span class="svg-icon icon-cancel"></span>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <span class="svg-icon icon-loading"></span>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <span class="svg-icon icon-moon"></span>
+                </a>
+            </div>
+        </div>
+    </div><div class="mobile header" id="header-mobile">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="header-title">
+                    <a href="/" title="宋惠龙的大操场" class="header-logo">宋惠龙的大操场</a>
+                </div>
+                <div class="menu-toggle" id="menu-toggle-mobile">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                        <div class="search mobile" id="search-mobile">
+                            <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                                <span class="svg-icon icon-search"></span>
+                            </a>
+                            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                                <span class="svg-icon icon-cancel"></span>
+                            </a>
+                            <span class="search-button search-loading" id="search-loading-mobile">
+                                <span class="svg-icon icon-loading"></span>
+                            </span>
+                        </div>
+                        <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                            Cancel
+                        </a>
+                    </div><nav>
+                    <ul><li>
+                            <a class="menu-item" href="/posts/" title="">Posts</a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/" title="">Tags</a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/" title="">Categories</a>
+                        </li><li>
+                            <a class="menu-item" href="/about/" title="">About</a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a>
+                        </li></ul>
+                </nav>
+                <a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <span class="svg-icon icon-moon"></span>
+                </a></div>
+        </div>
+    </div><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div></header><main class="main">
+<div class="container content-article page-toc theme-classic"><div class="toc" id="toc-auto">
+            <div class="toc-title">Contents</div>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div>
+
+    
+    
+    <article>
+    
+
+        <header class="header-post">
+
+            
+
+            
+            <div class="post-title">
+
+                    <div class="post-all-meta">
+                        <nav class="breadcrumbs">
+    <ol>
+        <li><a href="/">Home </a></li><li><a href="/categories/english/">English </a></li><li>用户态网络协议栈之DPDK</li>
+    </ol>
+</nav>
+                        <h1 class="single-title flipInX">用户态网络协议栈之DPDK</h1><div class="post-meta summary-post-meta"><span class="post-category meta-item">
+                                <a href="/categories/english/"><span class="svg-icon icon-folder"></span>English</a>&nbsp;<a href="/categories/rd/"><span class="svg-icon icon-folder"></span>RD</a>&nbsp;<a href="/categories/linux/"><span class="svg-icon icon-folder"></span>Linux</a>
+                            </span><span class="post-meta-date meta-item">
+                                <span class="svg-icon icon-clock"></span><time class="timeago" datetime="2021-01-28">2021-01-28</time>
+                            </span><span class="post-meta-words meta-item">
+                                <span class="svg-icon icon-pencil"></span>1839 words
+                            </span>
+                            <span class="post-meta-reading meta-item">
+                                <span class="svg-icon icon-stopwatch"></span>4 minutes
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </header>
+
+        <div class="article-post toc-start">
+
+            <div class="content-block content-block-first content-block-position">
+
+                <div class="post single"><div class="details toc" id="toc-static"  data-kept="">
+                        <div class="details-summary toc-title">
+                            <span>Contents</span>
+                        </div>
+                        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#dpdk开发模式">DPDK开发模式</a></li>
+    <li><a href="#最近的功能特性">最近的功能特性</a></li>
+    <li><a href="#dpdk以及网络相关的项目">DPDK以及网络相关的项目</a></li>
+    <li><a href="#使用dpdk">使用DPDK</a></li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav></div>
+                    </div><p><a href="https://www.linuxjournal.com/content/userspace-networking-dpdk" target="_blank" rel="noopener noreffer">DPDK用户态网络通信</a>。</p>
+<p>全称<code>Data Plane Development Kit</code>，DPDK是在用户空间操作的一项完全开源的技术。其架构支持多商户、异构，并且定位于实现高IO性能以及高网络处理速率（都是网络领域的重要指标）。其被Intel首创于2010年，后于2017年四月划归给了Linux基金会。这一举措将其定位为了Linux顶级项目。本身DPDK是为了电信架构设计的，但是如今却应用在了各个领域，包括不限于云架构、数据中心、基础设施、容器。本文，我们就来探究下2017年八月后发布的DPDK17.08版本的特性以及设计。</p>
+<p>无疑，这个技术是为了实现高速、高性能的网络通信。</p>
+<p>而DPDK为了实现这个大目标有这么几个基本的做法：</p>
+<ol>
+<li>DPDK完全在用户态下进行网络通信，无需切换内核态，少了切换成本。</li>
+<li>利用了内存大页机制，比如使用2MB或者1GB的大页，在通信的时候相比Linux标准页（默认为4KB）仅需要更少的页即可完成工作，因此TLB页表快取不命中的概率大大降低了（性能自然就提升了）。</li>
+<li>更底层的优化就是代码优化了。比如共享内存缓存行（避免伪共享），这样可以更高效地使用缓存，以及可以提前读缓存，优化策略诸如此类。</li>
+</ol>
+<p>DPDK技术近些年变得流行起来，被应用在了很多开源项目中。许多Linux发行版本（Fedora、Ubuntu）增加了内置支持。</p>
+<p>DPDK核心包括了库、驱动（也叫PMD Poll Mode Drivers）。本文撰写时为35个核心库。并且通过接口的形式抽象化了技术能力，将底层实现与其发布屏蔽，这样对于多个厂商来说更加灵活。</p>
+<h2 id="dpdk开发模式" class="headerLink"><a href="#dpdk%e5%bc%80%e5%8f%91%e6%a8%a1%e5%bc%8f" class="header-mark"></a>DPDK开发模式</h2><p>DPDK主要是C写的，其中也有部分Python写的工具。代码贡献、补丁、讨论都通过邮件的方式进行。补丁主要通过RFC的方式获取反馈。为了尽可能保证代码的稳定，我们倾向于尽可能保留ABI二进制接口。开发者们需要严格遵守ABI退出过程，包括需要提前通过邮件列表获取ABI变更的通过。发布页面会标出ABI的变更。如果有一些新功能存疑，但是被合并到了主分支，就会标记为<strong>实验性</strong>（将来可能会被移除）。举个实验性接口的例子：17年八月的时候，一个新的<code>rte_bus</code>接口被加入。</p>
+<p>同时需要说明：当有新的补丁时，支持多硬件、多厂商的通用接口必须要通过邮件发出来。必须保证至少有一个硬件或者厂商是支持新特性的。</p>
+<p>跟许多其他的开源项目一样，DPDK每年也会开很多会议，通过这种方式可以获取用户、参与者的反馈。除了会议也会有各种在线访问调查。（增强了社区互动性）</p>
+<p>DPDK官网维护了主分支源码，而其他的仓库专注于提供新特性。<code>dpdk-devbind.py</code>脚本使用DPDK协议连接网络、加密设备，还有<code>testpmd</code>是一个多功能工具，提供了转发、监控统计等功能。同时sample目录下提供了五十多个demo（都有完备的文档说明）。</p>
+<p>除了DPDK本身，网站还托管了其他的项目，比如DTS测试组件（一个基于Python的测试框架），内部有着一百多个测试组件。内部还使用了IXIA、Scapy框架，提供功能性、性能测试功能。这部分开箱即用。</p>
+<p>DPDK例常三个月发布一次。这种发布周期可以保证开发团队在比较快的节奏下进行产出，工作流程包括了review、讨论、改进代码。每个正式发布前会有3-5个release candidates发布待定。比如17.08这次发布，一共有125个作者参与，提供了1023个补丁（有来自不同系统的补丁）。长期稳定版LTS会维护两年（偶数年的11月起始）。</p>
+<h2 id="最近的功能特性" class="headerLink"><a href="#%e6%9c%80%e8%bf%91%e7%9a%84%e5%8a%9f%e8%83%bd%e7%89%b9%e6%80%a7" class="header-mark"></a>最近的功能特性</h2><p>过去一年有很多新的功能提供。我们举一个例子，DPDK 17.05中为Intel I40E driver提供的DDP（Dynamic Device Personalization）动态设备定制化功能。</p>
+<p>这个功能支持在I40E硬件上动态使用每个设备的信息。通过<code>ddp add</code>命令运行一个测试，<code>ddp del</code>进行移除。在网络流量波动的时候，可以动态调整profile信息的加载、卸载。这些profile信息是Intel创建的，与用户无关，使用此特性需要精通I40E设备内核知识。</p>
+<h2 id="dpdk以及网络相关的项目" class="headerLink"><a href="#dpdk%e4%bb%a5%e5%8f%8a%e7%bd%91%e7%bb%9c%e7%9b%b8%e5%85%b3%e7%9a%84%e9%a1%b9%e7%9b%ae" class="header-mark"></a>DPDK以及网络相关的项目</h2><p>DPDK在许多网络相关的项目上有所应用。简单看几个：</p>
+<ul>
+<li>Open vSwitch (OvS)：这个项目实现了虚拟网络切换功能</li>
+<li>Contrail vRouter：这是一家创业团队开发的SDN控制台</li>
+<li>pktgen-dpdk：基于DPDK制作的开源流量生成器</li>
+</ul>
+<h2 id="使用dpdk" class="headerLink"><a href="#%e4%bd%bf%e7%94%a8dpdk" class="header-mark"></a>使用DPDK</h2><p>对于新手用户、开发者，我们建议查看<a href="http://core.dpdk.org/doc/" target="_blank" rel="noopener noreffer">官方文档</a>进行上手。</p>
+<h2 id="小结" class="headerLink"><a href="#%e5%b0%8f%e7%bb%93" class="header-mark"></a>小结</h2><p>本文简单解析了DPDK技术原理、使用、功能特性。DPDK在工业界的使用越发广泛，前途也是一片光明。</p></div><footer>
+                        <div class="post">
+
+
+<div class="post-share"><div class="share-link">
+        <a class="share-icon share-twitter" href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://dragonsong.tech/posts/english/translation_dpdk/" data-title="用户态网络协议栈之DPDK" data-via="DragonSong1024" data-hashtags="English,DPDK"><span class="svg-social-icon icon-twitter"></span></a>
+    </div><div class="share-link">
+        <a class="share-icon share-weibo" href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://dragonsong.tech/posts/english/translation_dpdk/" data-title="用户态网络协议栈之DPDK"><span class="svg-social-icon icon-weibo"></span></a>
+    </div></div>
+
+
+
+
+
+
+<div class="post-tags"><a href="/tags/english/" class="tag">English</a><a href="/tags/dpdk/" class="tag">DPDK</a></div></div>
+                </footer></div>
+
+        <div id="toc-final"></div>
+        </div>
+
+    
+    </article>
+    <section class="page single comments content-block-position"><div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></section></div>
+
+</main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://dragonsong.tech/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target="_blank" title="uBlogger 2.0.1">uBlogger</a>
+                </div><div class="footer-line"><i class="svg-icon icon-copyright"></i><span>2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">粤ICP备2021020197号</span></div>
+        </div>
+    </footer></div>
+
+        <aside id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="svg-icon icon-arrow-up"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="svg-icon icon-comments-fixed"></i>
+            </a>
+        </aside><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/prismjs/prism.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"gitalk":{"admin":["long5778013"],"clientID":"bc5a91c74dda1fd92a10","clientSecret":"99a821a1c27e5dc85ea3105bf9bba089d1b580ea","id":"2021-01-28T13:03:50+08:00","owner":"long5778013","repo":"blog-comment","title":"用户态网络协议栈之DPDK"}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script src="/js/theme.min.js"></script></body>
+</html>

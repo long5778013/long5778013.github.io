@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noodp"/><title>晋西 != 晋西 ？？？ | </title><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:title" content="晋西 != 晋西 ？？？"/>
+<meta name="twitter:description" content="踩坑WebService接入外部非法数据（非打印字符）"/><meta name="twitter:creator" content="@DragonSong1024"/><meta name="Description" content="踩坑WebService接入外部非法数据（非打印字符）"><meta property="og:title" content="晋西 != 晋西 ？？？" />
+<meta property="og:description" content="踩坑WebService接入外部非法数据（非打印字符）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dragonsong.tech/posts/rd/troubleshoot/invalid_nonprinting_char/" />
+<meta property="article:published_time" content="2020-06-13T12:09:25+08:00" />
+<meta property="article:modified_time" content="2020-06-13T12:09:25+08:00" />
+<meta name="application-name" content="宋惠龙的大操场">
+<meta name="apple-mobile-web-app-title" content="宋惠龙的大操场"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://dragonsong.tech/posts/rd/troubleshoot/invalid_nonprinting_char/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/lib/prismjs/prism.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "晋西 != 晋西 ？？？",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/dragonsong.tech\/posts\/rd\/troubleshoot\/invalid_nonprinting_char\/"
+        },"genre": "posts","keywords": "WebService, 非打印字符, 问题排查","wordCount":  1128 ,
+        "url": "https:\/\/dragonsong.tech\/posts\/rd\/troubleshoot\/invalid_nonprinting_char\/","datePublished": "2020-06-13T12:09:25+08:00","dateModified": "2020-06-13T12:09:25+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","description": "踩坑WebService接入外部非法数据（非打印字符）"
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https:\/\/dragonsong.tech\/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "RD",
+            "item": "https://dragonsong.tech/categories/rd/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "晋西 != 晋西 ？？？"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header>
+    <div class="desktop header" id="header-desktop">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="宋惠龙的大操场" class="header-logo logo-svg">宋惠龙的大操场</a>
+            </div>
+            <div class="menu">
+                <nav>
+                    <ul class="menu-inner"><li>
+                            <a class="menu-item" href="/posts/"> Posts </a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/"> Tags </a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/"> Categories </a>
+                        </li><li>
+                            <a class="menu-item" href="/about/"> About </a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a>
+                        </li></ul>
+                </nav><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <span class="svg-icon icon-search"></span>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <span class="svg-icon icon-cancel"></span>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <span class="svg-icon icon-loading"></span>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <span class="svg-icon icon-moon"></span>
+                </a>
+            </div>
+        </div>
+    </div><div class="mobile header" id="header-mobile">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="header-title">
+                    <a href="/" title="宋惠龙的大操场" class="header-logo">宋惠龙的大操场</a>
+                </div>
+                <div class="menu-toggle" id="menu-toggle-mobile">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                        <div class="search mobile" id="search-mobile">
+                            <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                                <span class="svg-icon icon-search"></span>
+                            </a>
+                            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                                <span class="svg-icon icon-cancel"></span>
+                            </a>
+                            <span class="search-button search-loading" id="search-loading-mobile">
+                                <span class="svg-icon icon-loading"></span>
+                            </span>
+                        </div>
+                        <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                            Cancel
+                        </a>
+                    </div><nav>
+                    <ul><li>
+                            <a class="menu-item" href="/posts/" title="">Posts</a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/" title="">Tags</a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/" title="">Categories</a>
+                        </li><li>
+                            <a class="menu-item" href="/about/" title="">About</a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a>
+                        </li></ul>
+                </nav>
+                <a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <span class="svg-icon icon-moon"></span>
+                </a></div>
+        </div>
+    </div><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div></header><main class="main">
+<div class="container content-article page-toc theme-classic"><div class="toc" id="toc-auto">
+            <div class="toc-title">Contents</div>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div>
+
+    
+    
+    <article>
+    
+
+        <header class="header-post">
+
+            
+
+            
+            <div class="post-title">
+
+                    <div class="post-all-meta">
+                        <nav class="breadcrumbs">
+    <ol>
+        <li><a href="/">Home </a></li><li><a href="/categories/rd/">RD </a></li><li>晋西 != 晋西 ？？？</li>
+    </ol>
+</nav>
+                        <h1 class="single-title flipInX">晋西 != 晋西 ？？？</h1><div class="post-meta summary-post-meta"><span class="post-category meta-item">
+                                <a href="/categories/rd/"><span class="svg-icon icon-folder"></span>RD</a>
+                            </span><span class="post-meta-date meta-item">
+                                <span class="svg-icon icon-clock"></span><time class="timeago" datetime="2020-06-13">2020-06-13</time>
+                            </span><span class="post-meta-words meta-item">
+                                <span class="svg-icon icon-pencil"></span>1128 words
+                            </span>
+                            <span class="post-meta-reading meta-item">
+                                <span class="svg-icon icon-stopwatch"></span>3 minutes
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </header>
+
+        <div class="article-post toc-start">
+
+            <div class="content-block content-block-first content-block-position">
+
+                <div class="post single"><div class="details toc" id="toc-static"  data-kept="">
+                        <div class="details-summary toc-title">
+                            <span>Contents</span>
+                        </div>
+                        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#定位">定位</a></li>
+    <li><a href="#解决">解决</a></li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav></div>
+                    </div><div class="details admonition note open">
+        <div class="details-summary admonition-title" style="display: none">
+            <i class="icon admonition-icon icon-note"></i>Note<i class="details-icon admonition-icon admonition-icon-arrow-right"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">由于hugo渲染的时候会检查标题<code>title</code>内的非打印字符，所以这里把带有非打印字符的标题写到正文中。
+标题：晋西 != 晋西 ？？？
+hugo渲染报错：Error: Error building site: &ldquo;/Users/dragonsong/Downloads/code-repo/dragonsong031100/content/posts/rd/troubleshoot/invalid_nonprinting_char.md:2:1&rdquo;: failed to unmarshal YAML: yaml: control characters are not allowed</div>
+        </div>
+    </div>
+<h2 id="背景" class="headerLink"><a href="#%e8%83%8c%e6%99%af" class="header-mark"></a>背景</h2><p>19年开始我作为一个数据同步服务的owner开始整合各种外部数据接入的架构落地、编码设计。其中有一个客户提供老式的<code>WebService</code>协议的接口，我开发了一个针对该协议的agent客户端，负责把数据拉过来、同步（处理后置逻辑）。</p>
+<p>听起来很简单的过程：调用外部接口，拿到数据就可以扔给后面的服务。</p>
+<p>我们在前置的dev、sit环境都经过了测试，完全没有问题，接下来就往prod环境推。</p>
+<p>一推，就出问题了。</p>
+<p>使用了<code>cxf</code>框架处理协议的逻辑，框架内报了下面这个错误：</p>
+<pre><code class="language-log" data-lang="log">:[failed to localize] Failed to deserialize the response.(javax.xml.bind.UnmarshalException
+- with linked exception:
+[com.ctc.wstx.exc.WstxUnexpectedCharException: Illegal character ((CTRL-CHAR, code 8))
+at [row,col {unknown-source}]: [1,169325]])
+</code></pre><h2 id="定位" class="headerLink"><a href="#%e5%ae%9a%e4%bd%8d" class="header-mark"></a>定位</h2><p>首先我当时考虑，一样的程序（检查下仓库分支、发布在不同环境使用的hash码）在前置环境未出问题，那么不同的环境下有哪些东西是不一样的呢？（这种情况肯定是变化的内容导致了问题）</p>
+<ol>
+<li>机器环境不同
+但是我们这个程序只是作为客户端，机器环境只负责将应用跑起来，并不会影响这里拉数据的运行时状态</li>
+<li>数据不同
+这点取决于外部，分析下来也只有这里有问题</li>
+</ol>
+<p>其次，顺着异常栈，找一下<code>cxf</code>中抛异常的逻辑。</p>
+<div id="id-1"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/troubleshoot/err_cxf_ctrl_char.jpg"
+         alt="cxf框架中拿到字节后反序列化时针对非打印字符（ctrl-char）的报错异常栈"
+         title="err_cxf_ctrl_char.jpg"
+    /></div>
+<p>而其源码中的抛错逻辑很明确：碰到<code>ctrl-char</code>就直接抛出异常。目的是排除这类非法数据，在编写本文时，hugo中也有类似逻辑（不允许我直接在标题中使用非打印字符）。</p>
+<p>当时我定位问题的时候走了一些弯路，标题中的「晋西 != 晋西 ？？？」是数据中的字符，而我当时完全忘记了有非打印字符这回事，我尝试把接口拿到的数据在本地打开，使用<code>ctrl+f</code>匹配字符时才发现，明明我两只眼睛都看到了晋西这两个字，但是就是匹配不上。明白原因之后才恍然大悟，中间有一个<code>\b</code>非打印字符，所以开始用眼睛来查问题，查错了方向。</p>
+<p>此次之后，我们一定要铭记非打印字符的存在，这些字符用眼睛是看不到的，切忌用错误的方式来排查问题。</p>
+<p>Java中使用<code>Character.isISOControl(char)</code>进行判断。</p>
+<p>关于<code>ctrl-char</code>的范围、概念可以参考这里：<a href="https://www.compart.com/en/unicode/category/Cc" target="_blank" rel="noopener noreffer">List of Unicode Characters of Category “Control”</a>。</p>
+<h2 id="解决" class="headerLink"><a href="#%e8%a7%a3%e5%86%b3" class="header-mark"></a>解决</h2><p>web相关的框架都提供了拦截器机制，我们利用cxf提供的这类机制自定义一个<code>FilterCtrlCharInterceptor</code>，内部方法将此类非法字符排除。</p>
+<p>其中排除的逻辑可以用正则直接匹配替换：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">string<span style="color:#f92672">.</span><span style="color:#a6e22e">replaceAll</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;([\b|\f|\n|\r|\t])&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</code></pre></div><p>也可以直接使用guava库：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">CharMatcher<span style="color:#f92672">.</span><span style="color:#a6e22e">JAVA_ISO_CONTROL</span><span style="color:#f92672">.</span><span style="color:#a6e22e">removeFrom</span><span style="color:#f92672">(</span>string<span style="color:#f92672">);</span>
+</code></pre></div><h2 id="小结" class="headerLink"><a href="#%e5%b0%8f%e7%bb%93" class="header-mark"></a>小结</h2><p>本文通过经验判断、异常栈分析的方式排查了cxf框架中数据反序列化的异常检查问题。解决方式非常简单，直接正则匹配替换非法字符即可。</p>
+<p>同时，我们可以控制的数据范围内，一定要有主动排除非法字符的逻辑，防止这类数据写库。</p></div><footer>
+                        <div class="post">
+
+
+<div class="post-share"><div class="share-link">
+        <a class="share-icon share-twitter" href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://dragonsong.tech/posts/rd/troubleshoot/invalid_nonprinting_char/" data-title="晋西 != 晋西 ？？？" data-via="DragonSong1024" data-hashtags="WebService,非打印字符,问题排查"><span class="svg-social-icon icon-twitter"></span></a>
+    </div><div class="share-link">
+        <a class="share-icon share-weibo" href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://dragonsong.tech/posts/rd/troubleshoot/invalid_nonprinting_char/" data-title="晋西 != 晋西 ？？？"><span class="svg-social-icon icon-weibo"></span></a>
+    </div></div>
+
+
+
+
+
+
+<div class="post-tags"><a href="/tags/webservice/" class="tag">WebService</a><a href="/tags/%E9%9D%9E%E6%89%93%E5%8D%B0%E5%AD%97%E7%AC%A6/" class="tag">非打印字符</a><a href="/tags/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/" class="tag">问题排查</a></div></div>
+                </footer></div>
+
+        <div id="toc-final"></div>
+        </div>
+
+    
+    </article>
+    <section class="page single comments content-block-position"><div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></section></div>
+
+</main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://dragonsong.tech/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target="_blank" title="uBlogger 2.0.1">uBlogger</a>
+                </div><div class="footer-line"><i class="svg-icon icon-copyright"></i><span>2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">粤ICP备2021020197号</span></div>
+        </div>
+    </footer></div>
+
+        <aside id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="svg-icon icon-arrow-up"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="svg-icon icon-comments-fixed"></i>
+            </a>
+        </aside><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/css/c65bcc.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/prismjs/prism.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"gitalk":{"admin":["long5778013"],"clientID":"bc5a91c74dda1fd92a10","clientSecret":"99a821a1c27e5dc85ea3105bf9bba089d1b580ea","id":"2020-06-13T12:09:25+08:00","owner":"long5778013","repo":"blog-comment","title":"晋西 != 晋西 ？？？"}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script src="/js/theme.min.js"></script></body>
+</html>

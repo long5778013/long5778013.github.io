@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noodp"/><title>研究一下fork函数 | </title><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:title" content="研究一下fork函数"/>
+<meta name="twitter:description" content="了解Unix、Linux系统下的进程控制fork函数"/><meta name="twitter:creator" content="@DragonSong1024"/><meta name="Description" content="了解Unix、Linux系统下的进程控制fork函数"><meta property="og:title" content="研究一下fork函数" />
+<meta property="og:description" content="了解Unix、Linux系统下的进程控制fork函数" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dragonsong.tech/posts/rd/linux/fork/" />
+<meta property="article:published_time" content="2021-02-02T14:14:25+08:00" />
+<meta property="article:modified_time" content="2021-02-02T14:14:25+08:00" />
+<meta name="application-name" content="宋惠龙的大操场">
+<meta name="apple-mobile-web-app-title" content="宋惠龙的大操场"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://dragonsong.tech/posts/rd/linux/fork/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/lib/prismjs/prism.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "研究一下fork函数",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/dragonsong.tech\/posts\/rd\/linux\/fork\/"
+        },"genre": "posts","keywords": "Linux, fork, 进程控制, 研究一下","wordCount":  1528 ,
+        "url": "https:\/\/dragonsong.tech\/posts\/rd\/linux\/fork\/","datePublished": "2021-02-02T14:14:25+08:00","dateModified": "2021-02-02T14:14:25+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","description": "了解Unix、Linux系统下的进程控制fork函数"
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https:\/\/dragonsong.tech\/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "RD",
+            "item": "https://dragonsong.tech/categories/rd/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "研究一下fork函数"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header>
+    <div class="desktop header" id="header-desktop">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="宋惠龙的大操场" class="header-logo logo-svg">宋惠龙的大操场</a>
+            </div>
+            <div class="menu">
+                <nav>
+                    <ul class="menu-inner"><li>
+                            <a class="menu-item" href="/posts/"> Posts </a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/"> Tags </a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/"> Categories </a>
+                        </li><li>
+                            <a class="menu-item" href="/about/"> About </a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a>
+                        </li></ul>
+                </nav><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <span class="svg-icon icon-search"></span>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <span class="svg-icon icon-cancel"></span>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <span class="svg-icon icon-loading"></span>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <span class="svg-icon icon-moon"></span>
+                </a>
+            </div>
+        </div>
+    </div><div class="mobile header" id="header-mobile">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="header-title">
+                    <a href="/" title="宋惠龙的大操场" class="header-logo">宋惠龙的大操场</a>
+                </div>
+                <div class="menu-toggle" id="menu-toggle-mobile">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                        <div class="search mobile" id="search-mobile">
+                            <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                                <span class="svg-icon icon-search"></span>
+                            </a>
+                            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                                <span class="svg-icon icon-cancel"></span>
+                            </a>
+                            <span class="search-button search-loading" id="search-loading-mobile">
+                                <span class="svg-icon icon-loading"></span>
+                            </span>
+                        </div>
+                        <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                            Cancel
+                        </a>
+                    </div><nav>
+                    <ul><li>
+                            <a class="menu-item" href="/posts/" title="">Posts</a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/" title="">Tags</a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/" title="">Categories</a>
+                        </li><li>
+                            <a class="menu-item" href="/about/" title="">About</a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a>
+                        </li></ul>
+                </nav>
+                <a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <span class="svg-icon icon-moon"></span>
+                </a></div>
+        </div>
+    </div><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div></header><main class="main">
+<div class="container content-article page-toc theme-classic"><div class="toc" id="toc-auto">
+            <div class="toc-title">Contents</div>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div>
+
+    
+    
+    <article>
+    
+
+        <header class="header-post">
+
+            
+
+            
+            <div class="post-title">
+
+                    <div class="post-all-meta">
+                        <nav class="breadcrumbs">
+    <ol>
+        <li><a href="/">Home </a></li><li><a href="/categories/rd/">RD </a></li><li>研究一下fork函数</li>
+    </ol>
+</nav>
+                        <h1 class="single-title flipInX">研究一下fork函数</h1><div class="post-meta summary-post-meta"><span class="post-category meta-item">
+                                <a href="/categories/rd/"><span class="svg-icon icon-folder"></span>RD</a>
+                            </span><span class="post-meta-date meta-item">
+                                <span class="svg-icon icon-clock"></span><time class="timeago" datetime="2021-02-02">2021-02-02</time>
+                            </span><span class="post-meta-words meta-item">
+                                <span class="svg-icon icon-pencil"></span>1528 words
+                            </span>
+                            <span class="post-meta-reading meta-item">
+                                <span class="svg-icon icon-stopwatch"></span>4 minutes
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </header>
+
+        <div class="article-post toc-start">
+
+            <div class="content-block content-block-first content-block-position">
+
+                <div class="post single"><div class="details toc" id="toc-static"  data-kept="">
+                        <div class="details-summary toc-title">
+                            <span>Contents</span>
+                        </div>
+                        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#定义">定义</a></li>
+    <li><a href="#返回值">返回值</a></li>
+    <li><a href="#返回错误">返回错误</a></li>
+    <li><a href="#使用的例子">使用的例子</a></li>
+    <li><a href="#调用影响">调用影响</a></li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#ref">Ref</a></li>
+  </ul>
+</nav></div>
+                    </div><div class="details admonition note open">
+        <div class="details-summary admonition-title" style="display: none">
+            <i class="icon admonition-icon icon-note"></i>Note<i class="details-icon admonition-icon admonition-icon-arrow-right"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">工作中经常会碰到需要<strong>研究一下</strong>的问题，而这些问题恰好暴露出自己基础知识的不完备，因此博客中对需要「研究」的知识归类成文。</div>
+        </div>
+    </div>
+<h2 id="定义" class="headerLink"><a href="#%e5%ae%9a%e4%b9%89" class="header-mark"></a>定义</h2><p>Unix/Linux操作系统提供<a href="https://man7.org/linux/man-pages/man2/fork.2.html" target="_blank" rel="noopener noreffer">fork函数</a>，用于创建当前进程的子进程。</p>
+<h2 id="返回值" class="headerLink"><a href="#%e8%bf%94%e5%9b%9e%e5%80%bc" class="header-mark"></a>返回值</h2><p>这个函数会返回两次值【区分父子进程】，原因是内核拷贝当前进程形成新的子进程，而在两个进程中都会做出返回动作。</p>
+<ul>
+<li>子进程返回0，pid0这个在内核中分配给了内核交换进程【特殊值】，所以这里的0表示是子进程返回的，调用方在此返回分支下执行子进程逻辑。同时子进程可以在任意地方调用<code>getppid()</code>获取父进程id</li>
+<li>父进程返回子进程的id，原因是父进程只能通过这种方式记录子进程id</li>
+</ul>
+<h2 id="返回错误" class="headerLink"><a href="#%e8%bf%94%e5%9b%9e%e9%94%99%e8%af%af" class="header-mark"></a>返回错误</h2><p>fork调用失败会返回-1，因此调用方需要针对错误进行容错处理。</p>
+<p>调用错误的可能原因：</p>
+<ul>
+<li>进程数超限</li>
+<li>内核内存紧张</li>
+<li>系统没实现fork</li>
+</ul>
+<h2 id="使用的例子" class="headerLink"><a href="#%e4%bd%bf%e7%94%a8%e7%9a%84%e4%be%8b%e5%ad%90" class="header-mark"></a>使用的例子</h2><p>我们看一下<code>Redis</code>中后台生成<code>rdb</code>文件（<a href="https://github.com/redis/redis/blob/e916058f0ba59e964f5de3dee17f46ae08f1d385/src/rdb.c#L1343-L1378" target="_blank" rel="noopener noreffer">rdbSaveBackground</a>）中对<code>fork</code>使用的例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">rdbSaveBackground</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>filename, rdbSaveInfo <span style="color:#f92672">*</span>rsi) {
+    pid_t childpid;
+
+    <span style="color:#66d9ef">if</span> ((childpid <span style="color:#f92672">=</span> redisFork()) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#75715e">// 这个分支下处理了子进程逻辑
+</span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#75715e">// 这里则处理父进程，并且判断返回-1的错误情况
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (childpid <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+            <span style="color:#75715e">// 错误处理
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> C_ERR;
+        }
+        <span style="color:#66d9ef">return</span> C_OK;
+    }
+    <span style="color:#66d9ef">return</span> C_OK; 
+}
+</code></pre></div><p>可以看到<code>Redis</code>中是正确处理了<code>fork</code>返回值。</p>
+<h2 id="调用影响" class="headerLink"><a href="#%e8%b0%83%e7%94%a8%e5%bd%b1%e5%93%8d" class="header-mark"></a>调用影响</h2><p><code>fork</code>调用之后，创建的子进程会拷贝父进程的地址空间，包括：</p>
+<ul>
+<li>堆</li>
+<li>栈</li>
+<li>数据</li>
+</ul>
+<p>一般来说子进程创建之后，内核通过<code>glibc</code>中的<code>exec</code>函数执行拷贝逻辑（基于<code>execve</code>），这个过程不一定会用到这些<strong>数据的全部</strong>，也不一定是<strong>立刻</strong>会用到（修改）。所以考虑到这点，内核提供了<code>COW</code>写时复制的机制。</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title" style="display: none">
+            <i class="icon admonition-icon icon-note"></i>Note<i class="details-icon admonition-icon admonition-icon-arrow-right"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">简单来说<code>copy on write</code>，就是在修改一块数据的时候，我们才复制一份原数据进行修改（延迟、惰性写），这是这个机制的基本思路。这种思路同样可应用在应用系统设计中。</div>
+        </div>
+    </div>
+<p><code>fork</code>调用后子进程会立即持有一份 指向与父进程相同的物理内存页 的页表（<code>PTE:Page Table Entry</code>），页表相对物理内存来说轻量很多。此时如果物理内存页没有发生变化，页表中会标记为只读状态，而一旦父子进程中有一个需要修改物理内存数据，则触发缺页异常（<code>page fault</code>标识数据一致性需要同步）。</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title" style="display: none">
+            <i class="icon admonition-icon icon-note"></i>Note<i class="details-icon admonition-icon admonition-icon-arrow-right"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">页表（<code>PTE:Page Table Entry</code>）是一个列表，内部维护了每一虚拟页与物理内存页的映射关系。</div>
+        </div>
+    </div>
+<p>此时内核就执行<code>COW</code>逻辑：</p>
+<ul>
+<li>创建一个新的物理页</li>
+<li>拷贝内容到新的物理页</li>
+<li>分配父子进程各自的页表</li>
+<li>页表中页项状态修改为可写（表示这一页更新成最新状态了）</li>
+</ul>
+<p>通过上面过程的描述，<code>fork</code>刚刚调用后，只要对应物理内存没有修改动作，则子进程只需要拷贝轻量级的页表，对于调用方来说，性能大大提升。而物理内存拷贝的动作，发生在数据被父子进程修改的时刻，这里才是性能消耗的时候。</p>
+<div id="id-1"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/linux/fork_process.jpg"
+         alt="fork调用过程"
+         title="fork_process.jpg"
+    /></div>
+<p>到此，我们可以考虑下，比如在<code>Redis</code>中，为什么<code>fork</code>有时候会阻塞主进程（线程）呢？考虑<code>Redis</code>大多数时候作为缓存存储服务，前端的请求量是比较高的，那么<code>fork</code>后数据发生了变化（更新动作），主进程对应的某一页数据就发生了变更，此时就进入了<code>COW</code>拷贝动作的逻辑内。如果此时系统配置了大页（比如1GB），又恰好修改的数据命中到这一页时，拷贝的数据量大阻塞时间就会更久。不过互联网缓存业务中，读多写少，因而这种情况发生概率较低。</p>
+<p>因此，我们小结下，<code>fork</code>调用后，子进程立刻持有页表，而拷贝动作的影响大小，取决于父子进程的物理数据是否被修改，这个决定了拷贝动作发生的时刻。</p>
+<h2 id="小结" class="headerLink"><a href="#%e5%b0%8f%e7%bb%93" class="header-mark"></a>小结</h2><p>以上，我们过了一遍<code>fork</code>的定义、处理过程、影响。</p>
+<p>从这一函数内部的设计中，我们可以学习延迟写<code>COW</code>的思路，在读多写少的场景下，<code>COW</code>可以有效减少没必要的数据复制，提高系统性能。</p>
+<h2 id="ref" class="headerLink"><a href="#ref" class="header-mark"></a>Ref</h2><ul>
+<li><a href="http://ifeve.com/java-copy-on-write/" target="_blank" rel="noopener noreffer">聊聊并发-Java中的Copy-On-Write容器</a></li>
+<li><a href="https://book.douban.com/subject/26820213/" target="_blank" rel="noopener noreffer">Linux环境编程：从应用到内核</a></li>
+<li><a href="https://book.douban.com/subject/25900403/" target="_blank" rel="noopener noreffer">UNIX环境高级编程（第3版）</a></li>
+</ul></div><footer>
+                        <div class="post">
+
+
+<div class="post-share"><div class="share-link">
+        <a class="share-icon share-twitter" href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://dragonsong.tech/posts/rd/linux/fork/" data-title="研究一下fork函数" data-via="DragonSong1024" data-hashtags="Linux,fork,进程控制,研究一下"><span class="svg-social-icon icon-twitter"></span></a>
+    </div><div class="share-link">
+        <a class="share-icon share-weibo" href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://dragonsong.tech/posts/rd/linux/fork/" data-title="研究一下fork函数"><span class="svg-social-icon icon-weibo"></span></a>
+    </div></div>
+
+
+
+
+
+
+<div class="post-tags"><a href="/tags/linux/" class="tag">Linux</a><a href="/tags/fork/" class="tag">fork</a><a href="/tags/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" class="tag">进程控制</a><a href="/tags/%E7%A0%94%E7%A9%B6%E4%B8%80%E4%B8%8B/" class="tag">研究一下</a></div></div>
+                </footer></div>
+
+        <div id="toc-final"></div>
+        </div>
+
+    
+    </article>
+    <section class="page single comments content-block-position"><div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></section></div>
+
+</main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://dragonsong.tech/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target="_blank" title="uBlogger 2.0.1">uBlogger</a>
+                </div><div class="footer-line"><i class="svg-icon icon-copyright"></i><span>2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">粤ICP备2021020197号</span></div>
+        </div>
+    </footer></div>
+
+        <aside id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="svg-icon icon-arrow-up"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="svg-icon icon-comments-fixed"></i>
+            </a>
+        </aside><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/css/c65bcc.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/prismjs/prism.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"gitalk":{"admin":["long5778013"],"clientID":"bc5a91c74dda1fd92a10","clientSecret":"99a821a1c27e5dc85ea3105bf9bba089d1b580ea","id":"2021-02-02T14:14:25+08:00","owner":"long5778013","repo":"blog-comment","title":"研究一下fork函数"}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script src="/js/theme.min.js"></script></body>
+</html>

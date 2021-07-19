@@ -1,0 +1,28 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Summary - Category - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/categories/summary/</link>
+        <description>Summary - Category - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 01 Jan 2021 22:09:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/categories/summary/" rel="self" type="application/rss+xml" /><item>
+    <title>回首我的2020</title>
+    <link>https://dragonsong.tech/posts/summary/year_2020/</link>
+    <pubDate>Fri, 01 Jan 2021 22:09:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/summary/year_2020/</guid>
+    <description><![CDATA[简单总结下2020年]]></description>
+</item><item>
+    <title>回首我的2019</title>
+    <link>https://dragonsong.tech/posts/summary/year_2019/</link>
+    <pubDate>Wed, 01 Jan 2020 22:09:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/summary/year_2019/</guid>
+    <description><![CDATA[简单总结下2019年]]></description>
+</item><item>
+    <title>回首我的2018</title>
+    <link>https://dragonsong.tech/posts/summary/year_2018/</link>
+    <pubDate>Tue, 01 Jan 2019 22:09:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/summary/year_2018/</guid>
+    <description><![CDATA[简单总结下2018年]]></description>
+</item></channel>
+</rss>

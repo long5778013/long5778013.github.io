@@ -1,0 +1,77 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>English - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/english/</link>
+        <description>English - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 28 Jan 2021 13:03:50 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/english/" rel="self" type="application/rss+xml" /><item>
+    <title>用户态网络协议栈之DPDK</title>
+    <link>https://dragonsong.tech/posts/english/translation_dpdk/</link>
+    <pubDate>Thu, 28 Jan 2021 13:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_dpdk/</guid>
+    <description><![CDATA[了解下DPDK技术基本原理]]></description>
+</item><item>
+    <title>Linux中的swap空间</title>
+    <link>https://dragonsong.tech/posts/english/translation_all_about_linux_swap_space/</link>
+    <pubDate>Mon, 18 Jan 2021 11:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_all_about_linux_swap_space/</guid>
+    <description><![CDATA[原文：All about Linux swap space Linux将物理RAM内存分割成不同的内存块，我们把这个块叫做页page。而交换swapping这个动作发生在将一页内存]]></description>
+</item><item>
+    <title>什么是NUMA架构？</title>
+    <link>https://dragonsong.tech/posts/english/translation_what_is_numa/</link>
+    <pubDate>Mon, 18 Jan 2021 11:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_what_is_numa/</guid>
+    <description><![CDATA[Linux内核文档：What is NUMA?。 关于NUMA架构是什么的问题，可以同时从硬件、软件的不同角度进行解释。 硬件角度从硬件来看，NUMA]]></description>
+</item><item>
+    <title>简析Linux IO多路复用模型</title>
+    <link>https://dragonsong.tech/posts/english/translation_linux_io/</link>
+    <pubDate>Mon, 18 Jan 2021 11:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_linux_io/</guid>
+    <description><![CDATA[原文：LINUX – IO MULTIPLEXING – SELECT VS POLL VS EPOLL。 对于Unix（Linux）系统我们有一个基本的设定：系统中的任何对象都是个文件everythin]]></description>
+</item><item>
+    <title>译---在Redis中存储亿万级的简单KV数据</title>
+    <link>https://dragonsong.tech/posts/english/translation_storing_hundreds_of_millions_of_simple_key_value_pairs_in_redis/</link>
+    <pubDate>Fri, 15 Jan 2021 13:18:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_storing_hundreds_of_millions_of_simple_key_value_pairs_in_redis/</guid>
+    <description><![CDATA[原文：Storing hundreds of millions of simple key-value pairs in Redis 。 背景：本文讲的是Instagram团队2011年时碰到的一个技术场景。新旧系统迁移，需要做一些脚手架]]></description>
+</item><item>
+    <title>译---LinkedIn如何高效进行代码评审</title>
+    <link>https://dragonsong.tech/posts/english/translation_linkedin_code_review/</link>
+    <pubDate>Sat, 04 May 2019 09:20:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_linkedin_code_review/</guid>
+    <description><![CDATA[译作。对原文做核心理念的意译。 linkedin-code-review LinkedIn 针对高效代码评审的几条建议PrefaceLinkedIn 刚刚完成了百万行代码审查的里程碑式的工程。其团]]></description>
+</item><item>
+    <title>english_reading_regular</title>
+    <link>https://dragonsong.tech/posts/english/english_reading_regular/</link>
+    <pubDate>Fri, 05 Jan 2018 23:21:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/english_reading_regular/</guid>
+    <description><![CDATA[这是一个关于坚持与进步的英语学习日常计划，根据日期增量更新。 2018.01.31 Today I launched my first mobile app. Here’s what I learned 生词： wildcard：通配符 tangible]]></description>
+</item><item>
+    <title>译---如何做好产品经理面试工作</title>
+    <link>https://dragonsong.tech/posts/english/translation_how_to_ace_your_pm_interview/</link>
+    <pubDate>Tue, 25 Oct 2016 18:54:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_how_to_ace_your_pm_interview/</guid>
+    <description><![CDATA[翻译：简书作者 DragonSong **行文目的：**与更多国人分享好的理念 个人朗读：发布于荔枝FM 原文链接：Crafting The First Mile Of Product 原文作者：Scott Belsky Entrepreneur]]></description>
+</item><item>
+    <title>译---治好纠结症让你动起来</title>
+    <link>https://dragonsong.tech/posts/english/translation_a_short_guide_to_starting_if_ure_struggling/</link>
+    <pubDate>Tue, 25 Oct 2016 18:54:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_a_short_guide_to_starting_if_ure_struggling/</guid>
+    <description><![CDATA[翻译：简书作者 DragonSong **行文目的：**分享外文理念 个人朗读：发布于荔枝FM 原文链接：A Short Guide to Starting, if You’re Struggling 原文作者：Leo Babauta I know a lot of people who fall]]></description>
+</item><item>
+    <title>译---匠心打造产品第一公里</title>
+    <link>https://dragonsong.tech/posts/english/translation_crafting_first_mile_of_product/</link>
+    <pubDate>Thu, 06 Oct 2016 14:21:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_crafting_first_mile_of_product/</guid>
+    <description><![CDATA[翻译：简书作者 DragonSong **行文目的：**与更多国人分享好的理念 个人朗读：发布于荔枝FM 原文链接：Crafting The First Mile Of Product 原文作者：Scott Belsky Entrepreneur]]></description>
+</item></channel>
+</rss>

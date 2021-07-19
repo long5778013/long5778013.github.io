@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>buffer - Tag - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/tags/buffer/</link>
+        <description>buffer - Tag - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 10 Apr 2021 10:59:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/tags/buffer/" rel="self" type="application/rss+xml" /><item>
+    <title>buffer跟cache的区别是什么？</title>
+    <link>https://dragonsong.tech/posts/rd/qa/difference_buffer_cache/</link>
+    <pubDate>Sat, 10 Apr 2021 10:59:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/qa/difference_buffer_cache/</guid>
+    <description><![CDATA[解答组内技术分享时抛出的一个疑问：buffer跟cache的区别是什么？]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noodp"/><title>Tomcat精粹 | </title><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:title" content="Tomcat精粹"/>
+<meta name="twitter:description" content="理解Tomcat主要的架构设计、核心组件设计、功能实现以及性能优化方案，细数我目前对Tomcat掌握的知识"/><meta name="twitter:creator" content="@DragonSong1024"/><meta name="Description" content="理解Tomcat主要的架构设计、核心组件设计、功能实现以及性能优化方案，细数我目前对Tomcat掌握的知识"><meta property="og:title" content="Tomcat精粹" />
+<meta property="og:description" content="理解Tomcat主要的架构设计、核心组件设计、功能实现以及性能优化方案，细数我目前对Tomcat掌握的知识" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dragonsong.tech/posts/rd/tomcat/essence/" />
+<meta property="article:published_time" content="2021-02-10T15:04:25+08:00" />
+<meta property="article:modified_time" content="2021-02-27T21:34:25+08:00" />
+<meta name="application-name" content="宋惠龙的大操场">
+<meta name="apple-mobile-web-app-title" content="宋惠龙的大操场"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://dragonsong.tech/posts/rd/tomcat/essence/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/lib/prismjs/prism.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Tomcat精粹",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/dragonsong.tech\/posts\/rd\/tomcat\/essence\/"
+        },"genre": "posts","keywords": "Tomcat","wordCount":  5595 ,
+        "url": "https:\/\/dragonsong.tech\/posts\/rd\/tomcat\/essence\/","datePublished": "2021-02-10T15:04:25+08:00","dateModified": "2021-02-27T21:34:25+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","description": "理解Tomcat主要的架构设计、核心组件设计、功能实现以及性能优化方案，细数我目前对Tomcat掌握的知识"
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https:\/\/dragonsong.tech\/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "RD",
+            "item": "https://dragonsong.tech/categories/rd/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Tomcat精粹"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header>
+    <div class="desktop header" id="header-desktop">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="宋惠龙的大操场" class="header-logo logo-svg">宋惠龙的大操场</a>
+            </div>
+            <div class="menu">
+                <nav>
+                    <ul class="menu-inner"><li>
+                            <a class="menu-item" href="/posts/"> Posts </a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/"> Tags </a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/"> Categories </a>
+                        </li><li>
+                            <a class="menu-item" href="/about/"> About </a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a>
+                        </li></ul>
+                </nav><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <span class="svg-icon icon-search"></span>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <span class="svg-icon icon-cancel"></span>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <span class="svg-icon icon-loading"></span>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <span class="svg-icon icon-moon"></span>
+                </a>
+            </div>
+        </div>
+    </div><div class="mobile header" id="header-mobile">
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="header-title">
+                    <a href="/" title="宋惠龙的大操场" class="header-logo">宋惠龙的大操场</a>
+                </div>
+                <div class="menu-toggle" id="menu-toggle-mobile">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                        <div class="search mobile" id="search-mobile">
+                            <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                                <span class="svg-icon icon-search"></span>
+                            </a>
+                            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                                <span class="svg-icon icon-cancel"></span>
+                            </a>
+                            <span class="search-button search-loading" id="search-loading-mobile">
+                                <span class="svg-icon icon-loading"></span>
+                            </span>
+                        </div>
+                        <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                            Cancel
+                        </a>
+                    </div><nav>
+                    <ul><li>
+                            <a class="menu-item" href="/posts/" title="">Posts</a>
+                        </li><li>
+                            <a class="menu-item" href="/tags/" title="">Tags</a>
+                        </li><li>
+                            <a class="menu-item" href="/categories/" title="">Categories</a>
+                        </li><li>
+                            <a class="menu-item" href="/about/" title="">About</a>
+                        </li><li>
+                            <a class="menu-item" href="https://github.com/long5778013" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a>
+                        </li></ul>
+                </nav>
+                <a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <span class="svg-icon icon-moon"></span>
+                </a></div>
+        </div>
+    </div><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div></header><main class="main">
+<div class="container content-article page-toc theme-classic"><div class="toc" id="toc-auto">
+            <div class="toc-title">Contents</div>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div>
+
+    
+    
+    <article>
+    
+
+        <header class="header-post">
+
+            
+
+            
+            <div class="post-title">
+
+                    <div class="post-all-meta">
+                        <nav class="breadcrumbs">
+    <ol>
+        <li><a href="/">Home </a></li><li><a href="/categories/rd/">RD </a></li><li>Tomcat精粹</li>
+    </ol>
+</nav>
+                        <h1 class="single-title flipInX">Tomcat精粹</h1><div class="post-meta summary-post-meta"><span class="post-category meta-item">
+                                <a href="/categories/rd/"><span class="svg-icon icon-folder"></span>RD</a>
+                            </span><span class="post-meta-date meta-item">
+                                <span class="svg-icon icon-clock"></span><time class="timeago" datetime="2021-02-10">2021-02-10</time>
+                            </span><span class="post-meta-words meta-item">
+                                <span class="svg-icon icon-pencil"></span>5595 words
+                            </span>
+                            <span class="post-meta-reading meta-item">
+                                <span class="svg-icon icon-stopwatch"></span>12 minutes
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </header>
+
+        <div class="article-post toc-start">
+
+            <div class="content-block content-block-first content-block-position">
+
+                <div class="post single"><div class="details toc" id="toc-static"  data-kept="">
+                        <div class="details-summary toc-title">
+                            <span>Contents</span>
+                        </div>
+                        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1架构组件抽象">1.架构组件抽象</a></li>
+    <li><a href="#2线程使用">2.线程使用</a>
+      <ul>
+        <li><a href="#线程池类自定义">线程池类自定义</a></li>
+        <li><a href="#线程模型">线程模型</a></li>
+      </ul>
+    </li>
+    <li><a href="#3合理并发容器">3.合理并发容器</a></li>
+    <li><a href="#4延迟写">4.延迟写</a></li>
+    <li><a href="#5提高锁的使用效率">5.提高锁的使用效率</a>
+      <ul>
+        <li><a href="#缩小锁的范围">缩小锁的范围</a></li>
+        <li><a href="#使用无锁技术">使用无锁技术</a></li>
+      </ul>
+    </li>
+    <li><a href="#6使用堆外内存提高io效率">6.使用堆外内存提高IO效率</a></li>
+    <li><a href="#7使用零拷贝技术">7.使用零拷贝技术</a></li>
+    <li><a href="#8自定义classloader">8.自定义ClassLoader</a>
+      <ul>
+        <li><a href="#加载过程">加载过程</a></li>
+        <li><a href="#隔离机制">隔离机制</a></li>
+        <li><a href="#类加载小结">类加载小结</a></li>
+      </ul>
+    </li>
+    <li><a href="#9热加载与热部署">9.热加载与热部署</a></li>
+  </ul>
+</nav></div>
+                    </div><div style="margin: 20px 0 20px 0;">
+                        <span class="post-update">
+                            <span class="s">Updated on 2021-02-27</span>
+                        </span>
+                    </div><p>原先打算按照深入浅出系列的结构来讲解本文，后来想想这种文章别人早就已经写过了，那倒不如我们就抱着一个简单的想法「<strong>从<code>Tomcat</code>中我们学到什么？</strong>」来试试把本文填满。</p>
+<p>Servlet之于Java，相当于wsgi之于Python。我之前看到微博有人发牢骚「不懂Python的wsgi为什么要把web开发搞的这么复杂？！」，其实这个问题很好解答，如果我们只做简单的项目，我们就不需要<code>Tomcat</code>，甚至不需要<code>Spring</code>、<code>SpringMVC</code>，简单到一定程度连<code>Http</code>协议都不需要了。</p>
+<p>简单的需求我们直接用原生<code>@WebServlet</code>的方式处理接口逻辑，足矣。</p>
+<p>但是我们的<code>Web</code>后端可以这么简单吗？</p>
+<p>肯定不能！</p>
+<h2 id="1架构组件抽象" class="headerLink"><a href="#1%e6%9e%b6%e6%9e%84%e7%bb%84%e4%bb%b6%e6%8a%bd%e8%b1%a1" class="header-mark"></a>1.架构组件抽象</h2><p>常见的中间件、技术组件单独拿出来做的一个原因是：分离了服务中变化与不变的内容，而技术组件只负责不变的内容。这就是解耦！</p>
+<p>比如本文要聊的<code>Tomcat</code>作为<code>HTTP</code>服务器实现了网络协议的连接、转换、传输功能，同时作为<code>Servlet</code>容器实现了接入业务接口的功能。</p>
+<p>针对<code>Tomcat</code>的核心组件画了个图：
+<div id="id-1"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/tomcat/core_module.jpg"
+         alt="Tomcat核心组件"
+         title="core_module.jpg"
+    /></div></p>
+<p>结合一下我们平时的应用系统设计，特别是需求多、系统庞杂的情况下，针对组件做一定的解耦、抽象是必须的，这一点完全可以跟着<code>Tomcat</code>的样子学习：</p>
+<ul>
+<li>职责不同的组件抽出来</li>
+<li>层级关系、节点关系可以通过组件表达出来</li>
+<li>通过合适的设计模式设计组件，比如<code>Tomcat</code>中大量使用了模板方法模式来实现骨架公用逻辑</li>
+</ul>
+<h2 id="2线程使用" class="headerLink"><a href="#2%e7%ba%bf%e7%a8%8b%e4%bd%bf%e7%94%a8" class="header-mark"></a>2.线程使用</h2><h3 id="线程池类自定义" class="headerLink"><a href="#%e7%ba%bf%e7%a8%8b%e6%b1%a0%e7%b1%bb%e8%87%aa%e5%ae%9a%e4%b9%89" class="header-mark"></a>线程池类自定义</h3><h4 id="线程池主类" class="headerLink"><a href="#%e7%ba%bf%e7%a8%8b%e6%b1%a0%e4%b8%bb%e7%b1%bb" class="header-mark"></a>线程池主类</h4><p><code>Tomcat</code>中自定义了jdk原生的<code>java.util.concurrent.ThreadPoolExecutor</code>，对应类为<code>org.apache.tomcat.util.threads.ThreadPoolExecutor</code>。</p>
+<p>关于jdk原生线程池主类的介绍参考美团技术博客：<a href="https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html" target="_blank" rel="noopener noreffer">Java线程池实现原理及其在美团业务中的实践</a>。其中图四描述了任务调度流程。</p>
+<p>而<code>Tomcat</code>的自定义子类重写了<code>execute</code>方法的部分逻辑：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span>Runnable command<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> timeout<span style="color:#f92672">,</span> TimeUnit unit<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        submittedCount<span style="color:#f92672">.</span><span style="color:#a6e22e">incrementAndGet</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span>command<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>RejectedExecutionException rx<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+              <span style="color:#75715e">// 这里判断是否为Tomcat自定义队列
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getQueue</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">instanceof</span> TaskQueue<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">final</span> TaskQueue queue <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>TaskQueue<span style="color:#f92672">)</span><span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getQueue</span><span style="color:#f92672">();</span>
+                <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                      <span style="color:#75715e">// 尝试往队列里硬塞任务
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">force</span><span style="color:#f92672">(</span>command<span style="color:#f92672">,</span> timeout<span style="color:#f92672">,</span> unit<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+                          <span style="color:#75715e">// 塞失败了再执行本来的拒绝策略
+</span><span style="color:#75715e"></span>                        submittedCount<span style="color:#f92672">.</span><span style="color:#a6e22e">decrementAndGet</span><span style="color:#f92672">();</span>
+                        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RejectedExecutionException<span style="color:#f92672">(</span>sm<span style="color:#f92672">.</span><span style="color:#a6e22e">getString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;threadPoolExecutor.queueFull&#34;</span><span style="color:#f92672">));</span>
+                    <span style="color:#f92672">}</span>
+                <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException x<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    submittedCount<span style="color:#f92672">.</span><span style="color:#a6e22e">decrementAndGet</span><span style="color:#f92672">();</span>
+                    <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RejectedExecutionException<span style="color:#f92672">(</span>x<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                submittedCount<span style="color:#f92672">.</span><span style="color:#a6e22e">decrementAndGet</span><span style="color:#f92672">();</span>
+                <span style="color:#66d9ef">throw</span> rx<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>这里<code>Tomcat</code>针对原先已经触发拒绝策略的节点，做了再尝试往队列中塞任务的操作。</p>
+<p>所以结合我们的业务，如果有必要，也可以自己实现<code>ThreadPoolExecutor</code>，通过<code>execute</code>方法可以定义我们需要的执行逻辑。</p>
+<h4 id="队列" class="headerLink"><a href="#%e9%98%9f%e5%88%97" class="header-mark"></a>队列</h4><p>任务队列：<code>org.apache.tomcat.util.threads.TaskQueue</code>。</p>
+<p>这个队列类中也有自定义逻辑，比如写入任务的<code>offer</code>方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span>Runnable o<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#75715e">//we can&#39;t do any checks
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent<span style="color:#f92672">==</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span>o<span style="color:#f92672">);</span>
+      <span style="color:#75715e">// 当前队列中的任务量已经达到了最大线程数，往队列中塞任务吧
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getPoolSize</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getMaximumPoolSize</span><span style="color:#f92672">())</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span>o<span style="color:#f92672">);</span>
+      <span style="color:#75715e">// 任务提交量小于等于当前队列中的线程数，也塞到队列中待执行
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getSubmittedCount</span><span style="color:#f92672">()&lt;=(</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getPoolSize</span><span style="color:#f92672">()))</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span>o<span style="color:#f92672">);</span>
+      <span style="color:#75715e">// 队列中的任务量小于最大线程数，不往队列塞，直接创建新的线程执行即可
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getPoolSize</span><span style="color:#f92672">()&lt;</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getMaximumPoolSize</span><span style="color:#f92672">())</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+      <span style="color:#75715e">// 执行原塞任务的逻辑
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span>o<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>自定义的<code>TaskQueue</code>中维护了一个<code>submittedCount</code>计数字段，用来表示提交到队列中的任务量，所以最后一个if判断可以到达的前提就是：提交量大于了当前线程池的线程数，在这种情况下再判断，如果线程数还没到达最大线程数设置，就创建新的线程。</p>
+<p>当然，业务中我们使用队列时，针对这种默认无界的情况，我们建议根据场景来设置一个容量，防止堆积过量请求造成OOM。</p>
+<h4 id="线程工厂类" class="headerLink"><a href="#%e7%ba%bf%e7%a8%8b%e5%b7%a5%e5%8e%82%e7%b1%bb" class="header-mark"></a>线程工厂类</h4><p>线程任务工厂类：<code>org.apache.tomcat.util.threads.TaskThreadFactory</code>。</p>
+<p>这个类主要是一个工厂模式的简单实现，内部维护了例如<code>namePrefix</code>的字段，方便<code>Tomcat</code>在创建线程时定义名称前缀。</p>
+<h3 id="线程模型" class="headerLink"><a href="#%e7%ba%bf%e7%a8%8b%e6%a8%a1%e5%9e%8b" class="header-mark"></a>线程模型</h3><p><code>Tomcat</code>中针对不同的任务使用不同的线程组，比如：</p>
+<ul>
+<li><code>Acceptor</code>线程组负责连接请求</li>
+<li><code>Selector</code>线程组负责I/O 事件监听</li>
+<li>专用线程池负责业务处理</li>
+</ul>
+<p>不同类型的任务使用不同的线程组，是我们业务实践中也遵循的原则，这样隔离了互相之间的影响（配置、运行时状态），也提高了任务处理性能。</p>
+<h2 id="3合理并发容器" class="headerLink"><a href="#3%e5%90%88%e7%90%86%e5%b9%b6%e5%8f%91%e5%ae%b9%e5%99%a8" class="header-mark"></a>3.合理并发容器</h2><p><code>LifecycleBase</code>中使用<code>CopyOnWriteArrayList</code>维护了生命周期事件监听器<code>LifecycleListener</code>列表。这类对象创建后状态基本不会发生变化，所以使用这种为读多写少优化过的并发容器可以大大提高性能。</p>
+<p>这里有我实际用到的例子：有一个服务负责维护<code>SKU</code>原数据，而这类数据经过配置后，改动的频率特别低，当时第一版的缓存设计就是使用了<code>CopyOnWriteArrayList</code>。</p>
+<h2 id="4延迟写" class="headerLink"><a href="#4%e5%bb%b6%e8%bf%9f%e5%86%99" class="header-mark"></a>4.延迟写</h2><p>一般我们把网络传输、磁盘读写视为相对消耗性能的动作。因而针对这种操作，服务端代码都会采用「延迟写」的策略。</p>
+<p>我们看看<code>org.apache.tomcat.util.net.NioChannel</code>中的<code>write</code>方法，这里就会调用写操作。</p>
+<p>而使用到<code>write</code>的地方都会进行<code>buffer</code>缓冲，以此来减少系统调用，这是一种延迟写的思路，我们在各种技术组件中都可以看到这类使用方式。</p>
+<h2 id="5提高锁的使用效率" class="headerLink"><a href="#5%e6%8f%90%e9%ab%98%e9%94%81%e7%9a%84%e4%bd%bf%e7%94%a8%e6%95%88%e7%8e%87" class="header-mark"></a>5.提高锁的使用效率</h2><h3 id="缩小锁的范围" class="headerLink"><a href="#%e7%bc%a9%e5%b0%8f%e9%94%81%e7%9a%84%e8%8c%83%e5%9b%b4" class="header-mark"></a>缩小锁的范围</h3><p>在<code>synchronized</code>本身已经针对竞态做了<code>无锁-&gt;偏向锁-&gt;轻量级锁-&gt;重量级锁</code>的优化基础上，<code>Tomcat</code>在工程实践中尽量缩小了锁的范围，比如<code>org.apache.catalina.core.StandardService</code>的方法<code>startInternal()</code>负责启动<code>Service</code>相关的子组件：</p>
+<ul>
+<li>Engine</li>
+<li>Executors</li>
+<li>Connectors</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>engine <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#75715e">// 只锁定 engine 成员变量
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>engine<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            engine<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+      <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// 只锁定 executors 成员变量
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>executors<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Executor executor<span style="color:#f92672">:</span> executors<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            executor<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+      <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// 只锁定 connectorsLock 成员变量
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>connectorsLock<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Connector connector<span style="color:#f92672">:</span> connectors<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>connector<span style="color:#f92672">.</span><span style="color:#a6e22e">getState</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> LifecycleState<span style="color:#f92672">.</span><span style="color:#a6e22e">FAILED</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                  connector<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>这里的例子中，并没有在整个方法上加锁，而是将锁的粒度细分，来<code>synchronized</code>对应的成员变量，在多线程并发执行时，无需在方法维度等待，只有在访问同个成员时才需要进入线程同步逻辑，提高了并发执行效率。</p>
+<h3 id="使用无锁技术" class="headerLink"><a href="#%e4%bd%bf%e7%94%a8%e6%97%a0%e9%94%81%e6%8a%80%e6%9c%af" class="header-mark"></a>使用无锁技术</h3><p>以<code>org.apache.tomcat.util.threads.LimitLatch</code>为例，这个类负责了<code>AprEndpoint</code>网络组件中的连接数限制功能。</p>
+<p>其内部的计数成员<code>count</code>使用了<code>AtomicLong</code>类型，底层使用<code>CAS</code>的实现，减少了线程切换上下文的成本，提升并发性能。</p>
+<p>成员<code>sync</code>则实现了<code>aqs</code>中定义的共享锁接口，内部排队使用了<code>aqs</code>中实现的CLH队列，相比加重量级锁，队列技术可以提高并发性能。</p>
+<h2 id="6使用堆外内存提高io效率" class="headerLink"><a href="#6%e4%bd%bf%e7%94%a8%e5%a0%86%e5%a4%96%e5%86%85%e5%ad%98%e6%8f%90%e9%ab%98io%e6%95%88%e7%8e%87" class="header-mark"></a>6.使用堆外内存提高IO效率</h2><p>以<code>AprEndpoint</code>为例，这个端点组件实现了<code>APR</code>协议相关功能。</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title" style="display: none">
+            <i class="icon admonition-icon icon-note"></i>Note<i class="details-icon admonition-icon admonition-icon-arrow-right"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">APR（Apache Portable Runtime Libraries）是用 C 写的 Apache 可移植运行时库，为应用提供了跨平台的系统接口。</div>
+        </div>
+    </div>
+<p>首先<code>NioEndpoint</code>使用Java提供的 <code>NIO</code> 接口实现非阻塞IO模型，而<code>AprEndpoint</code>则使用<code>JNI</code>调用C库，底层使用堆外内存提升网络IO性能。</p>
+<p>我们关注下这部分涉及的几个关键类：</p>
+<ul>
+<li><code>org.apache.tomcat.jni.Socket</code>
+实现网络连接<code>JNI</code>相关接口。</li>
+<li><code>org.apache.tomcat.util.net.SocketWrapperBase</code>
+封装了网络socket涉及的（模板方法）通用操作，比如连接过程的关键动作（生命周期）、连接基本信息设置。</li>
+<li><code>org.apache.tomcat.util.net.SocketBufferHandler</code>
+管理IO过程读写使用到的<code>buffer</code>，<code>IO</code>过程涉及数据传输，过程中通过<code>buffer</code>来存放以及操作数据。这里可以通过参数指定具体的<code>buffer</code>实现类，可选：
+<ul>
+<li><code>HeapByteBuffer</code>
+对象分配在JVM堆上，对应的数据<code>byte[]</code>同样在JVM堆上管理，网络IO过程中，需要先将内核数据拷贝到一个临时的native内存中，再从这个native内存拷贝到对应的<code>byte[]</code>。这里的原因简单可理解为如果直接从native区域拷贝，JVM碰到GC时对象数据会进行移动，对应<code>buffer</code>可能失效，最终这里的限制可理解为JVM的一个权衡设计。具体可参考R大的解释：<a href="https://www.zhihu.com/question/57374068" target="_blank" rel="noopener noreffer">Java NIO中，关于DirectBuffer，HeapBuffer的疑问？</a>。</li>
+<li><code>DirectByteBuffer</code>
+对象本身分配在JVM堆上，而对应的<code>byte[]</code>则直接位于native内存。成员中的<code>long address</code>记录了native内存地址（映射的作用）。因此相比<code>HeapByteBuffer</code>，数据拷贝少了一次，因此效率更高。</li>
+</ul>
+</li>
+<li><code>org.apache.tomcat.util.net.AprEndpoint.AprSocketWrapper</code>
+该类继承自<code>SocketWrapperBase</code>，构造器中主要初始化了数据拷贝对应的<code>SocketBufferHandler</code>，其中<code>direct</code>传为true表示使用更高效的<code>DirectByteBuffer</code>进行数据拷贝，同时创建了负责<code>ssl</code>连接的<code>sslOutputBuffer</code>，同样使用<code>ByteBuffer.allocateDirect</code>创建<code>DirectByteBuffer</code>实例，使用native内存拷贝提高<code>ssl</code>的执行效率。</li>
+</ul>
+<p>这里我大概画个图，说明从网络中传输数据的关键流程、组件，以及对比下两个<code>ByteBuffer</code>的区别：
+<div id="id-2"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/tomcat/buffer_from_net.jpg"
+         alt="从网卡拿数据到Java的ByteBuffer的过程"
+         title="buffer_from_net.jpg"
+    /></div></p>
+<h2 id="7使用零拷贝技术" class="headerLink"><a href="#7%e4%bd%bf%e7%94%a8%e9%9b%b6%e6%8b%b7%e8%b4%9d%e6%8a%80%e6%9c%af" class="header-mark"></a>7.使用零拷贝技术</h2><p><code>Tomcat</code>作为一个<code>Http-Server</code>最常见的一个应用场景是：为客户端提供静态文件。
+客户端调用接口后服务端操作分两步：</p>
+<ol>
+<li>从磁盘加载文件</li>
+<li>将数据传给网卡</li>
+</ol>
+<p>传统的做法如下图：
+<div id="id-3"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/tomcat/copy_from_disk_to_net.jpg"
+         alt="从磁盘读取文件复制到网卡的传统过程"
+         title="copy_from_disk_to_net.jpg"
+    /></div></p>
+<p>可以看到这个过程一共有六次拷贝数据操作。对应到<code>org.apache.catalina.servlets.DefaultServlet</code>中的<code>doGet</code>方法，跟下内部的调用逻辑，发现最终调到了<code>copy(WebResource resource, ServletOutputStream ostream,Iterator&lt;Range&gt; ranges, String contentType)</code>方法上，其中就做了读取磁盘文件，写到web层输出流中，返回的时候就是把数据扔到了网卡上。与我们上述图描述的一致。</p>
+<p>而<code>AprEndpoint</code>中的<code>processSendfile</code>表示底层通过<code>sendFile</code>的方式使用了零拷贝技术：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">long</span> nw <span style="color:#f92672">=</span> Socket<span style="color:#f92672">.</span><span style="color:#a6e22e">sendfilen</span><span style="color:#f92672">(</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">socket</span><span style="color:#f92672">,</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">fd</span><span style="color:#f92672">,</span>
+                                               data<span style="color:#f92672">.</span><span style="color:#a6e22e">pos</span><span style="color:#f92672">,</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">,</span> 0<span style="color:#f92672">);</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">native</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">sendfilen</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> sock<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> file<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> offset<span style="color:#f92672">,</span>
+                                        <span style="color:#66d9ef">long</span> len<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> flags<span style="color:#f92672">);</span>                                               
+</code></pre></div><p>可以看到其内部是一个<code>native</code>方法，这里同样是<code>JNI</code>调用，使用了系统提供的零拷贝特性，对应的过程图如下：
+<div id="id-4"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/tomcat/sendfile_zero_copy.jpg"
+         alt="从磁盘读取文件复制到网卡的零拷贝过程"
+         title="sendfile_zero_copy.jpg"
+    /></div></p>
+<p>从磁盘到网卡，传统的复制过程我们可以看到一共有六次拷贝动作，并且伴随着内核态到用户态的切换，这里有着比较重的CPU以及内存开销。而<code>sendFile</code>零拷贝的过程，我们只需要一次<code>JNI</code>调动，只需要两次拷贝动作（磁盘到内核buffer，buffer再复制到网卡），从次数上减少了四次，并且无需切换用户态。性能大大提高。</p>
+<h2 id="8自定义classloader" class="headerLink"><a href="#8%e8%87%aa%e5%ae%9a%e4%b9%89classloader" class="header-mark"></a>8.自定义ClassLoader</h2><p><code>Tomcat</code>利用JDK提供的类加载器机制，自定义了一套类加载逻辑（重写<code>loadClass()</code>），核心类结构如下图：</p>
+<div id="id-5"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/tomcat/class_loader_structure.jpg"
+         alt="Tomcat自定义ClassLoader体系"
+         title="class_loader_structure.jpg"
+    /></div>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title" style="display: none">
+            <i class="icon admonition-icon icon-note"></i>Note<i class="details-icon admonition-icon admonition-icon-arrow-right"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ul>
+<li>BootstrapClassLoader：加载 JVM 启动时所需要的核心类，比如rt.jar、resources.jar。</li>
+<li>ExtClassLoader：加载\jre\lib\ext目录。</li>
+<li>AppClassLoader：加载 classpath。</li>
+<li>自定义类加载器，用来加载自定义路径。</li>
+</ul>
+</div>
+        </div>
+    </div>
+<p>在<code>org.apache.catalina.startup.Bootstrap</code>这个启动类中，如下片段可以看到上述结构图中的几个层次成员，均为<code>WebappClassLoader</code>实例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    ClassLoader commonLoader <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    ClassLoader catalinaLoader <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    ClassLoader sharedLoader <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">initClassLoaders</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            commonLoader <span style="color:#f92672">=</span> createClassLoader<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;common&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span> commonLoader <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// no config file, default to this loader - we might be in a &#39;single&#39; env.
+</span><span style="color:#75715e"></span>                commonLoader<span style="color:#f92672">=</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getClassLoader</span><span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span>
+            catalinaLoader <span style="color:#f92672">=</span> createClassLoader<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;server&#34;</span><span style="color:#f92672">,</span> commonLoader<span style="color:#f92672">);</span>
+            sharedLoader <span style="color:#f92672">=</span> createClassLoader<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;shared&#34;</span><span style="color:#f92672">,</span> commonLoader<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            handleThrowable<span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>
+            log<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Class loader creation threw exception&#34;</span><span style="color:#f92672">,</span> t<span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>创建了几个不同的实例的主要考虑是：各自管理不同的目录（如<code>createClassLoader</code>传入不同的路径配置）。路径关系：</p>
+<ul>
+<li>CommonClassLoader <!-- raw HTML omitted -->/common/*</li>
+<li>CatalinaClassLoader <!-- raw HTML omitted -->/server/*</li>
+<li>SharedClassLoader <!-- raw HTML omitted -->/shared/*</li>
+<li>WebAppClassloader <!-- raw HTML omitted -->/webapps/<!-- raw HTML omitted -->/WEB-INF/*</li>
+</ul>
+<p>而加载逻辑均定义在<code>WebappClassLoaderBase.loadClass(String name, boolean resolve)</code>中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">      <span style="color:#75715e">// (0) 检查之前加载过的本地class缓存，Check our previously loaded local class cache
+</span><span style="color:#75715e"></span>      clazz <span style="color:#f92672">=</span> findLoadedClass0<span style="color:#f92672">(</span>name<span style="color:#f92672">);</span>
+      <span style="color:#75715e">// (0.1) 检查之前系统加载过的class缓存，Check our previously loaded class cache
+</span><span style="color:#75715e"></span>      clazz <span style="color:#f92672">=</span> findLoadedClass<span style="color:#f92672">(</span>name<span style="color:#f92672">);</span>
+      <span style="color:#75715e">// (0.2) 尝试用ExtClassLoader加载，Try loading the class with the system class loader, to prevent
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">//       the webapp from overriding Java SE classes. This implements
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">//       SRV.10.7.2
+</span><span style="color:#75715e"></span>      ClassLoader javaseLoader <span style="color:#f92672">=</span> getJavaseClassLoader<span style="color:#f92672">();</span>
+
+      <span style="color:#75715e">// (0.5) Permission to access this class when using a SecurityManager
+</span><span style="color:#75715e"></span>
+      <span style="color:#75715e">// (1) delegate模式，尝试用AppClassLoader加载，Delegate to our parent if requested
+</span><span style="color:#75715e"></span>      clazz <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span>name<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> parent<span style="color:#f92672">);</span>
+
+      <span style="color:#75715e">// (2) 从本地目录查找，Search local repositories
+</span><span style="color:#75715e"></span>      clazz <span style="color:#f92672">=</span> findClass<span style="color:#f92672">(</span>name<span style="color:#f92672">);</span>
+
+      <span style="color:#75715e">// (3) 尝试用AppClassLoader加载，Delegate to parent unconditionally
+</span><span style="color:#75715e"></span>      clazz <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span>name<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> parent<span style="color:#f92672">);</span>
+      <span style="color:#75715e">// 抛异常
+</span></code></pre></div><h3 id="加载过程" class="headerLink"><a href="#%e5%8a%a0%e8%bd%bd%e8%bf%87%e7%a8%8b" class="header-mark"></a>加载过程</h3><p>0.2中尝试用<code>ExtClassLoader</code>的逻辑主要是基于安全考虑，部分沿用了双亲委派的逻辑：<code>JRE</code>中的核心类会通过<code>ExtClassLoader</code>委派给<code>BootstrapClassLoader</code>加载，防止了应用中自行加载类名与核心类或者ext中冲突的类。</p>
+<p>而自定义的逻辑中，主要是增加了本地目录、缓存查找的功能。</p>
+<h3 id="隔离机制" class="headerLink"><a href="#%e9%9a%94%e7%a6%bb%e6%9c%ba%e5%88%b6" class="header-mark"></a>隔离机制</h3><p><code>Tomcat</code>在线程级别，即<code>Context</code>层提供了隔离功能，即多个web应用使用独立的<code>WebappClassLoader</code>实例进行加载类，这样可以保证多个应用间同个<code>Servlet</code>类同样可以正常加载。</p>
+<p>每个<code>context</code>创建的时候内部线程会进行类加载器绑定：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setContextClassLoader</span><span style="color:#f92672">(</span>webApplicationClassLoader<span style="color:#f92672">);</span>
+</code></pre></div><p>同样<code>context</code>处理完也会将加载器切换为原线程上下文加载器。</p>
+<p>这个过程我截了下源码的图：
+<div id="id-6"><img loading="lazy" decoding="async"
+         class="render-image"
+         src="/posts/rd/tomcat/standard_context_set_cll.jpg"
+         alt="StandardContext中定义的绑定、解绑加载器的相关逻辑"
+         title="standard_context_set_cll.jpg"
+    /></div></p>
+<p>而针对共用类库，比如两个web应用使用到了同个框架，那我们的jar可以共用，通过<code>SharedClassLoader</code>实例管理的<code>&lt;Tomcat &gt;/shared/*</code>目录来存放共用的jar。</p>
+<p>而针对<code>Tomcat</code>与应用的隔离，通过<code>CatalinaClassLoader</code>实例管理的<code>&lt;Tomcat &gt;/server/*</code>目录来专门管理<code>Tomcat</code>本身的类。</p>
+<p>如果是<code>Tomcat</code>与应用共用的类，则通过<code>SharedClassLoader</code>实例管理的<code>&lt;Tomcat &gt;/shared/*</code>目录来共用。</p>
+<h3 id="类加载小结" class="headerLink"><a href="#%e7%b1%bb%e5%8a%a0%e8%bd%bd%e5%b0%8f%e7%bb%93" class="header-mark"></a>类加载小结</h3><p>通过以上设计，<code>Tomcat</code>自定义了各部分类加载的逻辑，通过<code>WebappClassLoader</code>几个实例分别管理了多个目录下class文件的加载，也达到了应用间隔离、容器应用隔离、容器应用共用的设计目的。</p>
+<h2 id="9热加载与热部署" class="headerLink"><a href="#9%e7%83%ad%e5%8a%a0%e8%bd%bd%e4%b8%8e%e7%83%ad%e9%83%a8%e7%bd%b2" class="header-mark"></a>9.热加载与热部署</h2><p>Ref：</p>
+<ul>
+<li><a href="https://juejin.cn/post/6844903887648849928" target="_blank" rel="noopener noreffer">死磕Tomcat系列(6)——Tomcat如何做到热加载和热部署的</a></li>
+<li><a href="https://developer.aliyun.com/article/66704" target="_blank" rel="noopener noreffer">Java服务器热部署的实现原理</a></li>
+</ul></div><footer>
+                        <div class="post">
+
+
+<div class="post-share"><div class="share-link">
+        <a class="share-icon share-twitter" href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://dragonsong.tech/posts/rd/tomcat/essence/" data-title="Tomcat精粹" data-via="DragonSong1024" data-hashtags="Tomcat"><span class="svg-social-icon icon-twitter"></span></a>
+    </div><div class="share-link">
+        <a class="share-icon share-weibo" href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://dragonsong.tech/posts/rd/tomcat/essence/" data-title="Tomcat精粹"><span class="svg-social-icon icon-weibo"></span></a>
+    </div></div>
+
+
+
+
+
+
+<div class="post-tags"><a href="/tags/tomcat/" class="tag">Tomcat</a></div></div>
+                </footer></div>
+
+        <div id="toc-final"></div>
+        </div>
+
+    
+    </article>
+    <section class="page single comments content-block-position"><div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></section></div>
+
+</main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=https://dragonsong.tech/&utm_medium=footer&utm_campaign=config&utm_term=2.0.1" target="_blank" title="uBlogger 2.0.1">uBlogger</a>
+                </div><div class="footer-line"><i class="svg-icon icon-copyright"></i><span>2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">粤ICP备2021020197号</span></div>
+        </div>
+    </footer></div>
+
+        <aside id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="svg-icon icon-arrow-up"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="svg-icon icon-comments-fixed"></i>
+            </a>
+        </aside><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/css/c06b4a.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/prismjs/prism.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"gitalk":{"admin":["long5778013"],"clientID":"bc5a91c74dda1fd92a10","clientSecret":"99a821a1c27e5dc85ea3105bf9bba089d1b580ea","id":"2021-02-10T15:04:25+08:00","owner":"long5778013","repo":"blog-comment","title":"Tomcat精粹"}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script src="/js/theme.min.js"></script></body>
+</html>

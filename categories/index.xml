@@ -1,0 +1,49 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Categories - Category - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/categories/</link>
+        <description>Categories - Category - 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 19 Jul 2021 09:51:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/categories/" rel="self" type="application/rss+xml" /><item>
+    <title>RD</title>
+    <link>https://dragonsong.tech/categories/rd/</link>
+    <pubDate>Mon, 19 Jul 2021 09:51:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/categories/rd/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>English</title>
+    <link>https://dragonsong.tech/categories/english/</link>
+    <pubDate>Thu, 28 Jan 2021 13:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/categories/english/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Linux</title>
+    <link>https://dragonsong.tech/categories/linux/</link>
+    <pubDate>Thu, 28 Jan 2021 13:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/categories/linux/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Summary</title>
+    <link>https://dragonsong.tech/categories/summary/</link>
+    <pubDate>Fri, 01 Jan 2021 22:09:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/categories/summary/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Note</title>
+    <link>https://dragonsong.tech/categories/note/</link>
+    <pubDate>Sun, 13 Dec 2020 23:32:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/categories/note/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>Reading</title>
+    <link>https://dragonsong.tech/categories/reading/</link>
+    <pubDate>Wed, 18 Apr 2018 16:54:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/categories/reading/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
+</rss>

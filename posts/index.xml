@@ -1,0 +1,77 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>All Posts - 宋惠龙的大操场</title>
+        <link>https://dragonsong.tech/posts/</link>
+        <description>All Posts | 宋惠龙的大操场</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 19 Jul 2021 09:51:25 &#43;0800</lastBuildDate><atom:link href="https://dragonsong.tech/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>小白学SQL</title>
+    <link>https://dragonsong.tech/posts/rd/sql/learn_from_scratch/</link>
+    <pubDate>Mon, 19 Jul 2021 09:51:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/sql/learn_from_scratch/</guid>
+    <description><![CDATA[写给非CS/CE背景的同学（数据分析、运营、商分）的SQL入门教程]]></description>
+</item><item>
+    <title>Reflections中反映的Guava版本不兼容问题一例</title>
+    <link>https://dragonsong.tech/posts/rd/troubleshoot/reflections/guava_version_incompatible/</link>
+    <pubDate>Fri, 18 Jun 2021 15:13:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/troubleshoot/reflections/guava_version_incompatible/</guid>
+    <description><![CDATA[踩坑reflections反射库突然无法通过反射正常加载类，原因竟是Guava未做新老版本兼容]]></description>
+</item><item>
+    <title>buffer跟cache的区别是什么？</title>
+    <link>https://dragonsong.tech/posts/rd/qa/difference_buffer_cache/</link>
+    <pubDate>Sat, 10 Apr 2021 10:59:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/qa/difference_buffer_cache/</guid>
+    <description><![CDATA[解答组内技术分享时抛出的一个疑问：buffer跟cache的区别是什么？]]></description>
+</item><item>
+    <title>Tomcat精粹</title>
+    <link>https://dragonsong.tech/posts/rd/tomcat/essence/</link>
+    <pubDate>Wed, 10 Feb 2021 15:04:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/tomcat/essence/</guid>
+    <description><![CDATA[理解Tomcat主要的架构设计、核心组件设计、功能实现以及性能优化方案，细数我目前对Tomcat掌握的知识]]></description>
+</item><item>
+    <title>简析ES/Lucene索引的基本设计原理</title>
+    <link>https://dragonsong.tech/posts/rd/es/index_structure/</link>
+    <pubDate>Tue, 09 Feb 2021 09:14:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/es/index_structure/</guid>
+    <description><![CDATA[为什么Elasticsearch/Lucene全文查询这么快？]]></description>
+</item><item>
+    <title>研究一下fork函数</title>
+    <link>https://dragonsong.tech/posts/rd/linux/fork/</link>
+    <pubDate>Tue, 02 Feb 2021 14:14:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/linux/fork/</guid>
+    <description><![CDATA[了解Unix、Linux系统下的进程控制fork函数]]></description>
+</item><item>
+    <title>研究一下fsync函数</title>
+    <link>https://dragonsong.tech/posts/rd/linux/fsync_durability/</link>
+    <pubDate>Fri, 29 Jan 2021 11:30:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/linux/fsync_durability/</guid>
+    <description><![CDATA[讨论fsync函数细节]]></description>
+</item><item>
+    <title>什么是序列化？</title>
+    <link>https://dragonsong.tech/posts/rd/serialization/</link>
+    <pubDate>Fri, 29 Jan 2021 10:30:25 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/rd/serialization/</guid>
+    <description><![CDATA[探究序列化、反序列化相关概念]]></description>
+</item><item>
+    <title>用户态网络协议栈之DPDK</title>
+    <link>https://dragonsong.tech/posts/english/translation_dpdk/</link>
+    <pubDate>Thu, 28 Jan 2021 13:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_dpdk/</guid>
+    <description><![CDATA[了解下DPDK技术基本原理]]></description>
+</item><item>
+    <title>Linux中的swap空间</title>
+    <link>https://dragonsong.tech/posts/english/translation_all_about_linux_swap_space/</link>
+    <pubDate>Mon, 18 Jan 2021 11:03:50 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://dragonsong.tech/posts/english/translation_all_about_linux_swap_space/</guid>
+    <description><![CDATA[原文：All about Linux swap space Linux将物理RAM内存分割成不同的内存块，我们把这个块叫做页page。而交换swapping这个动作发生在将一页内存]]></description>
+</item></channel>
+</rss>
